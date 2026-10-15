@@ -1,0 +1,749 @@
+[
+  {
+    "id": "nomenclature",
+    "title": "Bonding & Nomenclature",
+    "icon": "◈",
+    "source": "Ch 3 pt 1",
+    "cards": [
+      {
+        "id": 1,
+        "term": "Ionic bond",
+        "definition": "Electrostatic attraction between oppositely charged ions"
+      },
+      {
+        "id": 2,
+        "term": "Covalent bond",
+        "definition": "A bond formed when atoms share electron pairs"
+      },
+      {
+        "id": 3,
+        "term": "Type I ionic name",
+        "definition": "Metal name followed by the nonmetal root ending in -ide"
+      },
+      {
+        "id": 4,
+        "term": "Type II ionic name",
+        "definition": "Metal name with a Roman numeral charge, then the anion name"
+      },
+      {
+        "id": 5,
+        "term": "Binary covalent name",
+        "definition": "Use number prefixes for two nonmetals; omit mono- on the first element"
+      },
+      {
+        "id": 6,
+        "term": "Sodium chloride",
+        "definition": "The name of NaCl"
+      },
+      {
+        "id": 7,
+        "term": "Iron(III) chloride",
+        "definition": "The name of FeCl3"
+      },
+      {
+        "id": 8,
+        "term": "Dinitrogen monoxide",
+        "definition": "The name of N2O"
+      },
+      {
+        "id": 9,
+        "term": "Hydrochloric acid",
+        "definition": "The aqueous binary acid HCl(aq)"
+      },
+      {
+        "id": 10,
+        "term": "Phosphoric acid",
+        "definition": "The acid formed from the phosphate ion"
+      },
+      {
+        "id": 11,
+        "term": "-ate → -ic acid",
+        "definition": "Oxyanion acid naming change for a name ending in -ate"
+      },
+      {
+        "id": 12,
+        "term": "-ite → -ous acid",
+        "definition": "Oxyanion acid naming change for a name ending in -ite"
+      },
+      {
+        "id": 13,
+        "term": "Molecular formula",
+        "definition": "Shows the actual number of each type of atom in a molecule"
+      },
+      {
+        "id": 14,
+        "term": "Formula unit",
+        "definition": "The simplest whole-number ratio of ions in an ionic compound"
+      }
+    ]
+  },
+  {
+    "id": "polyatomic",
+    "title": "Polyatomic Ions",
+    "icon": "⌬",
+    "source": "Ch 3 pt 1",
+    "cards": [
+      {
+        "id": 1,
+        "term": "Nitrate",
+        "definition": "NO3−"
+      },
+      {
+        "id": 2,
+        "term": "Nitrite",
+        "definition": "NO2−"
+      },
+      {
+        "id": 3,
+        "term": "Sulfate",
+        "definition": "SO4²−"
+      },
+      {
+        "id": 4,
+        "term": "Sulfite",
+        "definition": "SO3²−"
+      },
+      {
+        "id": 5,
+        "term": "Carbonate",
+        "definition": "CO3²−"
+      },
+      {
+        "id": 6,
+        "term": "Phosphate",
+        "definition": "PO4³−"
+      },
+      {
+        "id": 7,
+        "term": "Hydroxide",
+        "definition": "OH−"
+      },
+      {
+        "id": 8,
+        "term": "Ammonium",
+        "definition": "NH4+"
+      },
+      {
+        "id": 9,
+        "term": "Acetate",
+        "definition": "C2H3O2−"
+      },
+      {
+        "id": 10,
+        "term": "Chlorate",
+        "definition": "ClO3−"
+      },
+      {
+        "id": 11,
+        "term": "Perchlorate",
+        "definition": "ClO4−"
+      },
+      {
+        "id": 12,
+        "term": "Chlorite",
+        "definition": "ClO2−"
+      },
+      {
+        "id": 13,
+        "term": "Hypochlorite",
+        "definition": "ClO−"
+      },
+      {
+        "id": 14,
+        "term": "Bicarbonate",
+        "definition": "HCO3−"
+      },
+      {
+        "id": 15,
+        "term": "Dichromate",
+        "definition": "Cr2O7²−"
+      },
+      {
+        "id": 16,
+        "term": "Permanganate",
+        "definition": "MnO4−"
+      }
+    ]
+  },
+  {
+    "id": "mole",
+    "title": "The Mole & Conversions",
+    "icon": "∞",
+    "source": "Ch 3 pt 2 · HW Set 5",
+    "cards": [
+      {
+        "id": 1,
+        "term": "One mole",
+        "definition": "6.022 × 10²³ particles"
+      },
+      {
+        "id": 2,
+        "term": "Avogadro's number",
+        "definition": "6.022 × 10²³ particles per mole"
+      },
+      {
+        "id": 3,
+        "term": "Molar mass",
+        "definition": "Mass in grams of one mole of a substance"
+      },
+      {
+        "id": 4,
+        "term": "Moles from grams",
+        "definition": "Divide mass in grams by molar mass in g/mol"
+      },
+      {
+        "id": 5,
+        "term": "Grams from moles",
+        "definition": "Multiply amount in moles by molar mass in g/mol"
+      },
+      {
+        "id": 6,
+        "term": "Particles from moles",
+        "definition": "Multiply moles by 6.022 × 10²³ particles/mol"
+      },
+      {
+        "id": 7,
+        "term": "Moles from particles",
+        "definition": "Divide particle count by 6.022 × 10²³ particles/mol"
+      },
+      {
+        "id": 8,
+        "term": "Formula-unit count",
+        "definition": "Use this particle label for an ionic compound"
+      },
+      {
+        "id": 9,
+        "term": "Molecule count",
+        "definition": "Use this particle label for a molecular compound"
+      },
+      {
+        "id": 10,
+        "term": "Molar mass of H2O",
+        "definition": "About 18.02 g/mol"
+      },
+      {
+        "id": 11,
+        "term": "O atoms in Al2(CO3)3",
+        "definition": "Nine oxygen atoms per formula unit"
+      },
+      {
+        "id": 12,
+        "term": "STP molar gas volume",
+        "definition": "22.4 L per mole at the course's STP convention"
+      }
+    ]
+  },
+  {
+    "id": "balancing",
+    "title": "Writing & Balancing",
+    "icon": "⚖",
+    "source": "Ch 3 pt 3 · HW Set 7",
+    "cards": [
+      {
+        "id": 1,
+        "term": "Coefficient",
+        "definition": "Number placed before a formula to balance an equation"
+      },
+      {
+        "id": 2,
+        "term": "Subscript",
+        "definition": "Number within a formula showing atoms of an element"
+      },
+      {
+        "id": 3,
+        "term": "Conservation of atoms",
+        "definition": "Each element has equal atom counts on both sides of a balanced equation"
+      },
+      {
+        "id": 4,
+        "term": "Balance Al + O2 → Al2O3",
+        "definition": "4Al + 3O2 → 2Al2O3"
+      },
+      {
+        "id": 5,
+        "term": "Balance Zn + HCl → ZnCl2 + H2",
+        "definition": "Zn + 2HCl → ZnCl2 + H2"
+      },
+      {
+        "id": 6,
+        "term": "Balance Fe(OH)3 → Fe2O3 + H2O",
+        "definition": "2Fe(OH)3 → Fe2O3 + 3H2O"
+      },
+      {
+        "id": 7,
+        "term": "Balance C5H12 + O2 → CO2 + H2O",
+        "definition": "C5H12 + 8O2 → 5CO2 + 6H2O"
+      },
+      {
+        "id": 8,
+        "term": "Balance NH4NO2 → N2 + H2O",
+        "definition": "NH4NO2 → N2 + 2H2O"
+      },
+      {
+        "id": 9,
+        "term": "Balance P4 + O2 → P2O3",
+        "definition": "P4 + 3O2 → 2P2O3"
+      },
+      {
+        "id": 10,
+        "term": "Balance BaCl2 + Na2CO3 → BaCO3 + NaCl",
+        "definition": "BaCl2 + Na2CO3 → BaCO3 + 2NaCl"
+      },
+      {
+        "id": 11,
+        "term": "Balancing a polyatomic group",
+        "definition": "Keep a polyatomic ion together when it remains unchanged on both sides"
+      },
+      {
+        "id": 12,
+        "term": "Combustion balancing order",
+        "definition": "Balance carbon, then hydrogen, then oxygen"
+      },
+      {
+        "id": 13,
+        "term": "Smallest whole-number coefficients",
+        "definition": "Standard form for coefficients in a balanced chemical equation"
+      }
+    ]
+  },
+  {
+    "id": "stoich",
+    "title": "Reaction Stoichiometry",
+    "icon": "⇄",
+    "source": "Ch 3 pt 4",
+    "cards": [
+      {
+        "id": 1,
+        "term": "Reaction mole ratio",
+        "definition": "Ratio from the coefficients of a balanced equation"
+      },
+      {
+        "id": 2,
+        "term": "Composition mole ratio",
+        "definition": "Ratio from subscripts within a single compound's formula"
+      },
+      {
+        "id": 3,
+        "term": "N2:H2:NH3 ratio",
+        "definition": "1:3:2 in N2 + 3H2 → 2NH3"
+      },
+      {
+        "id": 4,
+        "term": "Moles of NH3 from 1 mol N2",
+        "definition": "2 mol NH3, assuming sufficient H2"
+      },
+      {
+        "id": 5,
+        "term": "Mass-to-mass pathway",
+        "definition": "Grams of A → moles of A → moles of B → grams of B"
+      },
+      {
+        "id": 6,
+        "term": "Limiting reactant",
+        "definition": "Reactant that sets the maximum amount of product"
+      },
+      {
+        "id": 7,
+        "term": "Excess reactant",
+        "definition": "Reactant remaining after the limiting reactant is used up"
+      },
+      {
+        "id": 8,
+        "term": "Theoretical yield",
+        "definition": "Maximum calculated product amount from available reactants"
+      },
+      {
+        "id": 9,
+        "term": "Actual yield",
+        "definition": "Amount of product measured experimentally"
+      },
+      {
+        "id": 10,
+        "term": "Percent yield",
+        "definition": "Actual yield ÷ theoretical yield × 100%"
+      },
+      {
+        "id": 11,
+        "term": "Limiting-reactant comparison",
+        "definition": "Compute possible product from each reactant; the smaller amount wins"
+      },
+      {
+        "id": 12,
+        "term": "Mole ratio for 2C6H14 → 14H2O",
+        "definition": "1 mol C6H14 produces 7 mol H2O"
+      },
+      {
+        "id": 13,
+        "term": "Yield if actual 18.0 g and theoretical 24.6 g",
+        "definition": "73.2%"
+      }
+    ]
+  },
+  {
+    "id": "reactions",
+    "title": "Identify the Reaction",
+    "icon": "✦",
+    "source": "CHEM 1341 Ch 4 · HW Set 7",
+    "cards": [
+      {
+        "id": 1,
+        "term": "Synthesis",
+        "definition": "Two or more substances combine into one product"
+      },
+      {
+        "id": 2,
+        "term": "Decomposition",
+        "definition": "One substance breaks into two or more simpler substances"
+      },
+      {
+        "id": 3,
+        "term": "Single replacement",
+        "definition": "An element takes another element's place in a compound"
+      },
+      {
+        "id": 4,
+        "term": "Double replacement",
+        "definition": "Two ionic compounds swap ion partners"
+      },
+      {
+        "id": 5,
+        "term": "Combustion",
+        "definition": "A substance reacts with oxygen gas"
+      },
+      {
+        "id": 6,
+        "term": "2H2 + O2 → 2H2O",
+        "definition": "Synthesis"
+      },
+      {
+        "id": 7,
+        "term": "Na2CO3 → Na2O + CO2",
+        "definition": "Decomposition"
+      },
+      {
+        "id": 8,
+        "term": "Zn + CuSO4 → ZnSO4 + Cu",
+        "definition": "Single replacement"
+      },
+      {
+        "id": 9,
+        "term": "Pb(NO3)2 + 2KI → PbI2 + 2KNO3",
+        "definition": "Double replacement"
+      },
+      {
+        "id": 10,
+        "term": "C6H14 + O2 → CO2 + H2O",
+        "definition": "Combustion"
+      },
+      {
+        "id": 11,
+        "term": "4Fe + 3O2 → 2Fe2O3",
+        "definition": "Synthesis (also oxidation/combustion in a broad sense)"
+      },
+      {
+        "id": 12,
+        "term": "NiCl2 → Ni + Cl2",
+        "definition": "Decomposition"
+      },
+      {
+        "id": 13,
+        "term": "3Ag2S + 4Al → 2Al2S3 + 6Ag",
+        "definition": "Single replacement"
+      },
+      {
+        "id": 14,
+        "term": "Ba(OH)2 + H2SO4 → 2H2O + BaSO4",
+        "definition": "Double replacement (acid–base neutralization)"
+      },
+      {
+        "id": 15,
+        "term": "2C3H7OH + 9O2 → 6CO2 + 8H2O",
+        "definition": "Combustion"
+      },
+      {
+        "id": 16,
+        "term": "A + B → AB",
+        "definition": "General synthesis pattern"
+      },
+      {
+        "id": 17,
+        "term": "AB → A + B",
+        "definition": "General decomposition pattern"
+      },
+      {
+        "id": 18,
+        "term": "A + BX → AX + B",
+        "definition": "General single-replacement pattern"
+      },
+      {
+        "id": 19,
+        "term": "AX + BY → AY + BX",
+        "definition": "General double-replacement pattern"
+      }
+    ]
+  },
+  {
+    "id": "solutions",
+    "title": "Solutions & Solubility",
+    "icon": "◌",
+    "source": "CHEM 1341 Ch 4",
+    "cards": [
+      {
+        "id": 1,
+        "term": "Aqueous (aq)",
+        "definition": "Dissolved in water"
+      },
+      {
+        "id": 2,
+        "term": "Dissociation",
+        "definition": "Separation of an ionic compound into its ions in water"
+      },
+      {
+        "id": 3,
+        "term": "Strong electrolyte",
+        "definition": "Dissociates completely and conducts electricity well"
+      },
+      {
+        "id": 4,
+        "term": "Weak electrolyte",
+        "definition": "Partially forms ions and conducts weakly"
+      },
+      {
+        "id": 5,
+        "term": "Nonelectrolyte",
+        "definition": "Does not form ions in aqueous solution"
+      },
+      {
+        "id": 6,
+        "term": "Precipitate",
+        "definition": "Insoluble solid formed when solutions react"
+      },
+      {
+        "id": 7,
+        "term": "Spectator ion",
+        "definition": "Ion appearing unchanged on both sides of a total ionic equation"
+      },
+      {
+        "id": 8,
+        "term": "Net ionic equation",
+        "definition": "Equation showing only species that change in a reaction"
+      },
+      {
+        "id": 9,
+        "term": "Total ionic equation",
+        "definition": "Equation splitting aqueous strong electrolytes into ions"
+      },
+      {
+        "id": 10,
+        "term": "Group 1 and NH4+ salts",
+        "definition": "Soluble according to the course solubility rules"
+      },
+      {
+        "id": 11,
+        "term": "Nitrates",
+        "definition": "Soluble according to the course solubility rules"
+      },
+      {
+        "id": 12,
+        "term": "Most halides",
+        "definition": "Soluble except with Ag+, Hg2²+, or Pb²+"
+      },
+      {
+        "id": 13,
+        "term": "Most carbonates",
+        "definition": "Insoluble except with Group 1 cations or NH4+"
+      },
+      {
+        "id": 14,
+        "term": "Most phosphates",
+        "definition": "Insoluble except with Group 1 cations or NH4+"
+      },
+      {
+        "id": 15,
+        "term": "AgNO3 + KCl",
+        "definition": "Forms AgCl(s) as a precipitate"
+      },
+      {
+        "id": 16,
+        "term": "KI + NaCl",
+        "definition": "No reaction: all potential products remain aqueous"
+      },
+      {
+        "id": 17,
+        "term": "Ag+ + Cl− → AgCl(s)",
+        "definition": "Net ionic equation for silver chloride precipitation"
+      }
+    ]
+  },
+  {
+    "id": "acids",
+    "title": "Acids & Bases",
+    "icon": "◇",
+    "source": "CHEM 1341 Ch 4",
+    "cards": [
+      {
+        "id": 1,
+        "term": "Arrhenius acid",
+        "definition": "Increases H+ in aqueous solution"
+      },
+      {
+        "id": 2,
+        "term": "Arrhenius base",
+        "definition": "Increases OH− in aqueous solution"
+      },
+      {
+        "id": 3,
+        "term": "Neutralization",
+        "definition": "Acid–base reaction producing water and a salt"
+      },
+      {
+        "id": 4,
+        "term": "Strong acid",
+        "definition": "Ionizes essentially completely in water"
+      },
+      {
+        "id": 5,
+        "term": "Weak acid",
+        "definition": "Ionizes only partially in water"
+      },
+      {
+        "id": 6,
+        "term": "Strong base",
+        "definition": "Soluble Group 1, Ca, Sr, or Ba hydroxide"
+      },
+      {
+        "id": 7,
+        "term": "Weak base example",
+        "definition": "NH3 (ammonia)"
+      },
+      {
+        "id": 8,
+        "term": "Seven strong acids",
+        "definition": "HCl, HBr, HI, HNO3, H2SO4, HClO3, HClO4"
+      },
+      {
+        "id": 9,
+        "term": "Acetic acid",
+        "definition": "HC2H3O2, a weak acid and weak electrolyte"
+      },
+      {
+        "id": 10,
+        "term": "HCl + NaOH",
+        "definition": "H2O + NaCl"
+      },
+      {
+        "id": 11,
+        "term": "H+ + OH− → H2O",
+        "definition": "Net ionic equation for strong acid–strong base neutralization"
+      },
+      {
+        "id": 12,
+        "term": "Acidic pH",
+        "definition": "Less than 7"
+      },
+      {
+        "id": 13,
+        "term": "Basic pH",
+        "definition": "Greater than 7"
+      },
+      {
+        "id": 14,
+        "term": "Blue litmus in acid",
+        "definition": "Turns red"
+      },
+      {
+        "id": 15,
+        "term": "Red litmus in base",
+        "definition": "Turns blue"
+      }
+    ]
+  },
+  {
+    "id": "redox",
+    "title": "Redox & Activity",
+    "icon": "↗",
+    "source": "CHEM 1341 Ch 4",
+    "cards": [
+      {
+        "id": 1,
+        "term": "Oxidation",
+        "definition": "Loss of electrons; oxidation number increases"
+      },
+      {
+        "id": 2,
+        "term": "Reduction",
+        "definition": "Gain of electrons; oxidation number decreases"
+      },
+      {
+        "id": 3,
+        "term": "OIL RIG",
+        "definition": "Oxidation Is Loss; Reduction Is Gain"
+      },
+      {
+        "id": 4,
+        "term": "Oxidizing agent",
+        "definition": "Gains electrons and is itself reduced"
+      },
+      {
+        "id": 5,
+        "term": "Reducing agent",
+        "definition": "Loses electrons and is itself oxidized"
+      },
+      {
+        "id": 6,
+        "term": "Free element oxidation number",
+        "definition": "Zero for an uncombined element such as Fe or O2"
+      },
+      {
+        "id": 7,
+        "term": "Monatomic ion oxidation number",
+        "definition": "Equals the ion's charge"
+      },
+      {
+        "id": 8,
+        "term": "Oxygen oxidation number",
+        "definition": "Usually −2 in compounds"
+      },
+      {
+        "id": 9,
+        "term": "Hydrogen oxidation number",
+        "definition": "Usually +1 in compounds"
+      },
+      {
+        "id": 10,
+        "term": "Neutral compound oxidation sum",
+        "definition": "The oxidation numbers add to zero"
+      },
+      {
+        "id": 11,
+        "term": "Polyatomic ion oxidation sum",
+        "definition": "The oxidation numbers add to the ion's charge"
+      },
+      {
+        "id": 12,
+        "term": "Fe in Fe2O3",
+        "definition": "+3 oxidation number"
+      },
+      {
+        "id": 13,
+        "term": "C in CO2",
+        "definition": "+4 oxidation number"
+      },
+      {
+        "id": 14,
+        "term": "S in SO4²−",
+        "definition": "+6 oxidation number"
+      },
+      {
+        "id": 15,
+        "term": "Single-replacement activity test",
+        "definition": "The free element must be higher in the activity series than the element displaced"
+      },
+      {
+        "id": 16,
+        "term": "Cu + Al(NO3)3",
+        "definition": "No reaction: Cu is below Al in the activity series"
+      }
+    ]
+  }
+]

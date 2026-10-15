@@ -1,0 +1,22 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),path=require('node:path');
+const katex=require('katex');require('katex/contrib/mhchem');
+test('Better MD Viewer reads a local file, renders sections and math, and escapes untrusted HTML',async()=>{
+  const elements=new Map(),listeners={};
+  const make=()=>({hidden:false,textContent:'',innerHTML:'',value:'',files:[],dataset:{},classList:{toggle(){}},addEventListener(type,fn){this['on'+type]=fn},querySelectorAll(){return[]}});
+  const get=id=>{if(!elements.has(id))elements.set(id,make());return elements.get(id)};
+  const document={getElementById:get,querySelectorAll:()=>[],dispatchEvent(){}};
+  const storage=new Map(),localStorage={getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)};
+  const source=`# Review\n## Chemistry\nUse \\(\\ce{H2O}\\).\n> [!RECALL]\n> What is water?\n> [!ANSWER]\n> H2O\n<script>alert(1)</script>\n[bad](javascript:alert)`;
+  const context={window:{katex,print(){}},document,localStorage,location:{href:'https://study.example.com/',hash:''},navigator:{clipboard:{writeText:async()=>{}}},CustomEvent:class{},DataTransfer:class{},Event:class{},setTimeout,fetch:async (url,options)=>({ok:true,json:async()=>url==='/api/study-files'?(options?.method==='POST'?{folder:'Chemistry',name:'review.md'}:{account:'admin@example.com',files:[]}):{}})};
+  vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../public/md-viewer.js'),'utf8'),context);
+  get('viewer-folder').value='Chemistry';const input=get('viewer-file');input.files=[{name:'review.md',size:300,text:async()=>source}];
+  await input.onchange({target:input});
+  const html=get('viewer-content').innerHTML;
+  assert.match(html,/class="katex"/);assert.match(html,/md-callout md-recall/);assert.match(html,/md-answer/);
+  assert.match(html,/&lt;script&gt;/);assert.doesNotMatch(html,/<script>|href="javascript:/);
+  assert.equal(get('viewer-home').hidden,true);assert.match(get('viewer-outline-list').innerHTML,/Chemistry/);
+  get('viewer-outline-list').onclick({target:{closest:x=>x==='[data-review]'?{dataset:{review:'1'}}:null}});
+  assert.match(get('viewer-progress').textContent,/1 \/ 2/);
+  assert.equal(storage.size,1);
+});
