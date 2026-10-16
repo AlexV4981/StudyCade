@@ -1,0 +1,18 @@
+FROM node:24-bookworm-slim AS frontend
+WORKDIR /build
+RUN npm install -g pnpm@11.25.0
+COPY frontend/package.json frontend/pnpm-lock.yaml frontend/pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile --ignore-scripts
+COPY frontend/ ./
+RUN pnpm build
+
+FROM python:3.12-slim-bookworm
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 AUTH_MODE=guest
+WORKDIR /app
+COPY requirements-guest.lock ./
+RUN pip install --no-cache-dir -r requirements-guest.lock && useradd --uid 10001 --create-home studycade
+COPY backend/__init__.py backend/guest.py backend/headers.py backend/content.py backend/subjects.py backend/
+COPY --from=frontend /build/dist frontend/dist/
+USER studycade
+EXPOSE 10000
+CMD ["sh", "-c", "exec python -m uvicorn backend.guest:create_guest_app --factory --host 0.0.0.0 --port ${PORT:-10000} --no-proxy-headers --no-access-log --limit-concurrency 32 --timeout-keep-alive 5"]
