@@ -1,6 +1,6 @@
 # Private cross-device cloud workspace
 
-Status, 2026-10-17: migration applied to the authorized empty Free project. The rollback SQL fixture completed through the connected Supabase database, and subsequent counts confirmed zero fixture users, workspaces or approvals before the real private approval was added. These are real PostgreSQL RLS/RPC checks, not a substitute for a real email sign-in and cross-device UI check. Mail delivery and final live signed-in verification remain release checks until performed.
+Status, 2026-10-17: migration applied to the authorized empty Free project. The rollback SQL fixture completed through the connected Supabase database, and subsequent counts confirmed zero fixture users, workspaces or approvals before the real private approval was added. These are real PostgreSQL RLS/RPC checks, not a substitute for a real email sign-in and cross-device UI check. Render’s Docker build completed and the cloud-enabled image is live. Anonymous access, fixed callback destinations, private-route denial and security headers passed real HTTP checks. Mail delivery and final live signed-in verification remain release checks until performed.
 
 ## Contract
 
@@ -49,7 +49,7 @@ The aggregate logical-state cap is 100,000,000 bytes, below a 500 MB free databa
 
 Run only against an isolated project with the matching Supabase Auth schema. The fixture deliberately allocates roughly 102 MB of logical workspace text to test quota rejection and can generate additional WAL; do not run it on a production/free project near its storage cap. Use the project administrator connection with psql's `ON_ERROR_STOP=1`; apply the migration once, then run the rollback fixture. Preserve the exact error output when diagnosing schema differences, without publishing connection strings.
 
-Required live checks before enabling cloud saving:
+Further signed-in deployment checks (do not infer them from the rollback fixture):
 
 - Fixtures complete successfully and no fixture users/workspaces remain afterward.
 - Two separate real approved identities cannot SELECT or save each other's workspace through REST/RPC.
@@ -88,3 +88,7 @@ Guest data persists in IndexedDB. Cloud data stays in memory and in the approved
 - Free single-instance in-memory request limits reset on restart and do not replace provider-level limits. This deployment has no paid shared limiter, keep-alive job or additional service. No active external penetration testing or future vulnerability guarantee is claimed.
 
 References: [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/), [OWASP Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html), [OWASP CSRF Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html), [Supabase PKCE](https://supabase.com/docs/guides/auth/sessions/pkce-flow), [Supabase SMTP limits](https://supabase.com/docs/guides/auth/auth-smtp).
+
+Supabase Advisor additionally reports leaked-password protection disabled. This provider feature requires Pro; no upgrade was made. StudyCade exposes only email-link sign-in and does not accept, set or reset user passwords. Supabase may maintain an internally generated password hash for a newly created email-link identity. This warning must be revisited if password-based login is introduced; it is not a reason to expose a password endpoint or weaken email verification. See [Supabase password security](https://supabase.com/docs/guides/auth/password-security).
+
+An explicit sign-out always clears both device cookies and cloud memory, including during a provider outage. The gateway attempts upstream revocation and blocks replay in the running process, but cannot guarantee provider-side revocation while that provider is unreachable. The guest sign-in panel reports this distinction. Rotating the app encryption key invalidates captured app cookies across restarts; administrators can remove the Auth session or approval to revoke database access independently. This limitation is separate from the always-cleared local device state.

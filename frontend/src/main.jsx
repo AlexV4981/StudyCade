@@ -1425,6 +1425,12 @@ function CloudAccount({ user, onError }) {
       .then((c) => setAvailable(!!c.cloudAvailable))
       .catch(onError);
   }, []);
+  useEffect(() => {
+    if (window.location.hash === "#cloud-signed-out-local")
+      setMessage(
+        "Signed out on this device. The cloud service could not confirm session revocation. Keep exported backups safe and retry sign-in/sign-out when connectivity returns.",
+      );
+  }, []);
   if (!available) return null;
   const switchWorkspace = async () => {
     await clearCloudCache();
@@ -1523,7 +1529,9 @@ function CloudAccount({ user, onError }) {
               onClick={async () => {
                 setBusy(true);
                 try {
-                  await api("/api/cloud/auth/logout", {});
+                  const result = await api("/api/cloud/auth/logout", {});
+                  if (!result.revocationConfirmed)
+                    window.location.hash = "cloud-signed-out-local";
                   await switchWorkspace();
                 } catch (error) {
                   onError(error);

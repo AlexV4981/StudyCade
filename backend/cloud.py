@@ -297,19 +297,26 @@ class CloudGateway:
             response.set_cookie(LOGIN_COOKIE, pending, max_age=LOGIN_AGE, secure=True, httponly=True, samesite="lax", path="/")
             return response
         if path == "/api/cloud/auth/logout":
-            if not request.cookies.get(COOKIE):
-                return JSONResponse({"signedOut": True})
-            session, _ = await self.session(request)
+            session = None
+            confirmed = True
+            try:
+                if request.cookies.get(COOKIE):
+                    session = self.decode(request)
+                    active, _ = await self.session(request)
+                    status, _ = await self.upstream("POST", "/auth/v1/logout", access=active["access_token"], params={"scope": "local"}, maximum=65536)
+                    confirmed = status in (200, 204, 401, 403)
+            except HTTPException:
+                confirmed = False
             async with self.refresh_lock:
-                status, _ = await self.upstream("POST", "/auth/v1/logout", access=session["access_token"], params={"scope": "local"}, maximum=65536)
-                if status not in (200, 204, 401, 403):
-                    self.checked(status)
-                self.revoked[session["session_id"]] = time.monotonic()
-                while len(self.revoked) > 2048:
-                    self.revoked.popitem(last=False)
+                if session:
+                    self.revoked[session["session_id"]] = time.monotonic()
+                    while len(self.revoked) > 2048:
+                        self.revoked.popitem(last=False)
                 self.refresh_cache.clear()
-            response = JSONResponse({"signedOut": True})
+            # Always clear this device on an explicit sign-out, even during provider outages.
+            response = JSONResponse({"signedOut": True, "revocationConfirmed": confirmed})
             self.clear_cookie(response)
+            response.delete_cookie(LOGIN_COOKIE, secure=True, httponly=True, samesite="lax", path="/")
             return response
         if path == "/api/cloud/session" and method == "GET":
             if not request.cookies.get(COOKIE):
