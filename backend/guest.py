@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import secrets
 import time
+from contextlib import asynccontextmanager
 from urllib.parse import urlsplit
 
 import anyio
@@ -36,12 +37,22 @@ def create_guest_app(dist_dir=None):
     ):
         raise ValueError("Public guest origin must be an HTTPS origin.")
     origin = configured.rstrip("/")
+    from .cloud import CloudConfig, CloudGateway, MUTATIONS
+    cloud_config = CloudConfig.from_env(origin)
+    cloud = CloudGateway(cloud_config, origin) if cloud_config else None
+
+    @asynccontextmanager
+    async def lifespan(app):
+        yield
+        if cloud:
+            await cloud.close()
     dist = Path(dist_dir) if dist_dir else ROOT / "frontend/dist"
     salt = secrets.token_bytes(32)
     rates = OrderedDict()
-    global_window, global_count = time.monotonic(), 0
+    global_rates = {}
     parse_slots = anyio.CapacityLimiter(2)
-    app = FastAPI(title="StudyCade Guest", docs_url=None, redoc_url=None, openapi_url=None)
+    app = FastAPI(title="StudyCade", docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
+    app.state.cloud = cloud
 
     class PreviewAdmission:
         """Bound entire in-flight previews, including request and response bodies."""
@@ -50,12 +61,14 @@ def create_guest_app(dist_dir=None):
             self.slots = anyio.CapacityLimiter(2)
 
         async def __call__(self, scope, receive, send):
-            if scope["type"] != "http" or scope.get("path") != "/api/import/preview" or scope.get("method") != "POST":
+            preview = scope.get("path") == "/api/import/preview" and scope.get("method") == "POST"
+            cloud_operation = cloud and (MUTATIONS.get(scope.get("path")) == scope.get("method") or (scope.get("path") in ("/api/cloud/workspace", "/api/cloud/auth/callback") and scope.get("method") == "GET"))
+            if scope["type"] != "http" or not (preview or cloud_operation):
                 return await self.app(scope, receive, send)
             try:
                 self.slots.acquire_nowait()
             except anyio.WouldBlock:
-                response = JSONResponse({"error": "Preview service is busy. Retry shortly."}, status_code=429, headers=security_headers(bool(origin)))
+                response = JSONResponse({"error": "Study service is busy. Retry shortly."}, status_code=429, headers=security_headers(bool(origin)))
                 return await response(scope, receive, send)
             try:
                 await self.app(scope, receive, send)
@@ -72,7 +85,6 @@ def create_guest_app(dist_dir=None):
 
     @app.middleware("http")
     async def guard(request: Request, call_next):
-        nonlocal global_window, global_count
         try:
             host = request.url.hostname or ""
             if origin:
@@ -85,36 +97,44 @@ def create_guest_app(dist_dir=None):
             if not valid_host:
                 raise HTTPException(400, "Invalid host.")
             if request.method not in ("GET", "HEAD"):
-                if request.url.path != "/api/import/preview" or request.method != "POST":
+                is_preview = request.url.path == "/api/import/preview" and request.method == "POST"
+                is_cloud = cloud and MUTATIONS.get(request.url.path) == request.method
+                if not (is_preview or is_cloud):
                     raise HTTPException(404, "Not found.")
                 expected = origin or str(request.base_url).rstrip("/")
                 if request.headers.get("origin") != expected:
                     raise HTTPException(403, "Request origin is not allowed.")
                 if request.headers.get("content-type", "").split(";")[0].strip().lower() != "application/json":
                     raise HTTPException(415, "Send JSON.")
+                if is_cloud and request.url.path == "/api/cloud/workspace":
+                    cloud.preflight(request)
                 clock = time.monotonic()
+                bucket = "preview" if is_preview else "cloud"
+                global_window, global_count = global_rates.get(bucket, (clock, 0))
                 if clock - global_window >= 60:
                     global_window, global_count = clock, 0
                 peer = request.client.host if request.client else "unknown"
-                key = hashlib.sha256(salt + peer.encode()).digest()
+                key = (bucket, hashlib.sha256(salt + peer.encode()).digest())
                 start, count = rates.get(key, (clock, 0))
                 if clock - start >= 60:
                     start, count = clock, 0
-                if count >= 20 or global_count >= 60:
-                    raise HTTPException(429, "Preview limit reached. Wait a minute and retry.")
+                maximum = 20 if is_preview else 120
+                if count >= maximum or global_count >= (60 if is_preview else 240):
+                    raise HTTPException(429, "Request limit reached. Wait a minute and retry.")
                 rates[key] = (start, count + 1)
                 rates.move_to_end(key)
                 while len(rates) > 1024:
                     rates.popitem(last=False)
-                global_count += 1
+                global_rates[bucket] = (global_window, global_count + 1)
                 length = request.headers.get("content-length")
-                if length and (not length.isdigit() or int(length) > MAX_REQUEST):
+                request_limit = MAX_REQUEST if is_preview else 20_100_000 if request.url.path == "/api/cloud/workspace" else 8192
+                if length and (not length.isdigit() or int(length) > request_limit):
                     raise HTTPException(413, "Request is too large.")
                 raw = bytearray()
                 try:
                     async with asyncio.timeout(10):
                         async for chunk in request.stream():
-                            if len(raw) + len(chunk) > MAX_REQUEST:
+                            if len(raw) + len(chunk) > request_limit:
                                 raise HTTPException(413, "Request is too large.")
                             raw.extend(chunk)
                 except TimeoutError:
@@ -124,6 +144,10 @@ def create_guest_app(dist_dir=None):
         except HTTPException as exc:
             response = JSONResponse({"error": str(exc.detail)}, status_code=exc.status_code)
         response.headers.update(security_headers(bool(origin) or request.url.scheme == "https"))
+        if request.url.path.startswith("/api/cloud/"):
+            response.headers["Vary"] = "Cookie, X-StudyCade-Account, If-None-Match"
+            if response.status_code == 401 and cloud:
+                cloud.clear_cookie(response)
         return response
 
     @app.get("/healthz")
@@ -132,7 +156,12 @@ def create_guest_app(dist_dir=None):
 
     @app.get("/api/deployment")
     async def deployment():
-        return {"mode": "guest", "storage": "browser", "accounts": False}
+        return {"mode": "guest", "storage": "browser", "accounts": bool(cloud), "cloudAvailable": bool(cloud)}
+
+    if cloud:
+        @app.api_route("/api/cloud/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+        async def cloud_endpoint(path: str, request: Request):
+            return await cloud.dispatch(request)
 
     @app.post("/api/import/preview")
     async def preview(request: Request):

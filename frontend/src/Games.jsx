@@ -19,8 +19,10 @@ export default function Games({
   defaultSourceId,
   onImport,
   isStarter = false,
+  persistRound = true,
 }) {
   const [s, set] = useState(() => {
+    if (!persistRound) return initial(cards, mode);
     try {
       return resumeRound(
         cards,
@@ -36,6 +38,7 @@ export default function Games({
   latest.current = s;
   useEffect(() => () => pending.current.forEach(clearTimeout), []);
   useEffect(() => {
+    if (!persistRound) return;
     const persist = () => {
       try {
         sessionStorage.setItem(
@@ -59,7 +62,7 @@ export default function Games({
       window.removeEventListener("pagehide", persist);
       persist();
     };
-  }, [sessionKey]);
+  }, [sessionKey, persistRound]);
   const delay = (fn, ms) => {
     pending.current.push(setTimeout(fn, ms));
   };

@@ -8,7 +8,12 @@ import { SubjectIdentity, SubjectArtwork } from "./subjects.jsx";
 import { MODES, quoteRows, parseRows } from "./engine.js";
 import "katex/dist/katex.min.css";
 import "./style.css";
-import { api } from "./api.js";
+import {
+  api,
+  getDeploymentConfig,
+  reloadCloudWorkspace,
+  clearCloudCache,
+} from "./api.js";
 const SUBJECTS = [
   "general",
   "mathematics",
@@ -93,7 +98,15 @@ function App() {
     } catch {}
     refresh()
       .then((d) => {
-        const session = stored(`studycade:${d.user.email}`, {});
+        if (d.user.role === "cloud") {
+          try {
+            clearDeviceSessions();
+          } catch {}
+        }
+        const session =
+          d.user.role === "cloud"
+            ? {}
+            : stored(`studycade:${d.user.email}`, {});
         setMode(
           MODES.some((x) => x[0] === session.mode) ? session.mode : "flash",
         );
@@ -119,7 +132,7 @@ function App() {
     }
   }
   useEffect(() => {
-    if (data && deck)
+    if (data && deck && data.user.role !== "cloud")
       save(`studycade:${data.user.email}`, { deck: deck.id, mode });
   }, [data?.user.email, deck?.id, mode]);
   function record(correct, card, event) {
@@ -190,7 +203,9 @@ function App() {
     progress = data?.progress || [],
     rights = progress.reduce((a, p) => a + p.right, 0),
     attempts = progress.reduce((a, p) => a + p.right + p.wrong, 0);
-  const canEdit = ["admin", "editor", "guest"].includes(data?.user.role);
+  const canEdit = ["admin", "editor", "guest", "cloud"].includes(
+    data?.user.role,
+  );
   async function openDoc(id, sectionId) {
     setBusy(true);
     try {
@@ -347,6 +362,18 @@ function App() {
                 notes and progress are separate from other visitors. Import
                 previews temporarily send text to this service for parsing. Use
                 Settings & backup to export or clear this device.
+              </span>
+            </div>
+          )}
+          {data?.user.role === "cloud" && (
+            <div className="notice cloud-notice" role="note">
+              <span>
+                <strong>
+                  Private cloud workspace · synced between your devices.
+                </strong>{" "}
+                Saves go to your signed-in workspace. Guest material stays in
+                this browser until you explicitly copy or restore it into cloud.
+                Cloud data has no offline browser cache.
               </span>
             </div>
           )}
@@ -587,6 +614,7 @@ function App() {
                       cards={deck.cards}
                       mode={mode}
                       onRecord={record}
+                      persistRound={data?.user.role !== "cloud"}
                       sessionKey={`studycade:round:${data.user.email}:${deck.id}:${mode}`}
                       defaultSourceId={deck.documentIds?.[0]}
                       onOpenSource={openDoc}
@@ -703,7 +731,7 @@ function App() {
       </div>
       {editing && (
         <Editor
-          guest={data?.user.role === "guest"}
+          guest={["guest", "cloud"].includes(data?.user.role)}
           deck={editing === true ? null : editing}
           onClose={() => setEditing(false)}
           onDeleted={async () => {
@@ -1383,6 +1411,178 @@ function Notes({
     </>
   );
 }
+function CloudAccount({ user, onError }) {
+  const [available, setAvailable] = useState(false),
+    [email, setEmail] = useState(""),
+    [message, setMessage] = useState(() =>
+      window.location.hash === "#cloud-sign-in-failed"
+        ? "The sign-in link expired or opened in a different browser. Request a new link here and open it in this browser."
+        : "",
+    ),
+    [busy, setBusy] = useState(false);
+  useEffect(() => {
+    getDeploymentConfig()
+      .then((c) => setAvailable(!!c.cloudAvailable))
+      .catch(onError);
+  }, []);
+  if (!available) return null;
+  const switchWorkspace = async () => {
+    await clearCloudCache();
+    try {
+      clearDeviceSessions();
+    } catch {}
+    window.location.reload();
+  };
+  async function start(e) {
+    e.preventDefault();
+    setBusy(true);
+    setMessage("");
+    try {
+      const d = await api("/api/cloud/auth/start", { email: email.trim() });
+      setMessage(
+        d.message ||
+          "If this email is approved for cloud access, a sign-in link has been sent.",
+      );
+    } catch (error) {
+      onError(error);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <section className="panel import-panel cloud-account">
+      <div className="section-heading">
+        <div>
+          <span className="eyebrow">YOUR PRIVATE SYNCED WORKSPACE</span>
+          <h2>
+            {user?.role === "cloud"
+              ? "Cloud saving is connected."
+              : "Continue on your other device."}
+          </h2>
+        </div>
+        <span className="badge">
+          {user?.role === "cloud" ? "Signed in" : "Optional cloud account"}
+        </span>
+      </div>
+      {user?.role === "cloud" ? (
+        <>
+          <p className="muted">
+            Your notes, decks and progress save to your private cloud workspace.
+            Sign in with the same approved email on your laptop or desktop.
+            Guest notes stay separate until you explicitly copy them.
+          </p>
+          <div className="controls">
+            <button
+              onClick={async () => {
+                if (
+                  !window.confirm(
+                    "Reload the latest cloud workspace? Copy any unsaved edits first; reloading will discard them.",
+                  )
+                )
+                  return;
+                setBusy(true);
+                try {
+                  await reloadCloudWorkspace();
+                  await switchWorkspace();
+                } catch (error) {
+                  onError(error);
+                } finally {
+                  setBusy(false);
+                }
+              }}
+              disabled={busy}
+            >
+              Reload cloud workspace
+            </button>
+            <button
+              onClick={async () => {
+                if (
+                  !window.confirm(
+                    "Copy all guest notes, decks, files and progress from this browser into your signed-in cloud workspace? This explicitly uploads that material. Existing guest and cloud data will be kept.",
+                  )
+                )
+                  return;
+                setBusy(true);
+                try {
+                  const backup = await (
+                    await import("./guest.js")
+                  ).guestApi("/api/backup");
+                  await api("/api/restore", backup);
+                  await switchWorkspace();
+                } catch (error) {
+                  onError(error);
+                } finally {
+                  setBusy(false);
+                }
+              }}
+              disabled={busy}
+            >
+              Copy browser guest material into cloud
+            </button>
+            <button
+              onClick={async () => {
+                setBusy(true);
+                try {
+                  await api("/api/cloud/auth/logout", {});
+                  await switchWorkspace();
+                } catch (error) {
+                  onError(error);
+                } finally {
+                  setBusy(false);
+                }
+              }}
+              disabled={busy}
+            >
+              Sign out · return to guest
+            </button>
+          </div>
+          <p className="small muted">
+            Signing out keeps both workspaces. Cloud saves require a connection;
+            failed saves are shown and never silently moved into guest storage.
+          </p>
+        </>
+      ) : (
+        <>
+          <p className="muted">
+            Use an approved email to receive a one-time sign-in link. Signing in
+            opens a separate private cloud workspace. Nothing from this
+            browser’s guest library is uploaded automatically.
+          </p>
+          <form className="cloud-auth-form" onSubmit={start}>
+            <label htmlFor="cloud-email">
+              Approved email
+              <input
+                id="cloud-email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                maxLength={254}
+              />
+            </label>
+            <button disabled={busy} className="primary">
+              {busy ? "Please wait…" : "Email a sign-in link"}
+            </button>
+          </form>
+          {message && (
+            <p className="notice" role="status">
+              {message}
+            </p>
+          )}
+          <p className="small muted">
+            No password or sign-in token is saved in browser storage. Your email
+            is used for private sign-in with Supabase. Open the link in the same
+            browser that requested it on each device. You can keep using the
+            guest workspace without signing in.
+          </p>
+        </>
+      )}
+    </section>
+  );
+}
 function Settings({ user, onError, onRestore }) {
   const [users, setUsers] = useState([]),
     [audit, setAudit] = useState([]),
@@ -1401,7 +1601,7 @@ function Settings({ user, onError, onRestore }) {
     }
   }, [user?.role]);
   const exportData = (path, name) => async (event) => {
-    if (user?.role !== "guest") return;
+    if (!["guest", "cloud"].includes(user?.role)) return;
     event.preventDefault();
     try {
       downloadJson(await api(path), name);
@@ -1413,6 +1613,7 @@ function Settings({ user, onError, onRestore }) {
     <>
       <span className="eyebrow">YOUR WORKSPACE, YOUR CONTROL</span>
       <h1>Settings & backup.</h1>
+      <CloudAccount user={user} onError={onError} />
       <section className="panel import-panel">
         <h2>Keep a copy of your learning.</h2>
         <p className="muted">
@@ -1458,7 +1659,8 @@ function Settings({ user, onError, onRestore }) {
         {restore && (
           <div className="warning">
             <p>
-              Restore this backup? Existing records may be replaced. Download
+              Restore this backup into this workspace? Guest and cloud restores
+              add private material without replacing existing decks. Download
               your current backup first.
             </p>
             <button onClick={() => setRestore(null)}>Cancel</button>{" "}
@@ -1484,7 +1686,9 @@ function Settings({ user, onError, onRestore }) {
         <p className="muted">
           {user?.role === "guest"
             ? "Guest work is stored in this browser profile. Export a backup before using a different browser or clearing its storage. Anyone using this same browser profile can open it."
-            : "Saved game sessions stay in this tab until it is closed. Clear them when you finish on a shared device."}
+            : user?.role === "cloud"
+              ? "Cloud material stays in memory while this page is open and is saved to your private account. Clearing this device cache never deletes the cloud workspace. Sign out when you finish on a shared device."
+              : "Saved game sessions stay in this tab until it is closed. Clear them when you finish on a shared device."}
         </p>
         <button
           onClick={async () => {
@@ -1498,6 +1702,7 @@ function Settings({ user, onError, onRestore }) {
             try {
               if (user?.role === "guest")
                 await (await import("./guest.js")).clearGuestData();
+              if (user?.role === "cloud") await clearCloudCache();
               clearDeviceSessions();
               window.location.reload();
             } catch (error) {
@@ -1507,7 +1712,9 @@ function Settings({ user, onError, onRestore }) {
         >
           {user?.role === "guest"
             ? "Clear guest data from this device"
-            : "Clear saved game sessions"}
+            : user?.role === "cloud"
+              ? "Clear this device cache · keep cloud data"
+              : "Clear saved game sessions"}
         </button>
       </section>
       {user?.role === "admin" && (

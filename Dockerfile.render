@@ -11,7 +11,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 AUTH_MODE=guest
 WORKDIR /app
 COPY requirements-guest.lock ./
 RUN pip install --no-cache-dir -r requirements-guest.lock && useradd --uid 10001 --create-home studycade
-COPY backend/__init__.py backend/guest.py backend/headers.py backend/content.py backend/subjects.py backend/
+COPY backend/__init__.py backend/guest.py backend/headers.py backend/content.py backend/subjects.py backend/cloud.py backend/cloud_state.py backend/
 COPY --from=frontend /build/dist frontend/dist/
 USER studycade
 EXPOSE 10000
