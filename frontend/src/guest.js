@@ -559,10 +559,74 @@ export function createGuestApi({
         );
         answer = { id: set.id };
       } else bad("Unsupported deck request.");
+    } else if (
+      route === "documents" &&
+      ((parts.length === 2 && method === "DELETE") ||
+        (path === "/api/documents/delete" && method === "POST"))
+    ) {
+      const identifiers =
+        method === "DELETE"
+          ? [parts[1]]
+          : boundedArray(body.documentIds, 250, "documents");
+      if (
+        !identifiers.length ||
+        new Set(identifiers).size !== identifiers.length
+      )
+        bad("Choose distinct documents.");
+      const removed = identifiers.map((key) => requireDoc(state, key));
+      const ids = new Set(identifiers);
+      const removedCards = new Set(
+        removed.flatMap((doc) => (doc.cards || []).map((card) => card.id)),
+      );
+      state.documents = state.documents.filter((doc) => !ids.has(doc.id));
+      state.files = state.files.filter(
+        (file) =>
+          !removed.some(
+            (doc) =>
+              doc.folder === file.folder &&
+              (doc.filename || doc.name) === file.name,
+          ) ||
+          state.documents.some(
+            (doc) =>
+              doc.folder === file.folder &&
+              (doc.filename || doc.name) === file.name,
+          ),
+      );
+      for (const container of [...state.sets, ...state.documents]) {
+        if (container.documentIds)
+          container.documentIds = container.documentIds.filter(
+            (key) => !ids.has(key),
+          );
+        for (const card of container.cards || [])
+          if (ids.has(card.provenance?.documentId)) {
+            delete card.provenance.documentId;
+            delete card.provenance.sectionId;
+          }
+      }
+      state.schedules = state.schedules.filter(
+        (entry) => !removedCards.has(entry.cardId),
+      );
+      answer = { deleted: true, documentIds: identifiers };
     } else if (route === "documents" && parts.length >= 2) {
       const doc = requireDoc(state, parts[1]);
       if (parts.length === 2 && method === "GET") answer = doc;
       else if (
+        parts.length === 3 &&
+        parts[2] === "reading" &&
+        method === "PATCH"
+      ) {
+        if (
+          body.sectionId !== null &&
+          !doc.sections.some((section) => section.id === body.sectionId)
+        )
+          bad("Unknown document section.");
+        doc.lastSectionId = body.sectionId;
+        doc.lastReadAt = now();
+        answer = {
+          lastSectionId: doc.lastSectionId,
+          lastReadAt: doc.lastReadAt,
+        };
+      } else if (
         parts[2] === "review" &&
         parts.length === 3 &&
         method === "PATCH"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { buildStudyPrompt, subjectsOf, SUBJECT_CODES } from "./prompts.js";
+import { buildStudyPrompt } from "./prompts.js";
 export default function PromptStudio({
   documents,
   deck,
@@ -87,14 +87,7 @@ export default function PromptStudio({
                   );
                 }}
               />
-              <span>
-                {d.title}
-                <small className="source-subjects">
-                  {subjectsOf(d)
-                    .map((s) => SUBJECT_CODES[s])
-                    .join(" + ")}
-                </small>
-              </span>
+              <span>{d.title}</span>
             </label>
           ))}
           {deck && (
@@ -107,14 +100,7 @@ export default function PromptStudio({
                   setCopied(false);
                 }}
               />
-              <span>
-                Active set: {deck.title}
-                <small className="source-subjects">
-                  {subjectsOf(deck)
-                    .map((s) => SUBJECT_CODES[s])
-                    .join(" + ")}
-                </small>
-              </span>
+              <span>Active set: {deck.title}</span>
             </label>
           )}
           {!documents.length && !deck && (

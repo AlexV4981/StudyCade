@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { SubjectIdentity } from "./subjects.jsx";
 import { Content } from "./content.js";
 import {
   initial,
@@ -231,19 +230,6 @@ export default function Games({
         <div>
           <span className="eyebrow">ACTIVE RECALL</span>
           <h2>{title}</h2>
-          {card && (
-            <SubjectIdentity
-              item={
-                pairsMode
-                  ? {
-                      subjects: cards.flatMap(
-                        (c) => c.subjects || [c.subject || "general"],
-                      ),
-                    }
-                  : card
-              }
-            />
-          )}
         </div>
         <span className="badge">
           {pairsMode
@@ -358,7 +344,6 @@ export default function Games({
                   >
                     {s.open.includes(i) || s.matched.includes(i) ? (
                       <div className="tile-face">
-                        <SubjectIdentity item={t} compact />
                         <Content>{t[t.side]}</Content>
                       </div>
                     ) : (
@@ -392,7 +377,6 @@ export default function Games({
                         onClick={() => match(side, c.id)}
                       >
                         <>
-                          <SubjectIdentity item={c} compact />
                           <Content>{c[side]}</Content>
                         </>
                       </button>

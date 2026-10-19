@@ -2364,3 +2364,71 @@ button:active:not(:disabled) {
   background: #eef2ff;
   color: #334b87;
 }
+
+/* More room and readable controls for the main study workspace. */
+main {
+  max-width: 1660px;
+  padding: 38px 42px 0;
+}
+.topbar {
+  font-size: 11px;
+}
+.nav-item {
+  font-size: 14px;
+}
+.deck-nav {
+  font-size: 14px;
+}
+.deck-nav small {
+  font-size: 12px;
+}
+.lead {
+  font-size: 17px;
+}
+.section-heading h2 {
+  font-size: 25px;
+}
+.continue p,
+.mode-card p,
+.deck-card p,
+.mode-action {
+  font-size: 14px;
+}
+.continue h2 {
+  font-size: 27px;
+}
+.mode-card h3 {
+  font-size: 19px;
+}
+.stats small {
+  font-size: 13px;
+}
+.continue-notes {
+  border-color: #427869;
+}
+@media (max-width: 800px) {
+  main {
+    padding: 28px 22px 0;
+  }
+  .mode-card h3 {
+    font-size: 17px;
+  }
+}
+@media (max-width: 600px) {
+  main {
+    padding: 25px 16px 0;
+  }
+  .nav-item {
+    font-size: 11px;
+  }
+  .lead {
+    font-size: 15px;
+  }
+  .mode-card p,
+  .mode-action {
+    font-size: 12px;
+  }
+  .continue h2 {
+    font-size: 24px;
+  }
+}

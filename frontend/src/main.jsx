@@ -3,6 +3,9 @@ import { createRoot } from "react-dom/client";
 import { Content } from "./content.js";
 import Games from "./Games.jsx";
 import PromptStudio from "./PromptStudio.jsx";
+import Notes from "./Notes.jsx";
+import { RecallProvider } from "./ForcedRecall.jsx";
+import { mostRecentNote } from "./reading.js";
 import { MARKDOWN_PROMPT, SUBJECT_CODES, subjectsOf } from "./prompts.js";
 import { SubjectIdentity, SubjectArtwork } from "./subjects.jsx";
 import { MODES, quoteRows, parseRows } from "./engine.js";
@@ -82,6 +85,9 @@ function App() {
     [document, setDocument] = useState(null),
     [editing, setEditing] = useState(false);
   const progressQueue = useRef(Promise.resolve());
+  const readingQueue = useRef(Promise.resolve());
+  const lastReading = useRef(new Map());
+  const documentSerial = useRef(0);
   const serial = useRef(0);
   const report = (e) => setError(e.message || String(e));
   async function refresh() {
@@ -206,28 +212,62 @@ function App() {
   const canEdit = ["admin", "editor", "guest", "cloud"].includes(
     data?.user.role,
   );
+  function saveReading(id, sectionId, force = false) {
+    const task = readingQueue.current
+      .catch(() => {})
+      .then(async () => {
+        if (!force && lastReading.current.get(id) === sectionId) return;
+        const reading = await api(
+          `/api/documents/${encodeURIComponent(id)}/reading`,
+          { sectionId },
+          "PATCH",
+        );
+        lastReading.current.set(id, sectionId);
+        setData((current) =>
+          current
+            ? {
+                ...current,
+                documents: current.documents.map((note) =>
+                  note.id === id ? { ...note, ...reading } : note,
+                ),
+              }
+            : current,
+        );
+        setDocument((current) =>
+          current?.id === id ? { ...current, ...reading } : current,
+        );
+      });
+    readingQueue.current = task;
+    return task;
+  }
   async function openDoc(id, sectionId) {
+    const version = ++documentSerial.current;
     setBusy(true);
     try {
-      setDocument({
-        ...(await api("/api/documents/" + encodeURIComponent(id))),
-        focusSectionId: sectionId,
-      });
+      const note = await api("/api/documents/" + encodeURIComponent(id));
+      if (version !== documentSerial.current) return;
+      const requested = sectionId || note.lastSectionId;
+      const focus = note.sections?.some((section) => section.id === requested)
+        ? requested
+        : note.sections?.[0]?.id || null;
+      setDocument({ ...note, focusSectionId: focus });
       setPage("notes");
-      if (sectionId)
+      if (focus)
         requestAnimationFrame(() =>
           requestAnimationFrame(() =>
             window.document
-              .querySelector(`[data-section-id="${CSS.escape(sectionId)}"]`)
+              .querySelector(`[data-section-id="${CSS.escape(focus)}"]`)
               ?.scrollIntoView({ behavior: "instant" }),
           ),
         );
+      await saveReading(id, focus, true);
     } catch (e) {
       report(e);
     } finally {
-      setBusy(false);
+      if (version === documentSerial.current) setBusy(false);
     }
   }
+  const recentNote = mostRecentNote(data?.documents || []);
   const nav = (p) => {
     setPage(p);
     setError("");
@@ -474,6 +514,28 @@ function App() {
                   </button>
                 </section>
               )}
+              <section className="continue panel continue-notes">
+                <div>
+                  <span className="eyebrow">PICK UP YOUR STUDY NOTES</span>
+                  <h2>{recentNote?.title || "Your next reading session"}</h2>
+                  <p>
+                    {recentNote
+                      ? "Continue from your last section."
+                      : "Open your notes and we’ll remember where you stop."}
+                  </p>
+                </div>
+                <button
+                  className="primary"
+                  disabled={!data}
+                  onClick={() =>
+                    recentNote
+                      ? openDoc(recentNote.id, recentNote.lastSectionId)
+                      : (setDocument(null), nav("notes"))
+                  }
+                >
+                  {recentNote ? "Continue reading →" : "Open study notes →"}
+                </button>
+              </section>
               <div className="section-heading">
                 <div>
                   <span className="eyebrow">GOOD THINGS TAKE PRACTICE</span>
@@ -571,7 +633,6 @@ function App() {
               {deck ? (
                 <>
                   <div className="deck-meta">
-                    <SubjectIdentity item={deck} />
                     <span className="set-identifier">Set #{deck.id}</span>
                     <span>
                       {deck.cards?.length}{" "}
@@ -602,12 +663,6 @@ function App() {
                       </button>
                     ))}
                   </div>
-                  {deck.subject === "mixed" && (
-                    <p className="mixed-subject-notice" role="status">
-                      Mixed subjects: {subjectsOf(deck).join(" + ")}. Each card
-                      keeps its own subject identifier and original notation.
-                    </p>
-                  )}
                   {deck.cards?.length ? (
                     <Games
                       key={`${deck.id}:${mode}:${deck.roundVersion}`}
@@ -693,7 +748,28 @@ function App() {
             <Notes
               documents={data?.documents || []}
               document={document}
+              sets={sets}
               openDoc={openDoc}
+              onReadingProgress={saveReading}
+              onRecallAttempt={async (correct, card, eventId) => {
+                await api("/api/attempts", {
+                  setId: card.setId,
+                  cardId: card.cardId,
+                  correct,
+                  eventId,
+                });
+                await refresh();
+              }}
+              onDocumentsChanged={async () => {
+                const next = await refresh();
+                setDocument((current) =>
+                  current &&
+                  next.documents.some((note) => note.id === current.id)
+                    ? current
+                    : null,
+                );
+                return next;
+              }}
               setDocument={setDocument}
               onError={report}
               onImport={() => nav("import")}
@@ -985,7 +1061,6 @@ function Importer({ onError, onSaved }) {
                 <option value="practice">Notes + practice deck</option>
               </select>
             </label>
-            <SubjectIdentity item={item} />
           </div>
           {item.warnings?.map((w, i) => (
             <p className="warning" key={i}>
@@ -1056,357 +1131,6 @@ function Importer({ onError, onSaved }) {
             library →
           </button>
         </section>
-      )}
-    </>
-  );
-}
-function Notes({
-  documents,
-  document: doc,
-  openDoc,
-  setDocument,
-  onError,
-  onImport,
-  onCollectionCreated,
-}) {
-  const [visibleSections, setVisibleSections] = useState(25);
-  useEffect(() => {
-    setVisibleSections(
-      Math.max(
-        25,
-        (doc?.sections?.findIndex((s) => s.id === doc.focusSectionId) ?? -1) +
-          1,
-      ),
-    );
-  }, [doc?.id, doc?.focusSectionId]);
-  const [selectedDocs, setSelectedDocs] = useState([]),
-    [collectionTitle, setCollectionTitle] = useState("Mixed-source practice"),
-    [combining, setCombining] = useState(false);
-  const [q, setQ] = useState(""),
-    [files, setFiles] = useState([]),
-    [raw, setRaw] = useState(null),
-    [prompt, setPrompt] = useState(false),
-    [copied, setCopied] = useState(false);
-  useEffect(() => {
-    api("/api/study-files")
-      .then((d) => setFiles(d.files || []))
-      .catch(onError);
-  }, []);
-  async function review(sectionId, update) {
-    try {
-      const previous = Array.isArray(doc.reviews)
-        ? doc.reviews.find((r) => r.sectionId === sectionId) || {}
-        : doc.reviews?.[sectionId] || {};
-      const r = await api(
-        `/api/documents/${encodeURIComponent(doc.id)}/review`,
-        {
-          sectionId,
-          reviewed: !!previous.reviewed,
-          confidence: previous.confidence || "",
-          ...update,
-        },
-        "PATCH",
-      );
-      setDocument({
-        ...doc,
-        reviews: r.reviews || {
-          ...doc.reviews,
-          [sectionId]: { ...doc.reviews?.[sectionId], ...update },
-        },
-      });
-    } catch (e) {
-      onError(e);
-    }
-  }
-  async function openFile(f) {
-    try {
-      const d = await api(
-        `/api/study-files/${encodeURIComponent(f.folder)}/${encodeURIComponent(f.name)}`,
-      );
-      setRaw(d);
-      setDocument(null);
-    } catch (e) {
-      onError(e);
-    }
-  }
-  const shown = doc || raw;
-  return (
-    <>
-      <div className="section-heading">
-        <div>
-          <span className="eyebrow">READ. RECALL. REFLECT.</span>
-          <h1>{shown?.title || shown?.name || "Your study notes."}</h1>
-        </div>
-        <div className="controls">
-          <button onClick={() => setPrompt(!prompt)}>Copy prompt</button>
-          <button className="primary" onClick={onImport}>
-            + Import material
-          </button>
-        </div>
-      </div>
-      {prompt && (
-        <div className="panel import-panel">
-          <Content>{PROMPT}</Content>
-          <button
-            onClick={async () => {
-              try {
-                await navigator.clipboard.writeText(PROMPT);
-                setCopied(true);
-              } catch {
-                onError(
-                  Error(
-                    "Copy unavailable. Select the prompt text and copy it.",
-                  ),
-                );
-              }
-            }}
-          >
-            {copied ? "Copied ✓" : "Copy study guide prompt"}
-          </button>
-        </div>
-      )}
-      {shown ? (
-        <>
-          <div className="controls">
-            <SubjectIdentity item={shown} />
-            <button
-              onClick={() => {
-                setDocument(null);
-                setRaw(null);
-              }}
-            >
-              ← All notes
-            </button>
-            <button onClick={() => window.print()}>Print / save PDF</button>
-            <label className="search">
-              <input
-                aria-label="Search notes"
-                placeholder="Find text or section…"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-              />
-            </label>
-          </div>
-          {shown.warnings?.map((w, i) => (
-            <p className="warning" key={i}>
-              {w}
-            </p>
-          ))}
-          <div className="notes-layout">
-            <aside className="outline panel">
-              <span className="eyebrow">ON THIS PAGE</span>
-              {doc?.sections?.map((s, i) => {
-                const r = Array.isArray(doc.reviews)
-                  ? doc.reviews.find((r) => r.sectionId === s.id) || {}
-                  : doc.reviews?.[s.id] || {};
-                return (
-                  <div className="outline-section" key={s.id}>
-                    <a
-                      href={`#section-${i}`}
-                      onClick={() =>
-                        setVisibleSections((n) => Math.max(n, i + 1))
-                      }
-                    >
-                      {s.title}
-                    </a>
-                    <button
-                      aria-pressed={!!r.reviewed}
-                      onClick={() => review(s.id, { reviewed: !r.reviewed })}
-                    >
-                      {r.reviewed ? "✓ Reviewed" : "Mark reviewed"}
-                    </button>
-                    <label className="small">
-                      Confidence
-                      <select
-                        value={r.confidence || ""}
-                        onChange={(e) =>
-                          review(s.id, { confidence: e.target.value })
-                        }
-                      >
-                        <option value="">Not set</option>
-                        <option value="green">Green · confident</option>
-                        <option value="yellow">Yellow · practicing</option>
-                        <option value="red">Red · revisit</option>
-                      </select>
-                    </label>
-                  </div>
-                );
-              })}
-              {!doc?.sections?.length && (
-                <p className="muted small">
-                  Imported notes have reviewable section outlines.
-                </p>
-              )}
-            </aside>
-            <article className="notes-paper panel">
-              {doc?.sections?.length ? (
-                doc.sections.slice(0, visibleSections).map((s, i) => (
-                  <section
-                    id={`section-${i}`}
-                    data-section-id={s.id}
-                    key={s.id}
-                    className={
-                      q &&
-                      (s.title + " " + s.content)
-                        .toLowerCase()
-                        .includes(q.toLowerCase())
-                        ? "search-hit"
-                        : ""
-                    }
-                  >
-                    {!/^\s*#{1,6}\s/.test(s.content || "") && (
-                      <h2>{s.title}</h2>
-                    )}
-                    <Content>{s.content}</Content>
-                  </section>
-                ))
-              ) : (
-                <Content>{shown.source || shown.content}</Content>
-              )}
-              {doc?.sections?.length > visibleSections && (
-                <div className="controls">
-                  <p className="small muted">
-                    Showing {visibleSections} of {doc.sections.length} sections.
-                    All source material is retained.
-                  </p>
-                  <button onClick={() => setVisibleSections((n) => n + 25)}>
-                    Load 25 more sections
-                  </button>
-                </div>
-              )}
-              {q && (
-                <p role="status" className="muted small">
-                  Sections containing “{q}” are highlighted.
-                </p>
-              )}
-            </article>
-          </div>
-        </>
-      ) : (
-        <div className="document-cards">
-          {documents.length > 1 && (
-            <div className="panel import-panel">
-              <h2>Connect ideas across your notes.</h2>
-              <p className="muted small">
-                Select two to twenty documents below to build one mixed-source
-                practice deck. Every suggested card keeps its original source
-                reference.
-              </p>
-              <div className="controls">
-                <label>
-                  Deck title
-                  <input
-                    value={collectionTitle}
-                    onChange={(e) => setCollectionTitle(e.target.value)}
-                    maxLength={100}
-                  />
-                </label>
-                <button
-                  className="primary"
-                  disabled={
-                    combining ||
-                    selectedDocs.length < 2 ||
-                    !collectionTitle.trim()
-                  }
-                  onClick={async () => {
-                    setCombining(true);
-                    try {
-                      const d = await api("/api/collections", {
-                        documentIds: selectedDocs,
-                        title: collectionTitle,
-                        visibility: "private",
-                      });
-                      await onCollectionCreated(d.setId || d.id);
-                    } catch (e) {
-                      onError(e);
-                    } finally {
-                      setCombining(false);
-                    }
-                  }}
-                >
-                  {combining
-                    ? "Combining source material…"
-                    : `Create mixed-source deck (${selectedDocs.length} selected)`}
-                </button>
-              </div>
-            </div>
-          )}
-          {documents.map((d) => (
-            <div className="panel document-card" key={d.id}>
-              <label className="check-row">
-                <input
-                  type="checkbox"
-                  aria-label={`Include ${d.title || d.name} in mixed-source deck`}
-                  checked={selectedDocs.includes(d.id)}
-                  disabled={
-                    !selectedDocs.includes(d.id) && selectedDocs.length >= 20
-                  }
-                  onChange={(e) =>
-                    setSelectedDocs(
-                      e.target.checked
-                        ? [...selectedDocs, d.id]
-                        : selectedDocs.filter((x) => x !== d.id),
-                    )
-                  }
-                />
-              </label>
-              <button className="document-open" onClick={() => openDoc(d.id)}>
-                <span className="document-icon">▤</span>
-                <div>
-                  <SubjectIdentity item={d} />
-                  <h2>{d.title || d.name}</h2>
-                  <p className="muted">
-                    {d.folder || "Your library"} · Open study guide →
-                  </p>
-                </div>
-              </button>
-            </div>
-          ))}
-          {files.map((f, i) => (
-            <div className="panel saved-file" key={i}>
-              <div>
-                <strong>{f.name}</strong>
-                <small>
-                  {f.folder} · {Math.ceil(f.size / 1024)} KB
-                </small>
-              </div>
-              <div className="controls">
-                <button onClick={() => openFile(f)}>Open</button>
-                <button
-                  onClick={async () => {
-                    if (!window.confirm(`Delete ${f.name} from ${f.folder}?`))
-                      return;
-                    try {
-                      await api(
-                        `/api/study-files/${encodeURIComponent(f.folder)}/${encodeURIComponent(f.name)}`,
-                        undefined,
-                        "DELETE",
-                      );
-                      setFiles(files.filter((x) => x !== f));
-                    } catch (e) {
-                      onError(e);
-                    }
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
-          {!documents.length && !files.length && (
-            <div className="empty panel">
-              <span className="finish-icon">▤</span>
-              <h2>A clear place for your notes.</h2>
-              <p>
-                Import a study guide to read, review sections, and track your
-                confidence.
-              </p>
-              <button className="primary" onClick={onImport}>
-                Import your first notes →
-              </button>
-            </div>
-          )}
-        </div>
       )}
     </>
   );
@@ -2018,4 +1742,8 @@ function Editor({ deck, onClose, onSaved, onDeleted, onError, guest = false }) {
     </dialog>
   );
 }
-createRoot(document.getElementById("root")).render(<App />);
+createRoot(document.getElementById("root")).render(
+  <RecallProvider>
+    <App />
+  </RecallProvider>,
+);

@@ -50,3 +50,12 @@ A guest cannot read the cloud workspace. SQL owner policies and a live-session/a
 Cloud state is bounded to 20 MB per user and 100 MB aggregate logical JSON. These caps do not cover database overhead. Supabase Free projects may pause after inactivity and need manual resumption; no keep-alive job is included. Keep exports for recovery because this app does not promise managed backups. Guests still work when cloud saving is unavailable.
 
 To disable cloud saving, remove **all four** cloud variables and redeploy; existing Supabase data is retained. Incomplete configuration fails startup rather than enabling partial authentication. Rotating the encryption key signs out existing browser sessions. Review [cloud security and executed checks](docs/CLOUD_SECURITY.md) before changing database grants or authentication.
+
+
+## Notes and forced recall
+
+Study notes provide selection checkboxes with Study selected and Delete selected actions. Deletion requires an in-app confirmation and removes the notes and their associated saved source files; existing flashcard decks remain usable. Section-bottom status buttons save Complete, In progress / come back, or Needs fixing. Selecting an active status again clears it. The overview offers Continue reading for the most recently opened note and remembers its section.
+
+While a note is open, expand Forced recall, choose one or more decks and uncheck any cards to exclude. Enable the switch to receive a question after a random 3–10 minutes of visible reading, with a 10-second answer deadline. Questions use real distinct answers from selected cards. At least two usable cards are needed; ambiguous prompts and placeholders are excluded. Results count as practice attempts. Continue reading dismisses the feedback and begins the next interval. Escape or Turn off forced recall stops it. Leaving the reader stops scheduling; hidden tabs do not start new questions. An already-open question keeps its wall-clock deadline. Recall selections are held only in page memory and must be chosen again after a reload.
+
+Reading position and section states use the existing owner-private cloud workspace when signed in. This update requires no database migration or broader database permissions. Guest work remains in that browser.

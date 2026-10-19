@@ -3,6 +3,7 @@
 import json
 import math
 import re
+from datetime import datetime
 
 from fastapi import HTTPException
 
@@ -149,6 +150,16 @@ def validate_workspace(state):
             string(section.get("content"), 2_000_000, True)
             integer(section.get("level", 2), 1, 6)
             labels(section)
+        if "lastSectionId" in doc and doc["lastSectionId"] is not None and (not isinstance(doc["lastSectionId"], str) or doc["lastSectionId"] not in section_ids):
+            invalid()
+        if "lastReadAt" in doc:
+            stamp = string(doc["lastReadAt"], 50)
+            try:
+                parsed = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+                if parsed.tzinfo is None:
+                    invalid()
+            except ValueError:
+                invalid()
         sections[did] = section_ids
         for review in array(doc.get("reviews", []), 2000):
             obj(review)
