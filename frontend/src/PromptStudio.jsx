@@ -173,7 +173,8 @@ export default function PromptStudio({
             <li>Save its response as a UTF-8 .md file.</li>
             <li>
               Use Import material to review notation, subject IDs and suggested
-              cards before saving.
+              cards. Choose Notes + practice deck to make those cards available
+              for forced recall while reading your notes.
             </li>
           </ol>
         </section>
