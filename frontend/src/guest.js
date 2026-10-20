@@ -3,6 +3,7 @@ const validQuestion = (v) =>
   /^q[1-9]\d{0,3}$/.test(v) &&
   Number(v.slice(1)) <= 2000;
 import { SUBJECT_CODES } from "./prompts.js";
+import { validateExam, updateExam, examSummary } from "./exam.js";
 /** Browser-only guest workspace. Nothing here sends stored material to a server. */
 export const GUEST_USER = Object.freeze({
   email: "guest@studycade.local",
@@ -491,6 +492,7 @@ export function createGuestApi({
         name: body.name,
         content: body.content,
         subject: body.subject || "",
+        kind: body.kind || "notes",
         result: clone(result),
       });
       if (previews.length > 10) previews.shift();
@@ -519,7 +521,10 @@ export function createGuestApi({
         user: GUEST_USER,
         sets: state.sets.map(summary),
         documents: state.documents.map(
-          ({ content, source, reviews, cards, ...d }) => d,
+          ({ content, source, reviews, cards, exam, ...d }) => ({
+            ...d,
+            ...(exam ? { examSummary: examSummary(exam) } : {}),
+          }),
         ),
         progress: state.progress,
       };
@@ -650,6 +655,14 @@ export function createGuestApi({
       if (parts.length === 2 && method === "GET") answer = doc;
       else if (
         parts.length === 3 &&
+        parts[2] === "exam" &&
+        method === "PATCH"
+      ) {
+        if (!doc.exam) bad("Exam not found.");
+        doc.exam = updateExam(doc.exam, body);
+        answer = { exam: doc.exam };
+      } else if (
+        parts.length === 3 &&
         parts[2] === "reading" &&
         method === "PATCH"
       ) {
@@ -708,7 +721,7 @@ export function createGuestApi({
     } else if (path === "/api/import/commit" && method === "POST") {
       sourceText(body);
       privateOnly(body);
-      if (!["notes", "deck", "practice"].includes(body.mode || "notes"))
+      if (!["notes", "deck", "practice", "exam"].includes(body.mode || "notes"))
         bad("Choose notes, deck or practice.");
       const folder = filename(body.folder),
         name = filename(body.name);
@@ -721,6 +734,7 @@ export function createGuestApi({
         .find(
           (p) =>
             p.name === name &&
+            p.kind === (body.mode === "exam" ? "exam" : "notes") &&
             p.content === body.content &&
             (!body.subject ||
               p.subject === body.subject ||
@@ -731,11 +745,13 @@ export function createGuestApi({
           "Preview this file before saving it. A fresh preview is required after changing its source or subject.",
         );
       const parsed = cached.result;
+      const exam =
+        body.mode === "exam" ? validateExam(clone(parsed.exam)) : null;
       const documentId = id();
       const docLabels = labelsOf(parsed, body.subject || "general");
       const sections = normalizeSections(parsed.sections, docLabels.subject);
       const generated = boundedArray(
-        body.cards || parsed.cards || [],
+        body.mode === "exam" ? [] : body.cards || parsed.cards || [],
         2000,
         "suggested cards",
       ).map((c) => ({
@@ -764,6 +780,7 @@ export function createGuestApi({
           ? cardsFrom({ cards: generated, subject: docLabels.subject }, state)
           : [],
         createdAt: now(),
+        ...(exam ? { exam, cards: [] } : {}),
       };
       state.documents.push(doc);
       state.files.push({
@@ -773,7 +790,7 @@ export function createGuestApi({
         size: bytes(body.content),
       });
       answer = { documentId };
-      if (body.mode !== "notes") {
+      if (["deck", "practice"].includes(body.mode)) {
         const set = newSet(state, {
           title: doc.title.slice(0, 100),
           subject: doc.subject,
@@ -1084,6 +1101,7 @@ function restore(state, body) {
       cards: [],
       createdAt: now(),
     };
+    if (input.exam !== undefined) d.exam = validateExam(clone(input.exam));
     state.documents.push(d);
     newDocs.push([input, d]);
   }

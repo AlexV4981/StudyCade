@@ -2,6 +2,8 @@ export function mostRecentNote(documents = []) {
   return documents
     .filter(
       (d) =>
+        !d.examSummary &&
+        !d.exam &&
         typeof d.lastReadAt === "string" &&
         Number.isFinite(Date.parse(d.lastReadAt)),
     )

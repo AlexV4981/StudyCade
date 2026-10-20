@@ -63,3 +63,12 @@ Reading position and section states use the existing owner-private cloud workspa
 Study on paper is the default practice mode: read a complete question, solve it on paper without a timer, reveal its answer/worked solution, then choose a progress mark. Hints and source details are collapsed. Moving between questions hides their answers and hints again. Notes use Q# · Topic headings and independent question marks; source text is preserved. Existing questions that rely on earlier quantities are flagged rather than filled with invented data.
 
 Source Tutor requests one Q# · Topic heading per self-contained problem, all required givens, a concise ANSWER, separate HINT/SOLUTION blocks, and citations/editorial metadata only in collapsed SOURCE details. Subject IDs remain in imported headings for identification. The app supplies progress controls; generated Markdown must not pre-mark mastery. Optional timed recall is best served by a separate short fact/formula deck. To use generated cards for forced recall, choose **Notes + practice deck** during import, then choose that deck in the notes reader's recall settings.
+
+
+## MCQ practice exams
+
+Open **Study notes → Exams**. Copy the exam prompt into your preferred AI with your source material. Upload its UTF-8 Markdown file or paste its Markdown, check the format, then choose **Save exam & start**. Each question needs a `> [!MCQ]` block, 2–6 distinct choices in a `- A)` / `- B)` list, one `> [!ANSWER]` containing only the correct letter, and an optional `> [!SOLUTION]`. Use a separate `## Q# · Topic` heading for each question. Math and chemistry use the existing notes renderer. Maximum 200 questions and 2 MB source.
+
+Choices and position save to the active guest/private cloud workspace. Questions are untimed; change choices until finishing. Confirm submission to see the percentage and missed/unanswered questions with correct answers and solutions. Unanswered questions count as missed. Completed attempts are locked; import a renamed copy for a new attempt while retaining the old result. Exams stay separate from notes, manual marks and game scores. In a signed-in private workspace, progress is available on other signed-in devices; concurrent stale saves are rejected and require reload. Guests keep this browser's workspace.
+
+This is practice, not proctored testing: source files and your private saved exam contain the answer key. Review AI-generated questions/keys before use. The application does not contact an AI provider.

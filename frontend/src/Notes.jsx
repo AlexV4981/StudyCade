@@ -4,6 +4,7 @@ import { MARKDOWN_PROMPT } from "./prompts.js";
 import { api } from "./api.js";
 import ForcedRecall from "./ForcedRecall.jsx";
 import "./notes.css";
+import Exams from "./Exams.jsx";
 import { StudyStatus } from "./StudyStatus.js";
 import { countRecall, humanTopic } from "./study.js";
 import { hasSectionBody } from "./reading.js";
@@ -11,7 +12,38 @@ import { hasSectionBody } from "./reading.js";
 const fileKey = (f) => JSON.stringify([f.folder, f.name]);
 const filePath = (f) =>
   `/api/study-files/${encodeURIComponent(f.folder)}/${encodeURIComponent(f.name)}`;
-export default function Notes({
+export default function Notes(props) {
+  const [tab, setTab] = useState(props.document?.exam ? "exams" : "notes");
+  useEffect(() => {
+    if (props.document?.id) setTab(props.document.exam ? "exams" : "notes");
+  }, [props.document?.id]);
+  return (
+    <>
+      <div className="notes-tabs" role="group" aria-label="Study notes view">
+        <button aria-pressed={tab === "notes"} onClick={() => setTab("notes")}>
+          Notes
+        </button>
+        <button aria-pressed={tab === "exams"} onClick={() => setTab("exams")}>
+          Exams
+        </button>
+      </div>
+      {tab === "exams" ? (
+        <Exams
+          document={props.document}
+          documents={props.documents}
+          onError={props.onError}
+          onDocumentsChanged={props.onDocumentsChanged}
+        />
+      ) : (
+        <NotesReader
+          {...props}
+          document={props.document?.exam ? null : props.document}
+        />
+      )}
+    </>
+  );
+}
+function NotesReader({
   documents = [],
   document: doc,
   openDoc,
@@ -32,7 +64,8 @@ export default function Notes({
   const [selectedDocs, setSelectedDocs] = useState([]);
   const [deletedDocIds, setDeletedDocIds] = useState([]);
   const activeDocuments = documents.filter(
-    (item) => !deletedDocIds.includes(item.id),
+    (item) =>
+      !item.examSummary && !item.exam && !deletedDocIds.includes(item.id),
   );
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [sequence, setSequence] = useState([]);

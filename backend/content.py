@@ -344,3 +344,186 @@ def _label_document(document, override=None):
         )
     document["warnings"] = list(dict.fromkeys(document["warnings"]))
     return document
+
+
+# MCQ exams share the canonical Markdown parser and remain private documents.
+def validate_exam(exam):
+    """Validate untrusted exam definitions and saved choices, never a supplied score."""
+    from datetime import datetime
+
+    def text(value, limit):
+        return isinstance(value, str) and 0 < len(value.strip()) <= limit
+
+    if not isinstance(exam, dict) or set(exam) != {"questions", "attempt"}:
+        raise ValueError("Invalid exam data.")
+    questions = exam["questions"]
+    if not isinstance(questions, list) or not 1 <= len(questions) <= 200:
+        raise ValueError("An exam needs 1–200 MCQ questions.")
+    options, prompts = {}, set()
+    for i, q in enumerate(questions, 1):
+        if not isinstance(q, dict) or set(q) != {
+            "id",
+            "title",
+            "question",
+            "choices",
+            "answer",
+            "explanation",
+        }:
+            raise ValueError("Invalid exam question.")
+        if (
+            q["id"] != f"q{i}"
+            or not text(q["title"], 200)
+            or not text(q["question"], 10000)
+            or not isinstance(q["explanation"], str)
+            or len(q["explanation"]) > 20000
+        ):
+            raise ValueError("Invalid exam question text or identifier.")
+        key = " ".join(q["question"].casefold().split())
+        if key in prompts:
+            raise ValueError("Exam questions must be distinct.")
+        prompts.add(key)
+        choices = q["choices"]
+        if not isinstance(choices, list) or not 2 <= len(choices) <= 6:
+            raise ValueError(f"Q{i}: use 2–6 choices.")
+        seen = set()
+        for n, c in enumerate(choices):
+            if (
+                not isinstance(c, dict)
+                or set(c) != {"id", "text"}
+                or c["id"] != "ABCDEF"[n]
+                or not text(c["text"], 10000)
+            ):
+                raise ValueError(f"Q{i}: label choices A), B), C) in order.")
+            key = " ".join(c["text"].casefold().split())
+            if key in seen:
+                raise ValueError(f"Q{i}: choices must be distinct.")
+            seen.add(key)
+        options[q["id"]] = {c["id"] for c in choices}
+        if not isinstance(q["answer"], str) or q["answer"] not in options[q["id"]]:
+            raise ValueError(f"Q{i}: ANSWER must be one valid option letter.")
+    a = exam["attempt"]
+    if (
+        not isinstance(a, dict)
+        or set(a) != {"answers", "currentQuestionId", "submittedAt"}
+        or not isinstance(a["currentQuestionId"], str)
+        or a["currentQuestionId"] not in options
+        or not isinstance(a["answers"], dict)
+        or len(a["answers"]) > len(questions)
+    ):
+        raise ValueError("Invalid exam progress.")
+    for key, value in a["answers"].items():
+        if (
+            key not in options
+            or not isinstance(value, str)
+            or value not in options[key]
+        ):
+            raise ValueError("Invalid saved exam choice.")
+    if a["submittedAt"] is not None:
+        if not text(a["submittedAt"], 50):
+            raise ValueError("Invalid exam completion date.")
+        try:
+            if (
+                datetime.fromisoformat(a["submittedAt"].replace("Z", "+00:00")).tzinfo
+                is None
+            ):
+                raise ValueError()
+        except ValueError:
+            raise ValueError("Invalid exam completion date.")
+    return exam
+
+
+def preview_exam(name, source, subject=None):
+    doc = preview_document(name, source, subject)
+    if not name.lower().endswith((".md", ".markdown", ".txt")):
+        raise ValueError("Upload an MCQ Markdown file.")
+    questions = []
+    for section_index, section in enumerate(doc["sections"]):
+        blocks = list(callout_blocks(section["content"]))
+        mcq = [text for kind, text in blocks if kind == "MCQ"]
+        if not mcq:
+            body = section["content"].split("\n", 1)[-1].strip()
+            if re.match(r"^(?:\[[A-Z]+\]\s*)?Q\d+\b", section["title"], re.I) or (
+                section_index > 0 and body
+            ):
+                raise ValueError(
+                    "Only MCQ questions are supported. Put each question in an [!MCQ] block."
+                )
+            continue
+        n = len(questions) + 1
+        if len(mcq) != 1 or any(
+            kind not in ("MCQ", "ANSWER", "SOLUTION", "SOURCE") for kind, _ in blocks
+        ):
+            raise ValueError(
+                f"Q{n}: use one MCQ, one ANSWER and optional SOLUTION/SOURCE blocks."
+            )
+        answers = [t for k, t in blocks if k == "ANSWER"]
+        solutions = [t for k, t in blocks if k == "SOLUTION"]
+        if len(answers) != 1 or len(solutions) > 1:
+            raise ValueError(f"Q{n}: include exactly one ANSWER letter.")
+        choices = []
+        tokens = PARSER.parse(section["content"])
+        lines = section["content"].splitlines()
+        lists = [t for t in tokens if t.type == "bullet_list_open" and t.level == 0]
+        if len(lists) != 1:
+            raise ValueError(
+                f"Q{n}: use one bulleted list of choices, - A) through - F)."
+            )
+        for token in tokens:
+            if token.type == "list_item_open" and token.level == 1 and token.map:
+                raw = "\n".join(lines[token.map[0] : token.map[1]]).strip()
+                match = re.match(r"^[-+*]\s+([A-F])\)\s+([\s\S]+)$", raw)
+                if not match:
+                    raise ValueError(f"Q{n}: label choices - A), - B), etc.")
+                choices.append({"id": match[1], "text": match[2].strip()})
+        questions.append(
+            {
+                "id": f"q{n}",
+                "title": section["title"][:200],
+                "question": mcq[0],
+                "choices": choices,
+                "answer": answers[0].strip(),
+                "explanation": solutions[0] if solutions else "",
+            }
+        )
+    exam = {
+        "questions": questions,
+        "attempt": {"answers": {}, "currentQuestionId": "q1", "submittedAt": None},
+    }
+    doc.update(exam=validate_exam(exam), cards=[])
+    return doc
+
+
+def update_exam(exam, patch):
+    import copy
+    from datetime import datetime, timezone
+
+    validate_exam(exam)
+    if not isinstance(patch, dict) or not patch:
+        raise ValueError("Choose an exam action.")
+    if patch == {"action": "submit"}:
+        result = copy.deepcopy(exam)
+        result["attempt"]["submittedAt"] = (
+            result["attempt"]["submittedAt"] or datetime.now(timezone.utc).isoformat()
+        )
+        return result
+    if exam["attempt"]["submittedAt"]:
+        raise ValueError(
+            "This exam is submitted. Import a new copy for another attempt."
+        )
+    result = copy.deepcopy(exam)
+    a = result["attempt"]
+    if set(patch) == {"questionId", "choiceId"}:
+        if not isinstance(patch["questionId"], str) or patch["questionId"] not in {
+            q["id"] for q in exam["questions"]
+        }:
+            raise ValueError("Unknown exam question.")
+        if patch["choiceId"] is None:
+            a["answers"].pop(patch["questionId"], None)
+        else:
+            a["answers"][patch["questionId"]] = patch["choiceId"]
+        a["currentQuestionId"] = patch["questionId"]
+    elif set(patch) == {"currentQuestionId"}:
+        a["currentQuestionId"] = patch["currentQuestionId"]
+    else:
+        raise ValueError("Invalid exam action.")
+    return validate_exam(result)

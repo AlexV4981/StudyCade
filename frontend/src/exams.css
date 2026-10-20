@@ -1,0 +1,163 @@
+.notes-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.notes-tabs button[aria-pressed="true"] {
+  background: var(--mint, #55d8c2);
+  color: #102d32;
+}
+.exam-import {
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.exam-import h2,
+.exam-import p {
+  margin: 0;
+}
+.exam-import label {
+  display: grid;
+  gap: 0.5rem;
+}
+.exam-import textarea {
+  min-height: 12rem;
+  resize: vertical;
+  max-width: 100%;
+  width: 100%;
+  font: inherit;
+}
+.exam-import details textarea {
+  margin-top: 1rem;
+}
+.exam-list-row {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.exam-list-row h3,
+.exam-list-row p {
+  margin: 0.3rem 0;
+}
+.exam-list-row > [role="group"] {
+  flex-basis: 100%;
+}
+.exam-taking,
+.exam-results {
+  padding: 2rem;
+  font-size: 1.15rem;
+}
+.exam-progress {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.exam-taking progress {
+  width: 100%;
+  margin: 1rem 0;
+  accent-color: #55d8c2;
+}
+.exam-question-nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.exam-question-nav button {
+  min-width: 48px;
+  min-height: 48px;
+}
+.exam-question-nav button[aria-current="step"] {
+  outline: 2px solid #55d8c2;
+  outline-offset: 2px;
+}
+.exam-choices {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1.5rem 0;
+}
+.exam-choice {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  min-height: 56px;
+  font-size: 1.2rem;
+  padding: 1rem;
+}
+.exam-choice > div {
+  min-width: 0;
+  flex: 1;
+}
+.exam-choice p {
+  margin: 0.2rem 0;
+}
+.exam-choice[aria-pressed="true"] {
+  border: 2px solid #55d8c2;
+  background: #214854;
+}
+.exam-navigation {
+  justify-content: space-between;
+}
+.exam-submit {
+  border-top: 1px solid #526478;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+}
+.exam-score {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.exam-review {
+  border-top: 1px solid #526478;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+}
+.exam-review h3 {
+  font-size: 1.3rem;
+}
+.exam-review .content {
+  font-size: 1.2rem;
+}
+.exam-taking .study-question,
+.exam-results .content {
+  overflow-wrap: anywhere;
+}
+.exam-taking button,
+.exam-results button,
+.notes-tabs button {
+  min-height: 48px;
+}
+@media (max-width: 600px) {
+  .exam-taking,
+  .exam-results {
+    padding: 1rem;
+  }
+  .exam-choice {
+    font-size: 1.1rem;
+    padding: 0.75rem;
+  }
+  .exam-navigation {
+    gap: 0.5rem;
+  }
+  .exam-navigation button {
+    flex: 1;
+    min-width: 7rem;
+  }
+}
+@media print {
+  .notes-tabs,
+  .exam-import,
+  .exam-question-nav,
+  .exam-navigation,
+  .exam-submit {
+    display: none;
+  }
+}

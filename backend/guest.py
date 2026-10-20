@@ -21,7 +21,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from .content import preview_document
+from .content import preview_document, preview_exam
 from .headers import security_headers
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -177,9 +177,12 @@ def create_guest_app(dist_dir=None):
         if subject is not None and not isinstance(subject, str):
             raise HTTPException(400, "Choose a supported subject.")
         try:
-            return await anyio.to_thread.run_sync(lambda: preview_document(name, content, subject), limiter=parse_slots)
-        except (ValueError, TypeError):
-            raise HTTPException(400, "Invalid study material. Check the filename, text size, format and subject.")
+            if data.get('kind', 'notes') not in ('notes', 'exam'):
+                raise ValueError('Choose notes or exam.')
+            parser = preview_exam if data.get('kind') == 'exam' else preview_document
+            return await anyio.to_thread.run_sync(lambda: parser(name, content, subject), limiter=parse_slots)
+        except (ValueError, TypeError) as exc:
+            raise HTTPException(400, str(exc) if data.get("kind") == "exam" and isinstance(exc, ValueError) else "Invalid study material. Check the filename, text size, format and subject.")
 
     @app.get("/robots.txt", response_class=PlainTextResponse)
     async def robots():

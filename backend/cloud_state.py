@@ -162,6 +162,12 @@ def validate_workspace(state):
                     invalid()
             except ValueError:
                 invalid()
+        if "exam" in doc:
+            from .content import validate_exam
+            try:
+                validate_exam(doc["exam"])
+            except (ValueError, TypeError):
+                invalid()
         sections[did] = section_ids
         for review in array(doc.get("reviews", []), 4000):
             obj(review)
