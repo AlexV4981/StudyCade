@@ -1,15 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Content } from "./content.js";
 import { MARKDOWN_PROMPT } from "./prompts.js";
 import { api } from "./api.js";
 import ForcedRecall from "./ForcedRecall.jsx";
 import "./notes.css";
+import { StudyStatus } from "./StudyStatus.js";
+import { countRecall, humanTopic } from "./study.js";
+import { hasSectionBody } from "./reading.js";
 
-const statuses = [
-  { confidence: "green", reviewed: true, label: "✓ Complete" },
-  { confidence: "yellow", reviewed: false, label: "⚑ In progress / come back" },
-  { confidence: "red", reviewed: false, label: "! Needs fixing" },
-];
 const fileKey = (f) => JSON.stringify([f.folder, f.name]);
 const filePath = (f) =>
   `/api/study-files/${encodeURIComponent(f.folder)}/${encodeURIComponent(f.name)}`;
@@ -26,6 +24,10 @@ export default function Notes({
   onReadingProgress,
   onRecallAttempt,
 }) {
+  const studySections = useMemo(
+    () => (doc?.sections || []).filter(hasSectionBody),
+    [doc?.sections],
+  );
   const [visibleSections, setVisibleSections] = useState(25);
   const [selectedDocs, setSelectedDocs] = useState([]);
   const [deletedDocIds, setDeletedDocIds] = useState([]);
@@ -74,8 +76,7 @@ export default function Notes({
     setVisibleSections(
       Math.max(
         25,
-        (doc?.sections?.findIndex((s) => s.id === doc.focusSectionId) ?? -1) +
-          1,
+        (studySections.findIndex((s) => s.id === doc.focusSectionId) ?? -1) + 1,
       ),
     );
     setQ("");
@@ -131,17 +132,28 @@ export default function Notes({
       observer.disconnect();
     };
   }, [doc?.id, visibleSections]);
+  const practiceSections = useMemo(() => {
+    let first = 1;
+    return new Map(
+      (doc?.sections || []).map((section) => {
+        const count = countRecall(section.content),
+          value = { count, first };
+        first += count;
+        return [section.id, value];
+      }),
+    );
+  }, [doc?.sections]);
   function reviewFor(id) {
     return Array.isArray(doc.reviews)
-      ? doc.reviews.find((r) => r.sectionId === id) || {}
+      ? doc.reviews.find((r) => r.sectionId === id && !r.questionId) || {}
       : doc.reviews?.[id] || {};
   }
-  async function review(sectionId, status) {
-    const previous = reviewFor(sectionId);
-    const update =
-      previous.confidence === status.confidence
-        ? { reviewed: false, confidence: "" }
-        : { reviewed: status.reviewed, confidence: status.confidence };
+  async function review(sectionId, status, questionId) {
+    const update = {
+      reviewed: status.reviewed,
+      confidence: status.confidence,
+      ...(questionId ? { questionId } : {}),
+    };
     lastSectionInteraction.current = Date.now();
     setReviewing(sectionId);
     try {
@@ -152,7 +164,9 @@ export default function Notes({
       );
       const fallback = Array.isArray(doc.reviews)
         ? [
-            ...doc.reviews.filter((r) => r.sectionId !== sectionId),
+            ...doc.reviews.filter(
+              (r) => r.sectionId !== sectionId || r.questionId !== questionId,
+            ),
             { sectionId, ...update },
           ]
         : { ...doc.reviews, [sectionId]: update };
@@ -289,7 +303,9 @@ export default function Notes({
       <div className="section-heading">
         <div>
           <span className="eyebrow">READ. RECALL. REFLECT.</span>
-          <h1>{shown?.title || shown?.name || "Your study notes."}</h1>
+          <h1>
+            {humanTopic(shown?.title || shown?.name || "Your study notes.")}
+          </h1>
         </div>
         <div className="controls">
           <button onClick={() => setPrompt(!prompt)}>Copy prompt</button>
@@ -362,19 +378,31 @@ export default function Notes({
               </button>
             </nav>
           )}
-          {shown.warnings?.map((warning, i) => (
-            <p className="warning" key={i}>
-              {warning}
-            </p>
-          ))}
-          <ForcedRecall
-            sets={sets}
-            onError={onError}
-            onRecord={onRecallAttempt}
-          />
-          <article ref={paper} className="notes-paper panel notes-reader">
+          {shown.warnings?.length > 0 && (
+            <details className="reader-import-notes">
+              <summary>Import notes</summary>
+              {shown.warnings.map((warning, i) => (
+                <p className="warning" key={i}>
+                  {warning}
+                </p>
+              ))}
+            </details>
+          )}
+          <details className="reader-recall">
+            <summary>Optional timed recall</summary>
+            <ForcedRecall
+              sets={sets}
+              onError={onError}
+              onRecord={onRecallAttempt}
+            />
+          </details>
+          <article
+            key={doc?.id || fileKey(raw || {})}
+            ref={paper}
+            className="notes-paper panel notes-reader"
+          >
             {doc?.sections?.length ? (
-              doc.sections.slice(0, visibleSections).map((section, i) => (
+              studySections.slice(0, visibleSections).map((section, i) => (
                 <section
                   id={`section-${i}`}
                   data-section-id={section.id}
@@ -389,37 +417,47 @@ export default function Notes({
                   }
                 >
                   {!/^\s*#{1,6}\s/.test(section.content || "") && (
-                    <h2>{section.title}</h2>
+                    <h2>{humanTopic(section.title)}</h2>
                   )}
-                  <Content>{section.content}</Content>
-                  <div
-                    className="notes-section-status"
-                    role="group"
-                    aria-label={`Status for ${section.title}`}
+                  <Content
+                    study={{
+                      sectionId: section.id,
+                      topic: section.title,
+                      reviews: Array.isArray(doc.reviews) ? doc.reviews : [],
+                      startNumber: practiceSections.get(section.id)?.first || 1,
+                      questionCount:
+                        practiceSections.get(section.id)?.count || 0,
+                      onReview: review,
+                      disabled: reviewing !== null,
+                    }}
                   >
-                    {statuses.map((status) => (
-                      <button
-                        key={status.confidence}
-                        className={`note-status note-status-${status.confidence}`}
-                        aria-pressed={
-                          reviewFor(section.id).confidence === status.confidence
-                        }
-                        disabled={reviewing !== null}
-                        onClick={() => review(section.id, status)}
-                      >
-                        {status.label}
-                      </button>
-                    ))}
-                  </div>
+                    {section.content}
+                  </Content>
+                  {!practiceSections.get(section.id)?.count && (
+                    <StudyStatus
+                      value={reviewFor(section.id)}
+                      onChange={(status) => review(section.id, status)}
+                      disabled={reviewing !== null}
+                      label={`Status for ${humanTopic(section.title)}`}
+                    />
+                  )}
                 </section>
               ))
             ) : (
-              <Content>{shown.source || shown.content}</Content>
+              <Content
+                study={{
+                  topic: shown.title || shown.name,
+                  questionCount: countRecall(shown.source || shown.content),
+                  reviews: [],
+                }}
+              >
+                {shown.source || shown.content}
+              </Content>
             )}
-            {doc?.sections?.length > visibleSections && (
+            {studySections.length > visibleSections && (
               <div className="controls">
                 <p className="small muted">
-                  Showing {visibleSections} of {doc.sections.length} sections.
+                  Showing {visibleSections} of {studySections.length} sections.
                   All source material is retained.
                 </p>
                 <button onClick={() => setVisibleSections((n) => n + 25)}>

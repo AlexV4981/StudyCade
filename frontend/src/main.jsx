@@ -4,13 +4,16 @@ import { Content } from "./content.js";
 import Games from "./Games.jsx";
 import PromptStudio from "./PromptStudio.jsx";
 import Notes from "./Notes.jsx";
+import PaperPractice from "./PaperPractice.jsx";
+import { countRecall } from "./study.js";
 import { RecallProvider } from "./ForcedRecall.jsx";
-import { mostRecentNote } from "./reading.js";
+import { mostRecentNote, readingSection } from "./reading.js";
 import { MARKDOWN_PROMPT, SUBJECT_CODES, subjectsOf } from "./prompts.js";
 import { SubjectIdentity, SubjectArtwork } from "./subjects.jsx";
 import { MODES, quoteRows, parseRows } from "./engine.js";
 import "katex/dist/katex.min.css";
 import "./style.css";
+import "./study.css";
 import {
   api,
   getDeploymentConfig,
@@ -78,7 +81,7 @@ function App() {
     [query, setQuery] = useState(""),
     [listPage, setListPage] = useState(0),
     [deck, setDeck] = useState(null),
-    [mode, setMode] = useState("flash"),
+    [mode, setMode] = useState("paper"),
     [error, setError] = useState(""),
     [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false),
@@ -114,7 +117,7 @@ function App() {
             ? {}
             : stored(`studycade:${d.user.email}`, {});
         setMode(
-          MODES.some((x) => x[0] === session.mode) ? session.mode : "flash",
+          MODES.some((x) => x[0] === session.mode) ? session.mode : "paper",
         );
         if (d.sets.some((s) => s.id === session.deck))
           loadDeck(session.deck, false);
@@ -141,6 +144,29 @@ function App() {
     if (data && deck && data.user.role !== "cloud")
       save(`studycade:${data.user.email}`, { deck: deck.id, mode });
   }, [data?.user.email, deck?.id, mode]);
+  async function saveCardStatus(card, confidence) {
+    if (!deck) return;
+    const setId = deck.id;
+    try {
+      const saved = await api(
+        `/api/sets/${encodeURIComponent(setId)}/cards/${card.id}/status`,
+        { confidence },
+        "PATCH",
+      );
+      setDeck((current) =>
+        current?.id === setId
+          ? {
+              ...current,
+              cards: current.cards.map((c) =>
+                c.id === card.id ? { ...c, studyStatus: saved.studyStatus } : c,
+              ),
+            }
+          : current,
+      );
+    } catch (error) {
+      report(error);
+    }
+  }
   function record(correct, card, event) {
     if (!deck) return;
     const setId = deck.id;
@@ -247,9 +273,7 @@ function App() {
       const note = await api("/api/documents/" + encodeURIComponent(id));
       if (version !== documentSerial.current) return;
       const requested = sectionId || note.lastSectionId;
-      const focus = note.sections?.some((section) => section.id === requested)
-        ? requested
-        : note.sections?.[0]?.id || null;
+      const focus = readingSection(note.sections, requested);
       setDocument({ ...note, focusSectionId: focus });
       setPage("notes");
       if (focus)
@@ -490,11 +514,11 @@ function App() {
                   </strong>
                 </div>
                 <div>
-                  <span>BUILDING CONFIDENCE</span>
+                  <span>GAME RESULTS</span>
                   <strong>
                     {attempts ? Math.round((rights / attempts) * 100) : "—"}
                     {attempts ? "%" : ""}
-                    <small>correct answers</small>
+                    <small>correct game answers</small>
                   </strong>
                 </div>
               </div>
@@ -557,6 +581,7 @@ function App() {
                     <p>
                       {
                         [
+                          "Read, work on paper, then reveal the answer.",
                           "Turn a question into a connection.",
                           "Find the pairs. Train your recall.",
                           "Connect terms with their meaning.",
@@ -633,7 +658,6 @@ function App() {
               {deck ? (
                 <>
                   <div className="deck-meta">
-                    <span className="set-identifier">Set #{deck.id}</span>
                     <span>
                       {deck.cards?.length}{" "}
                       {deck.cards?.length === 1 ? "card" : "cards"}
@@ -669,6 +693,8 @@ function App() {
                       cards={deck.cards}
                       mode={mode}
                       onRecord={record}
+                      deckTitle={deck.title}
+                      onStatus={saveCardStatus}
                       persistRound={data?.user.role !== "cloud"}
                       sessionKey={`studycade:round:${data.user.email}:${deck.id}:${mode}`}
                       defaultSourceId={deck.documentIds?.[0]}
@@ -686,34 +712,25 @@ function App() {
                       Browse all {deck.cards?.length}{" "}
                       {deck.cards?.length === 1 ? "card" : "cards"}
                     </summary>
-                    {deck.cards?.map((c) => (
+                    {deck.cards?.map((c, i) => (
                       <div className="card-row" key={c.id}>
-                        <Content>{c.term}</Content>
-                        <div>
-                          <Content>{c.definition}</Content>
-                          {c.provenance && (
-                            <div className="small muted">
-                              Source:{" "}
-                              {c.provenance.filename || "Study material"} ·{" "}
-                              {c.provenance.sectionId}
-                              {(c.provenance.documentId ||
-                                deck.documentIds?.[0]) && (
-                                <button
-                                  className="text-button"
-                                  onClick={() =>
-                                    openDoc(
-                                      c.provenance.documentId ||
-                                        deck.documentIds[0],
-                                      c.provenance.sectionId,
-                                    )
-                                  }
-                                >
-                                  Open source ↗
-                                </button>
-                              )}
-                            </div>
-                          )}
-                        </div>
+                        <PaperPractice
+                          card={c}
+                          number={i + 1}
+                          topic={deck.title}
+                          onStatus={saveCardStatus}
+                          showNavigation={false}
+                          onOpenSource={
+                            c.provenance?.documentId || deck.documentIds?.[0]
+                              ? () =>
+                                  openDoc(
+                                    c.provenance?.documentId ||
+                                      deck.documentIds[0],
+                                    c.provenance?.sectionId,
+                                  )
+                              : null
+                          }
+                        />
                       </div>
                     ))}
                   </details>
@@ -722,7 +739,9 @@ function App() {
                 <div className="empty panel">
                   <span className="finish-icon">▧</span>
                   <h2>Your library is on the left.</h2>
-                  <p>Pick a deck to explore six different ways to practice.</p>
+                  <p>
+                    Pick a deck to study on paper or explore the practice games.
+                  </p>
                   {sets[0] && (
                     <button
                       className="primary"
@@ -1069,7 +1088,15 @@ function Importer({ onError, onSaved }) {
           ))}
           <details open>
             <summary>Read preview</summary>
-            <Content>{item.source || item.content}</Content>
+            <Content
+              study={{
+                topic: item.title || item.name,
+                questionCount: countRecall(item.source || item.content),
+                reviews: [],
+              }}
+            >
+              {item.source || item.content}
+            </Content>
           </details>
           <details open={mode !== "notes"}>
             <summary>

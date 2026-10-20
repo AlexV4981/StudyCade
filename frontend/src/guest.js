@@ -1,3 +1,7 @@
+const validQuestion = (v) =>
+  typeof v === "string" &&
+  /^q[1-9]\d{0,3}$/.test(v) &&
+  Number(v.slice(1)) <= 2000;
 import { SUBJECT_CODES } from "./prompts.js";
 /** Browser-only guest workspace. Nothing here sends stored material to a server. */
 export const GUEST_USER = Object.freeze({
@@ -237,7 +241,17 @@ function cardsFrom(body, state, minimum = 1) {
     const key = term.toLowerCase();
     if (terms.has(key)) bad("Card terms must be unique.");
     terms.add(key);
-    const out = { id: state.nextCard++, term, definition };
+    if (
+      c.studyStatus !== undefined &&
+      !["red", "yellow", "green"].includes(c.studyStatus)
+    )
+      bad("Invalid study status.");
+    const out = {
+      id: state.nextCard++,
+      term,
+      definition,
+      studyStatus: c.studyStatus ?? "red",
+    };
     out.explanation =
       c.explanation === undefined
         ? ""
@@ -514,9 +528,30 @@ export function createGuestApi({
     else if (path === "/api/sets" && method === "POST") {
       const set = newSet(state, body);
       answer = { id: set.id, setId: set.id, ...summary(set) };
+    } else if (
+      route === "sets" &&
+      parts.length === 5 &&
+      parts[2] === "cards" &&
+      parts[4] === "status" &&
+      method === "PATCH"
+    ) {
+      const set = requireSet(state, parts[1]);
+      const card = set.cards.find((c) => String(c.id) === parts[3]);
+      if (!card) bad("Card not found.");
+      if (!["red", "yellow", "green"].includes(body.confidence))
+        bad("Invalid study status.");
+      card.studyStatus = body.confidence;
+      answer = { studyStatus: card.studyStatus };
     } else if (route === "sets" && parts.length === 2) {
       const set = requireSet(state, parts[1]);
-      if (method === "GET") answer = set;
+      if (method === "GET")
+        answer = {
+          ...set,
+          cards: set.cards.map((c) => ({
+            ...c,
+            studyStatus: c.studyStatus ?? "red",
+          })),
+        };
       else if (method === "DELETE") {
         if (set.builtin) bad("The Welcome deck is read-only.");
         state.sets = state.sets.filter((s) => s !== set);
@@ -532,7 +567,10 @@ export function createGuestApi({
         const next = cardsFrom(body, state);
         next.forEach((c, i) => {
           const previous = set.cards.find((old) => old.id === body.cards[i].id);
-          if (previous) c.id = previous.id;
+          if (previous) {
+            c.id = previous.id;
+            c.studyStatus = previous.studyStatus ?? "red";
+          }
         });
         Object.assign(set, {
           title: text(body.title, "Deck title", 100),
@@ -638,6 +676,11 @@ export function createGuestApi({
         )) {
           if (!doc.sections.some((s) => s.id === change.sectionId))
             bad("Unknown document section.");
+          if (
+            change.questionId !== undefined &&
+            !validQuestion(change.questionId)
+          )
+            bad("Invalid question identifier.");
           const reviewed = change.reviewed ?? false,
             confidence = change.confidence || "";
           if (
@@ -646,14 +689,20 @@ export function createGuestApi({
           )
             bad("Invalid review state.");
           doc.reviews = doc.reviews.filter(
-            (r) => r.sectionId !== change.sectionId,
+            (r) =>
+              r.sectionId !== change.sectionId ||
+              r.questionId !== change.questionId,
           );
           doc.reviews.push({
             sectionId: change.sectionId,
+            ...(change.questionId === undefined
+              ? {}
+              : { questionId: change.questionId }),
             reviewed,
             confidence,
           });
         }
+        if (doc.reviews.length > 4000) bad("Too many reviews.");
         answer = { reviews: doc.reviews };
       } else bad("Unsupported document request.");
     } else if (path === "/api/import/commit" && method === "POST") {
@@ -1079,7 +1128,7 @@ function restore(state, body) {
         { cards: suggestions.map((c) => remapCard(c, d.id)) },
         state,
       );
-    for (const r of boundedArray(input.reviews || [], 2000, "document reviews"))
+    for (const r of boundedArray(input.reviews || [], 4000, "document reviews"))
       reviews.push({ ...r, documentId: input.id });
   }
   for (const input of sets) {
@@ -1149,12 +1198,21 @@ function restore(state, body) {
       confidence = r.confidence || "";
     if (
       !d.sections.some((s) => s.id === sectionId) ||
+      (r.questionId !== undefined && !validQuestion(r.questionId)) ||
       ![false, true, 0, 1].includes(r.reviewed) ||
       !["", "red", "yellow", "green"].includes(confidence)
     )
       bad("Invalid backup section review.");
-    d.reviews = d.reviews.filter((v) => v.sectionId !== sectionId);
-    d.reviews.push({ sectionId, reviewed: !!r.reviewed, confidence });
+    d.reviews = d.reviews.filter(
+      (v) => v.sectionId !== sectionId || v.questionId !== r.questionId,
+    );
+    d.reviews.push({
+      sectionId,
+      ...(r.questionId === undefined ? {} : { questionId: r.questionId }),
+      reviewed: !!r.reviewed,
+      confidence,
+    });
+    if (d.reviews.length > 4000) bad("Too many reviews.");
   }
   for (const p of progress) {
     const original = oldId(p.setId ?? p.set_id, "progress deck"),

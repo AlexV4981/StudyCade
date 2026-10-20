@@ -1,4 +1,5 @@
 export const MODES = [
+  ["paper", "Study on paper", "✎"],
   ["flash", "Flashcards", "↻"],
   ["memory", "Memory", "▦"],
   ["match", "Match pairs", "⇄"],
@@ -44,14 +45,23 @@ export function optionsFor(cards, c, mode) {
   return shuffle([c, ...shuffle(distinct).slice(0, mode === "bank" ? 7 : 3)]);
 }
 export function supportsQuiz(cards) {
-  return cards.length > 1 && cards.every(card => cards.some(other =>
-    other.id !== card.id && other.term !== card.term && other.definition !== card.definition));
+  return (
+    cards.length > 1 &&
+    cards.every((card) =>
+      cards.some(
+        (other) =>
+          other.id !== card.id &&
+          other.term !== card.term &&
+          other.definition !== card.definition,
+      ),
+    )
+  );
 }
 export function result(correct) {
   return { right: correct ? 1 : 0, wrong: correct ? 0 : 1 };
 }
 export function initial(cards, mode) {
-  const deck = shuffle(cards);
+  const deck = mode === "paper" ? [...cards] : shuffle(cards);
   const pairs = shuffle(eligiblePairs(cards)).slice(0, 6);
   return {
     deck,

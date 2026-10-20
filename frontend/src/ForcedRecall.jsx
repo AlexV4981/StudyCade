@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { api } from "./api.js";
 import { Content } from "./content.js";
+import { cardQuestion } from "./study.js";
 import {
   recallDelay,
   recallPool,
@@ -184,6 +185,9 @@ export default function ForcedRecall({ sets = [], onError, onRecord }) {
       setLoading(false);
     }
   }
+  const activeQuestion = question
+    ? cardQuestion(question.card, 1, question.card.deckTitle)
+    : null;
   return (
     <section
       className="recall-settings panel"
@@ -256,7 +260,7 @@ export default function ForcedRecall({ sets = [], onError, onRecord }) {
                               }))
                             }
                           />
-                          <span>{card.term}</span>
+                          <span>{cardQuestion(card).question}</span>
                         </label>
                       ))}
                     </div>
@@ -303,7 +307,10 @@ export default function ForcedRecall({ sets = [], onError, onRecord }) {
             {question.options.length}.
           </p>
           <div className="recall-prompt">
-            <Content>{question.card.term}</Content>
+            <strong className="game-question-label">
+              Q{activeQuestion.number} · {activeQuestion.topic}
+            </strong>
+            <Content>{activeQuestion.question}</Content>
           </div>
           <div className="recall-options">
             {question.options.map((option, i) => (

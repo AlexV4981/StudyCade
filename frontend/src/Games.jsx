@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Content } from "./content.js";
+import PaperPractice from "./PaperPractice.jsx";
+import { StudyStatus } from "./StudyStatus.js";
+import { cardQuestion, studyStatus } from "./study.js";
 import {
   initial,
   optionsFor,
@@ -9,10 +12,25 @@ import {
   signature,
   supportsQuiz,
 } from "./engine.js";
+function GameTerm({ card, number, topic, compact = false }) {
+  const q = cardQuestion(card, number, topic);
+  return (
+    <>
+      {!compact && (
+        <strong className="game-question-label">
+          Q{q.number} · {q.topic}
+        </strong>
+      )}
+      <Content>{q.question}</Content>
+    </>
+  );
+}
 export default function Games({
   cards,
   mode,
   onRecord,
+  onStatus,
+  deckTitle,
   sessionKey,
   onOpenSource,
   defaultSourceId,
@@ -32,6 +50,15 @@ export default function Games({
       return initial(cards, mode);
     }
   });
+  const [statusSaving, setStatusSaving] = useState(false);
+  async function saveManual(status) {
+    setStatusSaving(true);
+    try {
+      await onStatus?.(card, status.confidence);
+    } finally {
+      setStatusSaving(false);
+    }
+  }
   const pending = useRef([]);
   const latest = useRef(s);
   latest.current = s;
@@ -221,7 +248,7 @@ export default function Games({
     () =>
       pairsMode
         ? s.pairs.length === 0
-        : mode !== "flash" && !supportsQuiz(cards),
+        : !["flash", "paper"].includes(mode) && !supportsQuiz(cards),
     [cards, mode, s.pairs.length],
   );
   return (
@@ -266,6 +293,30 @@ export default function Games({
         </div>
       ) : (
         <>
+          {mode === "paper" && (
+            <PaperPractice
+              key={card.id}
+              card={cards.find((c) => c.id === card.id) || card}
+              number={s.index + 1}
+              topic={deckTitle}
+              onStatus={onStatus}
+              canPrevious={s.index > 0}
+              canNext={s.index < cards.length - 1}
+              onPrevious={() =>
+                set((v) => ({ ...v, index: v.index - 1, flipped: false }))
+              }
+              onNext={advance}
+              onOpenSource={
+                (card.provenance?.documentId || defaultSourceId) && onOpenSource
+                  ? () =>
+                      onOpenSource(
+                        card.provenance?.documentId || defaultSourceId,
+                        card.provenance?.sectionId,
+                      )
+                  : null
+              }
+            />
+          )}
           {mode === "flash" && (
             <>
               <button
@@ -281,7 +332,15 @@ export default function Games({
                   {s.flipped ? "DEFINITION" : "TERM"}
                 </span>
                 <div className="flash-face" key={`${card.id}:${s.flipped}`}>
-                  <Content>{s.flipped ? card.definition : card.term}</Content>
+                  {s.flipped ? (
+                    <Content>{card.definition}</Content>
+                  ) : (
+                    <GameTerm
+                      card={card}
+                      number={s.index + 1}
+                      topic={deckTitle}
+                    />
+                  )}
                 </div>
                 <span className="muted small">Flip flashcard ↻</span>
               </button>
@@ -344,7 +403,11 @@ export default function Games({
                   >
                     {s.open.includes(i) || s.matched.includes(i) ? (
                       <div className="tile-face">
-                        <Content>{t[t.side]}</Content>
+                        {t.side === "term" ? (
+                          <GameTerm card={t} compact />
+                        ) : (
+                          <Content>{t.definition}</Content>
+                        )}
                       </div>
                     ) : (
                       <span aria-hidden="true">✧</span>
@@ -377,7 +440,11 @@ export default function Games({
                         onClick={() => match(side, c.id)}
                       >
                         <>
-                          <Content>{c[side]}</Content>
+                          {side === "term" ? (
+                            <GameTerm card={c} compact />
+                          ) : (
+                            <Content>{c.definition}</Content>
+                          )}
                         </>
                       </button>
                     ))}
@@ -397,7 +464,7 @@ export default function Games({
                 <Content>{card.definition}</Content>
                 <span className="blank">
                   {s.answered ? (
-                    <Content>{card.term}</Content>
+                    <GameTerm card={card} compact />
                   ) : (
                     "________________"
                   )}
@@ -419,7 +486,7 @@ export default function Games({
                     }
                     onClick={() => answer(c.id)}
                   >
-                    <Content>{c.term}</Content>
+                    <GameTerm card={c} compact />
                   </button>
                 ))}
               </div>
@@ -472,7 +539,11 @@ export default function Games({
                     top: `${8 + Math.min(1, s.elapsed / SPEEDS[s.speed]) * 65}%`,
                   }}
                 >
-                  <Content>{card.term}</Content>
+                  <GameTerm
+                    card={card}
+                    number={s.index + 1}
+                    topic={deckTitle}
+                  />
                 </div>
                 {s.paused && (
                   <div className="paused">
@@ -522,29 +593,43 @@ export default function Games({
               </p>
             </>
           )}
-          {card?.provenance &&
+          {mode !== "paper" && !pairsMode && card && (
+            <StudyStatus
+              value={cards.find((c) => c.id === card.id)?.studyStatus}
+              onChange={onStatus ? saveManual : null}
+              disabled={statusSaving}
+              label="Question progress"
+            />
+          )}
+          {mode !== "paper" &&
+            card?.provenance &&
             (card.provenance.documentId || defaultSourceId) && (
-              <button
-                className="text-button small"
-                onClick={() =>
-                  onOpenSource(
-                    card.provenance.documentId || defaultSourceId,
-                    card.provenance.sectionId,
-                  )
-                }
-              >
-                Source: {card.provenance.filename || "Study notes"} ·{" "}
-                {card.provenance.sectionId} ↗
-              </button>
+              <details className="study-source">
+                <summary>Source details</summary>
+                <button
+                  className="text-button small"
+                  onClick={() =>
+                    onOpenSource(
+                      card.provenance.documentId || defaultSourceId,
+                      card.provenance.sectionId,
+                    )
+                  }
+                >
+                  Source: {card.provenance.filename || "Study notes"} ·{" "}
+                  {card.provenance.sectionId} ↗
+                </button>
+              </details>
             )}
           <div className="game-footer">
             <span className="small muted">
               {pairsMode
                 ? `${mode === "memory" ? s.matched.length / 2 : s.matched.length} / ${s.pairs.length} pairs`
-                : `${s.right} correct this round`}
+                : mode === "paper"
+                  ? `${cards.filter((c) => studyStatus(c.studyStatus) === "green").length} / ${cards.length} complete · ${cards.filter((c) => studyStatus(c.studyStatus) === "yellow").length} review later`
+                  : `${s.right} correct this round`}
             </span>
             <button className="text-button" onClick={restart}>
-              ↻ New shuffle
+              {mode === "paper" ? "Return to first question" : "↻ New shuffle"}
             </button>
           </div>
         </>

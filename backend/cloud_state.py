@@ -108,6 +108,8 @@ def validate_workspace(state):
             for key, count, limit in (("hints", 50, 10_000), ("tags", 100, 100), ("topics", 100, 200)):
                 for item in array(card.get(key, []), count):
                     string(item, limit, True)
+            if "studyStatus" in card and card["studyStatus"] not in ("red", "yellow", "green"):
+                invalid()
             labels(card)
             if "metadata" in card:
                 obj(card["metadata"])
@@ -161,9 +163,11 @@ def validate_workspace(state):
             except ValueError:
                 invalid()
         sections[did] = section_ids
-        for review in array(doc.get("reviews", []), 2000):
+        for review in array(doc.get("reviews", []), 4000):
             obj(review)
             if review.get("sectionId") not in section_ids or type(review.get("reviewed")) is not bool:
+                invalid()
+            if "questionId" in review and (not isinstance(review["questionId"], str) or not re.fullmatch(r"q[1-9]\d{0,3}", review["questionId"]) or int(review["questionId"][1:]) > 2000):
                 invalid()
             if review.get("confidence", "") not in ("", "red", "yellow", "green"):
                 invalid()

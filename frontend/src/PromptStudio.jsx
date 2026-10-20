@@ -124,8 +124,8 @@ export default function PromptStudio({
                 setCopied(false);
               }}
             >
-              <option value="guide">Study guide + flashcards</option>
-              <option value="practice">Practice + worked solutions</option>
+              <option value="guide">Study guide + paper practice</option>
+              <option value="practice">Problems + worked solutions</option>
               <option value="tutor">Guided tutoring recap</option>
             </select>
           </label>

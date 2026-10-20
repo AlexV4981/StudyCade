@@ -50,6 +50,7 @@ def _card(term, answer, section, name, subject, kind="extract"):
         "hints": [],
         "subject": subject,
         "tags": [],
+        "topics": [section["title"][:200]],
         "difficulty": "unrated",
         "provenance": {
             "filename": name,
@@ -62,55 +63,66 @@ def _card(term, answer, section, name, subject, kind="extract"):
     }
 
 
+def callout_blocks(source):
+    """Read complete top-level callouts, including paragraphs, lists and math."""
+    lines = source.splitlines(keepends=True)
+    for token in PARSER.parse(source):
+        if token.type != "blockquote_open" or token.level != 0 or not token.map:
+            continue
+        start, end = token.map
+        content = "".join(re.sub(r"^ {0,3}> ?", "", line) for line in lines[start:end])
+        inner_lines = content.splitlines(keepends=True)
+        markers = []
+        for inner in PARSER.parse(content):
+            if inner.type == "inline" and inner.level == 1 and inner.map:
+                for line in range(*inner.map):
+                    marker = re.match(r"^[ \t]{0,3}\[!([A-Z]+)\]", inner_lines[line], re.I)
+                    if marker:
+                        markers.append((line, marker[1].upper()))
+        for i, (line, kind) in enumerate(markers):
+            stop = markers[i + 1][0] if i + 1 < len(markers) else len(inner_lines)
+            text = "".join(inner_lines[line:stop])
+            text = re.sub(r"^[ \t]{0,3}\[![A-Z]+\][ \t]*", "", text, count=1, flags=re.I).strip()
+            yield kind, text
+
+
 def _suggest_cards(source, sections, name, subject):
     cards, seen = [], set()
     for section in sections:
-        tokens = PARSER.parse(section["content"])
         pending = None
-        fragments = []
-        for token in tokens:
-            if token.type == "inline":
-                fragments.extend(
-                    part.strip()
-                    for part in re.split(
-                        r"(?m)(?=^\[!(?:RECALL|ANSWER)\])", token.content
-                    )
-                    if part.strip()
-                )
-        for text in fragments:
-            # Existing StudyCade recap callouts pair retrieval questions with literal answers.
-            if text.upper().startswith("[!RECALL]"):
-                pending = re.sub(r"^\[!RECALL\]\s*", "", text, flags=re.I).strip()
-            elif text.upper().startswith("[!ANSWER]") and pending:
-                answer = re.sub(r"^\[!ANSWER\]\s*", "", text, flags=re.I).strip()
-                if answer:
-                    cards.append(
-                        _card(pending, answer, section, name, subject, "recall-callout")
-                    )
+        pending_hints = []
+        last_card = None
+        has_recall = False
+        for kind, text in callout_blocks(section["content"]):
+            if kind == "RECALL":
+                pending = text
+                pending_hints = []
+                last_card = None
+                has_recall = True
+            elif kind == "ANSWER" and pending:
+                if text:
+                    last_card = _card(pending, text, section, name, subject, "recall-callout")
+                    last_card["hints"] = pending_hints
+                    cards.append(last_card)
                 pending = None
-            else:
-                # Bold definitions are explicit source relationships, not invented facts.
-                match = re.match(
-                    r"^\*\*(.{1,300}?)\*\*\s*(?::|—|\s-\s)\s*(.+)$", text, re.S
-                )
-                if match:
-                    cards.append(
-                        _card(match[1], match[2], section, name, subject, "definition")
-                    )
-        # A question heading with its exact body is also an extractive pair.
-        if section["title"].rstrip().endswith("?"):
+            elif kind == "HINT":
+                if pending is not None:
+                    pending_hints.append(text)
+                elif last_card is not None:
+                    last_card["hints"].append(text)
+            elif kind in ("SOLUTION", "EXAMPLE") and last_card is not None:
+                last_card["explanation"] = (last_card["explanation"] + "\n\n" + text).strip()
+        # Only standalone definitions become cards; bold worked reasoning is not a new card.
+        for token in PARSER.parse(section["content"]):
+            if token.type != "inline" or token.level != 1:
+                continue
+            match = re.match(r"^\*\*(.{1,300}?)\*\*\s*(?::|—|\s-\s)\s*(.+)$", token.content, re.S)
+            if match:
+                cards.append(_card(match[1], match[2], section, name, subject, "definition"))
+        if not has_recall and section["title"].rstrip().endswith("?"):
             body = section["content"].split("\n", 1)[-1].strip()
             if body:
-                cards.append(
-                    _card(
-                        section["title"],
-                        body,
-                        section,
-                        name,
-                        subject,
-                        "question-heading",
-                    )
-                )
+                cards.append(_card(section["title"], body, section, name, subject, "question-heading"))
     unique = []
     for card in cards:
         key = (card["term"].casefold(), card["definition"])
