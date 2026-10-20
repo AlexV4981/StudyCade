@@ -1,0 +1,65 @@
+[
+  {
+    "subject": "chemistry",
+    "source": "https://www.svgrepo.com/svg/164005/chemistry",
+    "download": "https://www.svgrepo.com/show/164005/chemistry.svg",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://www.svgrepo.com/page/licensing/#CC0"
+  },
+  {
+    "subject": "calculus",
+    "source": "https://www.svgrepo.com/svg/469071/integral",
+    "download": "https://www.svgrepo.com/show/469071/integral.svg",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://www.svgrepo.com/page/licensing/#CC0"
+  },
+  {
+    "subject": "general",
+    "source": "https://www.svgrepo.com/svg/426097/book",
+    "download": "https://www.svgrepo.com/show/426097/book.svg",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://www.svgrepo.com/page/licensing/#CC0"
+  },
+  {
+    "subject": "history",
+    "source": "https://www.svgrepo.com/svg/387790/history",
+    "download": "https://www.svgrepo.com/show/387790/history.svg",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://www.svgrepo.com/page/licensing/#CC0"
+  },
+  {
+    "subject": "physics",
+    "source": "https://www.svgrepo.com/svg/507933/atom",
+    "download": "https://www.svgrepo.com/show/507933/atom.svg",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://www.svgrepo.com/page/licensing/#CC0"
+  },
+  {
+    "subject": "biology",
+    "source": "https://www.svgrepo.com/svg/107024/biology",
+    "download": "https://www.svgrepo.com/show/107024/biology.svg",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://www.svgrepo.com/page/licensing/#CC0"
+  },
+  {
+    "subject": "programming",
+    "source": "https://www.svgrepo.com/svg/224723/coding",
+    "download": "https://www.svgrepo.com/show/224723/coding.svg",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://www.svgrepo.com/page/licensing/#CC0"
+  },
+  {
+    "subject": "geography",
+    "source": "https://www.svgrepo.com/svg/175926/globe-grid",
+    "download": "https://www.svgrepo.com/show/175926/globe-grid.svg",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://www.svgrepo.com/page/licensing/#CC0"
+  },
+  {
+    "subject": "languages",
+    "source": "https://www.svgrepo.com/svg/91907/language",
+    "download": "https://www.svgrepo.com/show/91907/language.svg",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://www.svgrepo.com/page/licensing/#CC0"
+  }
+]

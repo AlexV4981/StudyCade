@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: studycade-guest
+    runtime: docker
+    plan: free
+    region: ohio
+    dockerfilePath: ./Dockerfile.render
+    dockerContext: .
+    healthCheckPath: /healthz
+    autoDeployTrigger: off
+    envVars:
+      - key: AUTH_MODE
+        value: guest
