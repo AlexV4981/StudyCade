@@ -1,5 +1,11 @@
 # Studycade — self-hosted edition
 
+## Quick code review (direct links)
+
+Reviewers can verify the implementation directly without installing the app: [JWT validation](auth.js) · [role checks and API routes](server.js) · [per-user file isolation](files.js) · [SQLite persistence](db.js) · [account and API tests](tests/app.test.js) · [file access tests](tests/files.test.js) · [Compose hardening](compose.yaml) · [security scope and limitations](SECURITY_CHECKLIST.md).
+
+[Return to the repository's reviewer index](https://github.com/AlexV4981/StudyCade/blob/main/README.md).
+
 After installing, follow [SECURITY_CHECKLIST.md](SECURITY_CHECKLIST.md) to verify the live server's ports, Cloudflare policy, account roles, and backups. Source-code checks cannot inspect your Ubuntu host or Cloudflare dashboard.
 
 ## Better MD Viewer
