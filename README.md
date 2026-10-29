@@ -1,33 +1,60 @@
-# StudyCade | Self-hosted learning application
+# StudyCade
 
-**A Node.js / SQLite study app packaged with Docker Compose.** This repository contains the application source, account and study-file controls, automated tests, a deployment guide, and a security checklist.
+A browser-based study workspace for turning Markdown and CSV study material into notes, review decks, paper practice, recall sessions and self-checks. Built with **React/Vite**, **FastAPI on Render**, and optional **Supabase** login and private workspace persistence.
 
-## Start here: recruiter / code reviewer links
+[Open the app](https://studycade-guest.onrender.com) · [Topology and architecture](docs/ARCHITECTURE.md) · [Development](docs/DEVELOPMENT.md) · [Deployment](docs/DEPLOYMENT.md) · [Security](SECURITY.md)
 
-Each link opens the **actual implementation or evidence**, not just another overview.
+## Features
 
-| What to inspect | Direct evidence | What the source shows |
+- Import study material and organize source notes and practice decks.
+- Work through questions on paper, then reveal hints, answers and explanations.
+- Review with flashcards, matching and answer-selection modes, plus optional timed recall while reading.
+- Import multiple-choice practice exams, track progress and review missed/unanswered questions.
+- Use a browser-local guest workspace or an approved account with Supabase-backed cross-device saving.
+- Export backups. Guest work is **not** silently uploaded when signing in.
+
+StudyCade does **not** contact an AI provider to generate content: its prompt tools prepare text for a separate AI service. Imported material should be checked for correctness.
+
+## Implementation
+
+| Area | Responsibility | Source |
 | --- | --- | --- |
-| Authentication | [Signed-session / Cloudflare JWT validation](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/auth.js) | Token signature, issuer/audience/expiry and identity validation |
-| Account roles and access checks | [Server API and authorization rules](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/server.js) | Account approval, role enforcement, and study-set permissions |
-| Per-account file access | [File handling and path checks](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/files.js) | Owner-scoped uploads, path validation and file restrictions |
-| SQL and saved progress | [SQLite schema and queries](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/db.js) | Persistent records, database access, and parameterized statements |
-| Tests | [Server tests](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/tests/app.test.js) · [File-isolation tests](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/tests/files.test.js) | Validation of roles, request handling, upload restrictions and account isolation |
-| Container configuration | [Compose configuration](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/compose.yaml) · [Dockerfile](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/Dockerfile) | Service configuration and container restrictions |
-| Security rationale and limits | [Security checklist](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/SECURITY_CHECKLIST.md) | Controls documented in source, checks to perform on a live host, and acknowledged limitations |
-| Setup and operation | [Full application README](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/README.md) · [Update notes](https://github.com/AlexV4981/StudyCade/blob/main/Studycade_Server_Update/studycade/UPDATING.md) | Installation, environment, usage, backups and updates |
+| Frontend | React study interface and practice flows | [App](frontend/src/main.jsx) · [Notes](frontend/src/Notes.jsx) · [Exams](frontend/src/Exams.jsx) · [Games](frontend/src/Games.jsx) |
+| Guest workspace | Browser IndexedDB persistence | [Guest adapter](frontend/src/guest.js) |
+| Cloud client | Session-aware storage and version checks | [Cloud adapter](frontend/src/cloud.js) · [API dispatch](frontend/src/api.js) |
+| API | FastAPI static delivery, bounded import preview | [Server](backend/guest.py) · [Parser](backend/content.py) |
+| Cloud gateway | PKCE sign-in, encrypted HttpOnly cookies, access validation | [Gateway](backend/cloud.py) · [Validation](backend/cloud_state.py) |
+| Data layer | Supabase Auth, owner-scoped workspace, RLS and version-aware writes | [SQL migration](supabase/migrations/202610160001_private_cloud_workspaces.sql) |
+| Hosting | Multi-stage Docker/Vite build and non-root Python runtime | [Dockerfile](Dockerfile.render) · [Render blueprint](render.yaml) |
 
-[**Browse the entire source folder**](https://github.com/AlexV4981/StudyCade/tree/main/Studycade_Server_Update/studycade)
+## Repository structure
 
-## What this project demonstrates
+~~~text
+StudyCade/
+├── backend/              FastAPI routes, parsing, cloud sessions and validation
+├── frontend/
+│   ├── src/              React components and browser storage adapters
+│   └── public/           Public assets and associated licenses
+├── supabase/migrations/  PostgreSQL schema and authorization logic
+├── docs/                 Architecture, development, deployment, security design
+├── Dockerfile.render
+├── render.yaml
+└── requirements-guest.lock
+~~~
 
-- A multi-mode learning interface backed by Node.js and SQLite, with account-specific state.
-- Request-side authorization and file isolation documented in the source and exercised by tests.
-- Docker-based packaging, security-oriented configuration, and a backup/update workflow.
+## Run a guest instance
 
-**Scope:** These links demonstrate the public code and documented behavior, not an independent security audit, production-scale deployment, or proof that every line was written without tooling. External Cloudflare policies and live server configuration cannot be verified from this repository alone.
+~~~bash
+docker build -f Dockerfile.render -t studycade .
+docker run --rm -p 10000:10000 studycade
+~~~
 
-## Related infrastructure projects
+Open **http://localhost:10000**. This runs guest mode only; cloud authentication needs a separate approved HTTPS deployment and private environment settings. See [Development](docs/DEVELOPMENT.md) for review and verification.
 
-- [Debian Network Service Lab](https://github.com/AlexV4981/debian-network-service-lab) — Python protocol handling, wake/idle automation, systemd, and documented firewall policy.
-- [Ubuntu Network Service Lab](https://github.com/AlexV4981/Ubuntu-network-service-lab) — Java/Flask integration, SQLite audit history, and structured-event ingestion.
+## Data boundaries and releases
+
+Guest content and progress are stored in browser IndexedDB. The import **Preview** feature temporarily sends selected source text to FastAPI for parsing, but does not save it as a server-side guest account. Approved signed-in users can save an owner-scoped workspace to Supabase through the Render gateway. See the [data-flow diagram](docs/ARCHITECTURE.md).
+
+Render currently deploys from the **render-guest-security** branch, with automatic deployments disabled. This **main** branch is the organized public source; pushing here does **not** update the live application. [Release instructions](docs/DEPLOYMENT.md).
+
+The repository should not contain live credentials, private email approvals, personal coursework, database exports or user backups. [Security and privacy](SECURITY.md). Source code and design notes are not an external security audit.

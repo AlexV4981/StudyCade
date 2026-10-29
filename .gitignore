@@ -1,0 +1,39 @@
+# Local credentials and private configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.token
+secrets/
+**/secrets/
+
+# Personal data and local state
+data/
+**/data/
+recovery/
+artifacts/
+backups/
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+*.log
+*.zip
+
+# Dependencies, caches and builds
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+node_modules/
+**/node_modules/
+frontend/dist/
+dist/
+coverage/
+.DS_Store

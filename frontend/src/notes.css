@@ -1,0 +1,118 @@
+.notes-workspace .notes-reader {
+  width: 100%;
+  max-width: none;
+  margin-top: 24px;
+  padding: clamp(24px, 4vw, 64px);
+  font-size: 20px;
+  line-height: 1.8;
+}
+.notes-reader > section {
+  scroll-margin-top: 30px;
+  padding: 0 0 32px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid #33465c;
+}
+.notes-reader > section:last-of-type {
+  margin-bottom: 0;
+}
+.notes-reader h2 {
+  line-height: 1.35;
+}
+.notes-reader pre {
+  max-width: 100%;
+  overflow: auto;
+}
+.notes-section-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+.notes-section-status .note-status {
+  padding: 10px 15px;
+  font-size: 14px;
+  border-width: 2px;
+}
+.note-status-green {
+  color: #b5f9d0;
+  border-color: #528c68;
+}
+.note-status-yellow {
+  color: #ffdf86;
+  border-color: #9e823a;
+}
+.note-status-red {
+  color: #ffb7b7;
+  border-color: #a85b63;
+}
+.notes-section-status .note-status[aria-pressed="true"] {
+  color: #111e29;
+  font-weight: 750;
+}
+.note-status-green[aria-pressed="true"] {
+  background: #b5f9d0;
+}
+.note-status-yellow[aria-pressed="true"] {
+  background: #ffdf86;
+}
+.note-status-red[aria-pressed="true"] {
+  background: #ffb7b7;
+}
+.notes-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin: 20px 0;
+}
+.notes-workspace .check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.notes-workspace input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  accent-color: #88edcd;
+}
+.notes-delete-confirm {
+  border: 2px solid #e6a0a0;
+  margin: 20px 0;
+}
+.notes-combine {
+  margin-top: 24px;
+  padding: 20px;
+}
+.notes-combine summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.notes-sequence {
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.notes-workspace .saved-file small {
+  display: block;
+}
+@media (max-width: 640px) {
+  .notes-workspace .notes-reader {
+    padding: 20px;
+    font-size: 18px;
+  }
+  .notes-section-status {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+@media print {
+  .notes-section-status,
+  .notes-sequence,
+  .notes-workspace > .controls {
+    display: none !important;
+  }
+  .notes-workspace .notes-reader {
+    padding: 0;
+  }
+}
