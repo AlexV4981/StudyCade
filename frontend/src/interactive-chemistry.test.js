@@ -117,7 +117,7 @@ test("prompt includes only exact local chemistry links and respects independent 
   assert.match(noLinks, /Do not add interactive-study links/);
   assert.doesNotMatch(noLinks, /BUILT-IN INTERACTIVE CHEMISTRY LINKS/);
   const notChem = buildStudyPrompt({ goal: "World history", includeInteractive: true }).text;
-  assert.doesNotMatch(notChem, /BUILT-IN INTERACTIVE CHEMISTRY LINKS/);
+  assert.doesNotMatch(notChem, /BUILT-IN INTERACTIVE CHEMISTRY LINKS \\(local, read-only\\)/);
   assert.match(notChem, /----- BEGIN SOURCE DATA -----/);
 });
 
