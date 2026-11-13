@@ -1,0 +1,80 @@
+name: StudyCade optimization verification
+
+on:
+  push:
+    branches:
+      - optimization-and-updates
+    paths-ignore:
+      - "graphify-out/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: studycade-optimization
+  cancel-in-progress: false
+
+jobs:
+  frontend:
+    name: Regression tests and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Prepare pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+      - name: Install frozen frontend dependencies
+        working-directory: frontend
+        run: pnpm install --frozen-lockfile
+      - name: Run behavior regression tests
+        working-directory: frontend
+        run: pnpm test
+      - name: Build frontend
+        working-directory: frontend
+        run: pnpm build
+
+  graphify:
+    name: Build code-only Graphify knowledge graph
+    runs-on: ubuntu-latest
+    needs: frontend
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: optimization-and-updates
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install official Graphify
+        run: python -m pip install "graphifyy==0.9.108"
+      - name: Extract locally without any LLM backend
+        env:
+          GRAPHIFY_BACKEND: none
+          GRAPHIFY_NO_CTA: "1"
+        run: |
+          graphify extract . --code-only --backend none --force
+          test -s graphify-out/graph.json
+          test -s graphify-out/GRAPH_REPORT.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: studycade-graphify-output
+          path: |
+            graphify-out/graph.json
+            graphify-out/GRAPH_REPORT.md
+            graphify-out/graph.html
+          if-no-files-found: error
+      - name: Publish generated graph to optimization branch only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f graphify-out/graph.json graphify-out/GRAPH_REPORT.md
+          if [ -f graphify-out/graph.html ]; then git add -f graphify-out/graph.html; fi
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: update actual Graphify code knowledge graph"
+            git push origin HEAD:optimization-and-updates
+          fi
