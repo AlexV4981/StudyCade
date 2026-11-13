@@ -2,6 +2,8 @@
 
 StudyCade renders images referenced with standard Markdown in imported notes, inside `[!RECALL]` questions, in hints/solutions, and in MCQ questions. The image file itself is **not** imported, uploaded, proxied, cached, or stored in a workspace; the Markdown keeps its link.
 
+StudyCade also bundles a searchable [chemistry visual library](CHEMISTRY_VISUAL_LIBRARY.md) containing all 118 element reference tiles and 40 common-topic diagrams. These exact same-origin SVG paths display immediately and do not require any internet connection.
+
 ## Supported sources
 
 - **App-bundled assets:** same-origin paths under `/assets/`, `/subjects/`, and `/mathlive/` may display immediately. For example: `![Biology subject illustration](/subjects/biology.svg)`.
