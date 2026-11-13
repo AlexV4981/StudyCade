@@ -1,4 +1,5 @@
 // Provider-independent instructions. This module never invokes an AI service.
+import { CHEMISTRY_TOPICS, findChemistryAssets } from "./chemistry-library.js";
 export const SUBJECT_CODES = {
   general: "GEN",
   mathematics: "MATH",
@@ -52,7 +53,7 @@ export function buildStudyPrompt({
     "8. Put optional hints in separate > [!HINT] blocks and complete worked solutions in > [!SOLUTION] blocks after the answer. These stay collapsed until the learner chooses to reveal them. Show formulas, substitutions, intermediate steps, units and final rounding. Do not expose solutions in ordinary prose or visible EXAMPLE blocks next to an unsolved practice question. RULE, EXAMPLE and MISTAKE callouts may support explanatory notes outside practice questions.",
     "9. Keep citations and provenance in a separate > [!SOURCE] block after the relevant answer/solution. Retain supplied filenames, pages, headings, document/set IDs and public links there. For any added illustration cite its source page and creator/license when verified. Do not put Source basis, altered lecture, professor references, or similar editorial wording in question headings. Distinguish source facts from generated practice. Never invent URLs or claim an unverified answer is verified.",
     includeImages
-      ? "10. OPTIONAL WEB IMAGES: Add a visual only when it genuinely clarifies a specific question or concept (maximum one per question). With web-browsing tools, verify that a direct public HTTPS URL actually returns an image and confirm its original source page. Use Markdown image syntax with concise meaningful alt text and the actual verified direct HTTPS URL. If the image is part of a RECALL block, prefix the entire image line with > so it belongs to that question; include the image's source page in a separate SOURCE block. Do not substitute a web search result, article page or invented link for a direct image URL. Preserve existing source image links exactly if you cannot recheck them, and label their verification as unknown; never claim they were verified. Search using generic concepts only, not private study notes, user identities or class information. Do not include a picture merely to decorate a page, and never fabricate or guess a diagram, attribution or license. Every question must be solvable if the external picture fails, with essential labels, values and givens repeated in text. StudyCade displays external images only after the learner chooses Load image. If no reliable image is available, omit it and give a short textual description of any missing diagram."
+      ? "10. OPTIONAL WEB IMAGES AND BUILT-IN DIAGRAMS: Add a visual only when it clarifies a specific concept (maximum one per question). Prefer an exact bundled chemistry path listed in BUILT-IN CHEMISTRY VISUALS when it fits; those diagrams work offline inside StudyCade and never require external image searches. Element tiles are symbols, not specimen photos. Never invent a bundled image filename. For other concepts, use web-browsing tools to verify that a direct public HTTPS URL actually returns an image and confirm its original source page. Use Markdown image syntax with concise meaningful alt text and the actual verified direct HTTPS URL. If the image is part of a RECALL block, prefix the entire image line with > so it belongs to that question; include the image's source page in a separate SOURCE block. Do not substitute a web search result, article page or invented link for a direct image URL. Preserve existing source image links exactly if you cannot recheck them, and label their verification as unknown; never claim they were verified. Search using generic concepts only, not private study notes, user identities or class information. Do not include a picture merely to decorate a page, and never fabricate or guess a diagram, attribution or license. Every question must be solvable if the external picture fails, with essential labels, values and givens repeated in text. StudyCade displays external images only after the learner chooses Load image. If no reliable image is available, omit it and give a short textual description of any missing diagram."
       : "10. Do not search the web for illustrations or add new image URLs. Preserve image references already in the supplied source without claiming they have been checked; describe missing visuals and ensure every question is solvable without them.",
     "11. Finish with a brief cumulative retrieval section only when useful, keeping subjects separate and question numbers unique. Each cumulative problem must repeat its own required givens; do not refer to earlier problems for essential data.",
     "12. StudyCade supplies manual progress controls: red X Needs practice by default, yellow flag Review later, and green check Complete. Do not pre-mark questions mastered or embed checkboxes, timers, navigation sidebars or saved-progress metadata. Keep subject IDs in headings for source identification; StudyCade handles their presentation.",
@@ -89,6 +90,31 @@ export function buildStudyPrompt({
     "",
     "----- BEGIN SOURCE DATA -----",
   ];
+  const studyContext = [
+    goal,
+    ...documents.map((doc) => String(doc.title || "") + " " + String(doc.content ?? doc.source ?? "").slice(0, 18000)),
+    deck?.title || "",
+    ...(deck?.cards || []).slice(0, 40).map((card) => String(card.term || "")),
+  ].join(" ");
+  const chemistryInput =
+    documents.some((doc) => subjectsOf(doc).includes("chemistry")) ||
+    (deck && subjectsOf(deck).includes("chemistry")) ||
+    /\\b(?:chemistry|chemical|periodic table|stoichiometry|titration|molarity|enthalpy|electron configuration|oxidation|reduction|isotope|ionization|acid.base|covalent|atomic structure|gas laws|solubility|calorimetry)\\b/i.test(studyContext) ||
+    /\\[CHEM\\]/i.test(studyContext);
+  if (includeImages && chemistryInput) {
+    const matched = findChemistryAssets(studyContext, 10);
+    const chosen = matched.length ? matched :
+      CHEMISTRY_TOPICS.filter((item) => ["periodic-table", "atomic-structure", "mole-conversions", "titration-setup"].includes(item.id));
+    const lines = [
+      "BUILT-IN CHEMISTRY VISUALS (public, locally bundled)",
+      "The exact paths below load immediately in StudyCade and require no browsing. Use only a matching entry. Copy the exact path into Markdown ![specific alt text](/assets/chemistry/...svg) and keep the question self-contained without it.",
+      "These original CC0 illustrations are schematics; element tiles are symbols rather than photographs. Do not invent new asset paths.",
+      ...chosen.map((item) => item.title + " — " + item.path),
+      "END BUILT-IN CHEMISTRY VISUALS",
+      "",
+    ];
+    instructions.splice(instructions.length - 1, 0, ...lines);
+  }
   let budget = 60000;
   const warnings = [];
   for (const doc of documents) {
