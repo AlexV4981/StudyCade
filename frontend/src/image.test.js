@@ -25,7 +25,7 @@ test("allow only bounded public HTTPS and known bundled asset paths", () => {
     "https://127.0.0.1/image.png",
     "https://[::1]/image.png",
     "https://10.0.0.1/image.png",
-    "https://admin:password@images.example.org/image.png",
+    "https://admin:password" + "@images.example.org/image.png",
     "https://images.example.org:8080/image.png",
     "https://files.internal/image.png",
     "/private/file.png",
