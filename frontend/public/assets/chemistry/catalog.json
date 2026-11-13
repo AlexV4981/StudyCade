@@ -2048,6 +2048,98 @@
       "creator": "StudyCade original vector illustration"
     }
   ],
+  "stockReferences": [
+    {
+      "title": "Element sample collection",
+      "category": "photographs",
+      "creator": "Arònel123",
+      "description": "Al, Cu, Zn, Ga, Nb, In, C, P and S samples",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Element_samples.jpg",
+      "downloaded": false
+    },
+    {
+      "title": "Sodium metal sample",
+      "category": "photographs",
+      "creator": "Nefronus",
+      "description": "Freshly cut elemental sodium",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Sodium_sample.jpg",
+      "downloaded": false
+    },
+    {
+      "title": "Copper crystal",
+      "category": "photographs",
+      "creator": "范皓程",
+      "description": "Electrolytic copper crystal",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Copper_crystal.jpg",
+      "downloaded": false
+    },
+    {
+      "title": "Titration in progress",
+      "category": "laboratory",
+      "creator": "Alyc321",
+      "description": "Real titration setup",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Titration_of_sulphites_-_initial_step_of_titration.jpg",
+      "downloaded": false
+    },
+    {
+      "title": "Ascorbic acid titration setup",
+      "category": "laboratory",
+      "creator": "I zeneizi",
+      "description": "Titration tools and reagents",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Ascorbic_acid_titration_on_juices_-_the_tools_and_reagents.jpg",
+      "downloaded": false
+    },
+    {
+      "title": "Volumetric flask photograph",
+      "category": "laboratory",
+      "creator": "Goodymeraj",
+      "description": "500 cm³ volumetric flask",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Laboratory_apparatus_01.jpg",
+      "downloaded": false
+    },
+    {
+      "title": "Heating laboratory flask",
+      "category": "laboratory",
+      "creator": "Jahra Tasfia Reza",
+      "description": "Flat-bottomed flask on a heated support",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Laboratory_experiments.jpg",
+      "downloaded": false
+    },
+    {
+      "title": "Chemistry laboratory photograph",
+      "category": "laboratory",
+      "creator": "Hussy~B",
+      "description": "Chemistry lab sample analysis area",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Chemistry_lab_01.jpg",
+      "downloaded": false
+    },
+    {
+      "title": "CC0 simple periodic table",
+      "category": "reference",
+      "creator": "Offnfopt",
+      "description": "Reusable external periodic chart",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Simple_Periodic_Table_Chart.svg",
+      "downloaded": false
+    },
+    {
+      "title": "CC0 basic periodic table",
+      "category": "reference",
+      "creator": "SCB2024",
+      "description": "Reusable external periodic chart",
+      "license": "CC0-1.0",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Basic_Periodic_Table.jpg",
+      "downloaded": false
+    }
+  ],
   "externalReferenceCollections": [
     {
       "title": "Wikimedia Commons — element samples",
