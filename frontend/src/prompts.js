@@ -99,15 +99,15 @@ export function buildStudyPrompt({
   const chemistryInput =
     documents.some((doc) => subjectsOf(doc).includes("chemistry")) ||
     (deck && subjectsOf(deck).includes("chemistry")) ||
-    /\\b(?:chemistry|chemical|periodic table|stoichiometry|titration|molarity|enthalpy|electron configuration|oxidation|reduction|isotope|ionization|acid.base|covalent|atomic structure|gas laws|solubility|calorimetry)\\b/i.test(studyContext) ||
-    /\\[CHEM\\]/i.test(studyContext);
+    /\b(?:chemistry|chemical|periodic table|stoichiometry|titration|molarity|enthalpy|electron configuration|oxidation|reduction|isotope|ionization|acid.base|covalent|atomic structure|gas laws|solubility|calorimetry)\b/i.test(studyContext) ||
+    /\[CHEM\]/i.test(studyContext);
   if (includeImages && chemistryInput) {
     const matched = findChemistryAssets(studyContext, 10);
     const chosen = matched.length ? matched :
       CHEMISTRY_TOPICS.filter((item) => ["periodic-table", "atomic-structure", "mole-conversions", "titration-setup"].includes(item.id));
     const lines = [
       "BUILT-IN CHEMISTRY VISUALS (public, locally bundled)",
-      "The exact paths below load immediately in StudyCade and require no browsing. Use only a matching entry. Copy the exact path into Markdown ![specific alt text](/assets/chemistry/...svg) and keep the question self-contained without it.",
+      "The exact paths below load immediately in StudyCade and require no browsing. Use only a matching entry. Use Markdown image syntax with its exact listed path and meaningful alt text; do not output placeholder paths. Keep the question self-contained without the image.",
       "These original CC0 illustrations are schematics; element tiles are symbols rather than photographs. Do not invent new asset paths.",
       ...chosen.map((item) => item.title + " — " + item.path),
       "END BUILT-IN CHEMISTRY VISUALS",
