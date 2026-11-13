@@ -5,7 +5,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ELEMENTS, CHEMISTRY_ELEMENT_ASSETS, CHEMISTRY_TOPICS } from '../frontend/src/chemistry-library.js';
+import { ELEMENTS, CHEMISTRY_ELEMENT_ASSETS, CHEMISTRY_TOPICS, CHEMISTRY_STOCK_REFERENCES } from '../frontend/src/chemistry-library.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const base = path.join(root, 'frontend/public/assets/chemistry');
@@ -356,6 +356,7 @@ const manifest={
  notice:'Original vector diagrams are schematic and not measured apparatus photos. Element cards are symbols, not specimen photographs.',
  topics:CHEMISTRY_TOPICS,
  elements:CHEMISTRY_ELEMENT_ASSETS,
+ stockReferences:CHEMISTRY_STOCK_REFERENCES,
  externalReferenceCollections:[
   {title:'Wikimedia Commons — element samples',page:'https://commons.wikimedia.org/wiki/Category:Element_samples',note:'Each individual photo has its own license; verify before reuse.'},
   {title:'Wikimedia Commons — CC0 simple periodic table',page:'https://commons.wikimedia.org/wiki/File:Simple_Periodic_Table_Chart.svg',license:'CC0-1.0'},
