@@ -15,7 +15,7 @@ class PublicTreeCheckTests(unittest.TestCase):
         self.assertNotIn(key, repr(findings))
 
     def test_real_email_and_private_key_markers(self):
-        findings = inspect("test.md", "Contact real@" + "school.edu" + "\n-----BEGIN PRIVATE KEY-----")
+        findings = inspect("test.md", "Contact real@" + "school.edu" + "\n-----BEGIN " + "PRIVATE KEY-----")
         self.assertIn((1, "non-example email address"), findings)
         self.assertIn((2, "private key block"), findings)
 
