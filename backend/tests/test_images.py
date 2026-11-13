@@ -27,6 +27,21 @@ class MarkdownImageTests(unittest.TestCase):
         self.assertEqual(parsed["content"], markdown)
         self.assertTrue(any("image reference" in warning.lower() for warning in parsed["warnings"]))
 
+    def test_mcq_question_preserves_image_in_question_block(self):
+        markdown = (
+            "# [BIO] Practice exam\\n\\n"
+            "## [BIO] Q1 · Cell diagram\\n\\n"
+            "> [!MCQ] Which structure is indicated by the described label?\\n"
+            "> ![Labeled cell](https://upload.wikimedia.org/wikipedia/commons/a/a0/Example.jpg)\\n\\n"
+            "- A) Nucleus\\n"
+            "- B) Golgi apparatus\\n\\n"
+            "> [!ANSWER] A\\n"
+        )
+        parsed = preview_exam("cell-exam.md", markdown, "biology")
+        self.assertEqual(len(parsed["exam"]["questions"]), 1)
+        self.assertIn("![Labeled cell]", parsed["exam"]["questions"][0]["question"])
+        self.assertEqual(parsed["exam"]["questions"][0]["answer"], "A")
+
     def test_https_images_allowed_only_for_images_by_browser_policy(self):
         csp = security_headers()["Content-Security-Policy"]
         self.assertIn("img-src 'self' data: https:", csp)
