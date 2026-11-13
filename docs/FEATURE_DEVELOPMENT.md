@@ -28,7 +28,7 @@ Avoid adding another large feature inside `main.jsx`. Put UI in a focused compon
 4. **Define both storage paths.** Guest uses browser IndexedDB; cloud uses an owner-scoped, version-aware remote workspace through the gateway. Do not silently transfer guest data at sign-in.
 5. **Protect boundaries.** Treat API input, imported files, session metadata, and cloud state as untrusted. Client checks never replace server-side validation and RLS.
 6. **Add tests before refactoring old logic.** Characterize edge cases, retries, invalid input, and storage isolation. Keep each change reviewable.
-7. **Verify before review.** Run `cd frontend && pnpm test && pnpm build`, `python3 scripts/check_public_tree.py`, and `python3 -m unittest discover -s scripts -p 'test_*.py'`. Use disposable accounts for manual cloud checks.
+7. **Verify before review.** Run `cd frontend && pnpm test && pnpm build`, `python3 scripts/check_public_tree.py`, and `python3 -m unittest discover -s scripts -p 'test_*.py'`. Run the disposable backend smoke tests with the pinned `requirements-guest.lock` environment (see `docs/DEVELOPMENT.md`). Use disposable accounts for manual cloud checks.
 8. **Keep releases separate.** Work in feature branches; do not push to `main` or the active deployment branch as part of development.
 
 ## Suggested module shape
