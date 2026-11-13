@@ -4,28 +4,27 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 423 nodes · 1017 edges · 16 communities (14 shown, 2 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.86)
+- 425 nodes · 1023 edges · 15 communities (13 shown, 2 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 14 edges (avg confidence: 0.86)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `43b58173`
+- Built from commit: `1d88a070`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - main.jsx
 - content.js
-- guest.js
 - guest.py
+- guest.js
 - with
 - package.json
 - content.py
+- ForcedRecall.jsx
 - CloudGateway
 - check_public_tree.py
-- ForcedRecall.jsx
 - services
-- cloud.js
 - validate_workspace
 - 202610160001_private_cloud_workspaces.sql
 - overrides
@@ -40,11 +39,9 @@
 7. `restore()` - 19 edges
 8. `NotesReader()` - 18 edges
 9. `Games()` - 18 edges
-10. `CloudGateway` - 17 edges
+10. `react` - 18 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `deleteExam()` --calls--> `api()`  [EXTRACTED]
-  frontend/src/Exams.jsx → frontend/src/api.js
 - `chooseDeck()` --calls--> `api()`  [EXTRACTED]
   frontend/src/ForcedRecall.jsx → frontend/src/api.js
 - `upload()` --indirect_call--> `subject()`  [INFERRED]
@@ -53,27 +50,29 @@
   backend/guest.py → backend/cloud.py
 - `create_guest_app()` --calls--> `CloudGateway`  [EXTRACTED]
   backend/guest.py → backend/cloud.py
+- `Editor()` --calls--> `api()`  [EXTRACTED]
+  frontend/src/Editor.jsx → frontend/src/api.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (16 total, 2 thin omitted)
+## Communities (15 total, 2 thin omitted)
 
 ### Community 0 - "main.jsx"
-Cohesion: 0.08
-Nodes (45): api(), clearCloudCache(), getDeploymentConfig(), reloadCloudWorkspace(), request(), clearDeviceSessions(), downloadJson(), save() (+37 more)
+Cohesion: 0.07
+Nodes (51): api(), clearCloudCache(), getDeploymentConfig(), reloadCloudWorkspace(), request(), clearDeviceSessions(), downloadJson(), save() (+43 more)
 
 ### Community 1 - "content.js"
 Cohesion: 0.09
-Nodes (40): callouts(), walk(), Content(), CONTENT_PAGE_SIZE, normalize(), RenderContent(), safeUrl(), Editor() (+32 more)
+Nodes (42): callouts(), walk(), Content(), CONTENT_PAGE_SIZE, normalize(), RenderContent(), safeUrl(), Editor() (+34 more)
 
-### Community 2 - "guest.js"
-Cohesion: 0.11
-Nodes (51): examResult(), examSummary(), invalid(), keys(), text(), updateExam(), validateExam(), Exams() (+43 more)
-
-### Community 3 - "guest.py"
+### Community 2 - "guest.py"
 Cohesion: 0.06
 Nodes (6): CloudConfig, create_guest_app(), __call__(), guard(), security_headers(), GuestSmokeTests
+
+### Community 3 - "guest.js"
+Cohesion: 0.13
+Nodes (45): examResult(), examSummary(), invalid(), keys(), text(), updateExam(), validateExam(), addProgress() (+37 more)
 
 ### Community 4 - "with"
 Cohesion: 0.06
@@ -87,31 +86,27 @@ Nodes (28): dependencies, katex@0.19.0, mathlive@0.111.1, react@19.3.1, react-do
 Cohesion: 0.17
 Nodes (14): callout_blocks(), _card(), _label_document(), preview_document(), preview_exam(), safe_source_name(), _suggest_cards(), update_exam() (+6 more)
 
-### Community 7 - "CloudGateway"
+### Community 7 - "ForcedRecall.jsx"
+Cohesion: 0.15
+Nodes (16): clone(), createCloudApi(), createCloudStorage(), decode(), read(), ForcedRecall(), chooseDeck(), Preferences (+8 more)
+
+### Community 8 - "CloudGateway"
 Cohesion: 0.24
 Nodes (3): address_hash(), CloudGateway, email_address()
 
-### Community 8 - "check_public_tree.py"
+### Community 9 - "check_public_tree.py"
 Cohesion: 0.22
 Nodes (4): allowed_example_email(), inspect(), main(), PublicTreeCheckTests
-
-### Community 9 - "ForcedRecall.jsx"
-Cohesion: 0.33
-Nodes (11): ForcedRecall(), chooseDeck(), Preferences, RecallProvider(), clean(), fraction(), recallDelay(), recallPool() (+3 more)
 
 ### Community 10 - "services"
 Cohesion: 0.14
 Nodes (13): key, value, services, autoDeployTrigger, dockerContext, dockerfilePath, envVars, healthCheckPath (+5 more)
 
-### Community 11 - "cloud.js"
-Cohesion: 0.27
-Nodes (5): clone(), createCloudApi(), createCloudStorage(), decode(), read()
-
-### Community 12 - "validate_workspace"
+### Community 11 - "validate_workspace"
 Cohesion: 0.56
 Nodes (10): invalid(), validate_workspace(), array(), cards(), integer(), labels(), name(), obj() (+2 more)
 
-### Community 13 - "202610160001_private_cloud_workspaces.sql"
+### Community 12 - "202610160001_private_cloud_workspaces.sql"
 Cohesion: 0.43
 Nodes (4): public.studycade_save_workspace(), public.studycade_workspaces, studycade_private.cloud_allowlist, studycade_private.is_cloud_member()
 
@@ -122,16 +117,16 @@ Nodes (4): public.studycade_save_workspace(), public.studycade_workspaces, study
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `api()` connect `main.jsx` to `content.js`, `guest.js`, `ForcedRecall.jsx`?**
-  _High betweenness centrality (0.065) - this node is a cross-community bridge._
+  _High betweenness centrality (0.064) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `create_guest_app()` (e.g. with `CloudConfig` and `lifespan()`) actually correct?**
   _`create_guest_app()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **Should `main.jsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.07987711213517665 - nodes in this community are weakly interconnected._
-- **Why does `react` connect `content.js` to `main.jsx`, `ForcedRecall.jsx`, `package.json`?**
-  _High betweenness centrality (0.038) - this node is a cross-community bridge._
+  _Cohesion score 0.07039337474120083 - nodes in this community are weakly interconnected._
+- **Why does `react` connect `content.js` to `main.jsx`, `package.json`, `ForcedRecall.jsx`?**
+  _High betweenness centrality (0.040) - this node is a cross-community bridge._
 - **Should `content.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.09344262295081968 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09062980030721966 - nodes in this community are weakly interconnected._
 - **Why does `create_guest_app()` connect `guest.py` to `CloudGateway`?**
   _High betweenness centrality (0.018) - this node is a cross-community bridge._
-- **Should `guest.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.10707803992740472 - nodes in this community are weakly interconnected._
+- **Should `guest.py` be split into smaller, more focused modules?**
+  _Cohesion score 0.05580693815987934 - nodes in this community are weakly interconnected._
