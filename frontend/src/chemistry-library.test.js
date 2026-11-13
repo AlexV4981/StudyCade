@@ -60,7 +60,7 @@ test("chemistry study prompts prefer real local paths without external web searc
   assert.match(text,/BUILT-IN CHEMISTRY VISUALS/);
   assert.match(text,/\/assets\/chemistry\/orbital-filling\.svg/);
   assert.match(text,/Prefer an exact bundled chemistry path/);
-  assert.match(text,/not photographs/);
+  assert.match(text,/symbols rather than photographs/);
   assert.match(text,/----- BEGIN SOURCE DATA -----/);
   const disabled = buildStudyPrompt({documents:[doc],includeImages:false}).text;
   assert.doesNotMatch(disabled,/BUILT-IN CHEMISTRY VISUALS/);
