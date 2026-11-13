@@ -41,6 +41,10 @@ These are educational **schematics**, not photos or experimental measurements. S
 
 For an element card, use `/assets/chemistry/elements/008-o.svg` for oxygen or `/assets/chemistry/elements/026-fe.svg` for iron. These are stable same-origin paths, served by the existing static-asset route. External HTTPS links are still consent-gated by the Markdown reader.
 
+## Interactive views
+
+Every bundled chemistry illustration now offers an **Explore interactively** link when displayed in Markdown. The [interactive chemistry tools](INTERACTIVE_CHEMISTRY.md) provide a clickable 118-element periodic table, qualitative trend modes, and zoomable diagrams with guided hotspots for selected topics. In Prompt Studio the gallery can copy exact Markdown links to these tools as well as static images.
+
 ## Search and choose illustrations
 
 In **Prompt Studio**, expand **Browse built-in chemistry images**. Search by topic, category, element name or symbol. Use **Copy Markdown image** to copy a ready-to-insert `![alt](path)` reference.
