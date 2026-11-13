@@ -1,0 +1,2073 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/generate-chemistry-assets.mjs",
+  "license": "CC0-1.0",
+  "notice": "Original vector diagrams are schematic and not measured apparatus photos. Element cards are symbols, not specimen photographs.",
+  "topics": [
+    {
+      "id": "periodic-table",
+      "title": "Periodic table: 118 elements",
+      "category": "periodic",
+      "keywords": [
+        "periodic",
+        "table",
+        "groups",
+        "elements",
+        "atomic",
+        "numbers",
+        "symbols"
+      ],
+      "description": "All 118 symbols, numbers, family colors and f-block",
+      "path": "/assets/chemistry/periodic-table.svg",
+      "alt": "Periodic table: 118 elements. All 118 symbols, numbers, family colors and f-block",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "periodic-trends",
+      "title": "Periodic trends",
+      "category": "periodic",
+      "keywords": [
+        "atomic",
+        "radius",
+        "ionization",
+        "energy",
+        "electronegativity",
+        "periodic",
+        "trend"
+      ],
+      "description": "Main-group qualitative trends, with stated exceptions",
+      "path": "/assets/chemistry/periodic-trends.svg",
+      "alt": "Periodic trends. Main-group qualitative trends, with stated exceptions",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "isotope-notation",
+      "title": "Isotope and ion notation",
+      "category": "atomic",
+      "keywords": [
+        "isotopes",
+        "mass",
+        "number",
+        "atomic",
+        "number",
+        "nuclides",
+        "ions"
+      ],
+      "description": "Upper/lower nuclear notation and neutron counting",
+      "path": "/assets/chemistry/isotope-notation.svg",
+      "alt": "Isotope and ion notation. Upper/lower nuclear notation and neutron counting",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "atomic-structure",
+      "title": "Atomic structure",
+      "category": "atomic",
+      "keywords": [
+        "proton",
+        "neutron",
+        "electron",
+        "nucleus",
+        "atom"
+      ],
+      "description": "Nucleus and surrounding electron cloud — schematic",
+      "path": "/assets/chemistry/atomic-structure.svg",
+      "alt": "Atomic structure. Nucleus and surrounding electron cloud — schematic",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "electron-shells",
+      "title": "Electron shells: sodium",
+      "category": "atomic",
+      "keywords": [
+        "bohr",
+        "shell",
+        "electrons",
+        "sodium",
+        "2",
+        "8",
+        "1"
+      ],
+      "description": "Sodium shell populations; schematic, not an orbital picture",
+      "path": "/assets/chemistry/electron-shells.svg",
+      "alt": "Electron shells: sodium. Sodium shell populations; schematic, not an orbital picture",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "orbital-shapes",
+      "title": "s and p orbital shapes",
+      "category": "atomic",
+      "keywords": [
+        "electron",
+        "probability",
+        "s",
+        "orbital",
+        "p",
+        "orbital"
+      ],
+      "description": "Schematic electron-probability regions",
+      "path": "/assets/chemistry/orbital-shapes.svg",
+      "alt": "s and p orbital shapes. Schematic electron-probability regions",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "orbital-filling",
+      "title": "Orbital filling and spin",
+      "category": "atomic",
+      "keywords": [
+        "aufbau",
+        "hund",
+        "pauli",
+        "electron",
+        "configuration",
+        "orbital",
+        "diagrams"
+      ],
+      "description": "Boxes and arrows for 1s, 2s and 2p",
+      "path": "/assets/chemistry/orbital-filling.svg",
+      "alt": "Orbital filling and spin. Boxes and arrows for 1s, 2s and 2p",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "photon-spectrum",
+      "title": "Wavelength and photon energy",
+      "category": "atomic",
+      "keywords": [
+        "photon",
+        "electromagnetic",
+        "spectrum",
+        "wavelength",
+        "frequency",
+        "energy",
+        "light"
+      ],
+      "description": "Shorter wavelength corresponds to greater photon energy",
+      "path": "/assets/chemistry/photon-spectrum.svg",
+      "alt": "Wavelength and photon energy. Shorter wavelength corresponds to greater photon energy",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "energy-levels",
+      "title": "Electronic transitions",
+      "category": "atomic",
+      "keywords": [
+        "bohr",
+        "transitions",
+        "absorption",
+        "emission",
+        "energy",
+        "level",
+        "n"
+      ],
+      "description": "Energy-level arrows for absorption and emission",
+      "path": "/assets/chemistry/energy-levels.svg",
+      "alt": "Electronic transitions. Energy-level arrows for absorption and emission",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "ionic-bonding",
+      "title": "Ionic bonding",
+      "category": "bonding",
+      "keywords": [
+        "ionic",
+        "bonding",
+        "sodium",
+        "chloride",
+        "NaCl",
+        "cation",
+        "anion"
+      ],
+      "description": "Electron transfer and ion attraction represented schematically",
+      "path": "/assets/chemistry/ionic-bonding.svg",
+      "alt": "Ionic bonding. Electron transfer and ion attraction represented schematically",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "covalent-bonding",
+      "title": "Covalent bond orders",
+      "category": "bonding",
+      "keywords": [
+        "covalent",
+        "bond",
+        "single",
+        "double",
+        "triple",
+        "shared",
+        "electrons"
+      ],
+      "description": "H–H, O=O and N≡N as bond-order examples",
+      "path": "/assets/chemistry/covalent-bonding.svg",
+      "alt": "Covalent bond orders. H–H, O=O and N≡N as bond-order examples",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "lewis-water",
+      "title": "Lewis structure of water",
+      "category": "bonding",
+      "keywords": [
+        "lewis",
+        "dot",
+        "H2O",
+        "electron",
+        "pairs",
+        "lone",
+        "pairs"
+      ],
+      "description": "Two O–H bonds and two lone pairs on oxygen",
+      "path": "/assets/chemistry/lewis-water.svg",
+      "alt": "Lewis structure of water. Two O–H bonds and two lone pairs on oxygen",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "molecular-shapes",
+      "title": "VSEPR geometry",
+      "category": "bonding",
+      "keywords": [
+        "VSEPR",
+        "molecular",
+        "geometry",
+        "bent",
+        "linear",
+        "trigonal",
+        "tetrahedral"
+      ],
+      "description": "Common molecular geometries and approximate angles",
+      "path": "/assets/chemistry/molecular-shapes.svg",
+      "alt": "VSEPR geometry. Common molecular geometries and approximate angles",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "hydrogen-bonding",
+      "title": "Hydrogen bonding in water",
+      "category": "bonding",
+      "keywords": [
+        "hydrogen",
+        "bond",
+        "intermolecular",
+        "force",
+        "water",
+        "polarity"
+      ],
+      "description": "Intermolecular dotted connection between water molecules",
+      "path": "/assets/chemistry/hydrogen-bonding.svg",
+      "alt": "Hydrogen bonding in water. Intermolecular dotted connection between water molecules",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "mole-conversions",
+      "title": "Mole conversions",
+      "category": "stoichiometry",
+      "keywords": [
+        "mole",
+        "molar",
+        "mass",
+        "avogadro",
+        "particles",
+        "grams"
+      ],
+      "description": "Connect mass, molar amount and number of entities",
+      "path": "/assets/chemistry/mole-conversions.svg",
+      "alt": "Mole conversions. Connect mass, molar amount and number of entities",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "balanced-reaction",
+      "title": "Balancing chemical equations",
+      "category": "stoichiometry",
+      "keywords": [
+        "balancing",
+        "equation",
+        "chemical",
+        "reaction",
+        "conservation",
+        "hydrogen",
+        "oxygen",
+        "water"
+      ],
+      "description": "2 H₂ + O₂ → 2 H₂O particle counting",
+      "path": "/assets/chemistry/balanced-reaction.svg",
+      "alt": "Balancing chemical equations. 2 H₂ + O₂ → 2 H₂O particle counting",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "limiting-reactant",
+      "title": "Limiting reactant",
+      "category": "stoichiometry",
+      "keywords": [
+        "limiting",
+        "reagent",
+        "excess",
+        "reactant",
+        "stoichiometry"
+      ],
+      "description": "One O₂ limits water formed from four H₂",
+      "path": "/assets/chemistry/limiting-reactant.svg",
+      "alt": "Limiting reactant. One O₂ limits water formed from four H₂",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "reaction-types",
+      "title": "Types of chemical reactions",
+      "category": "stoichiometry",
+      "keywords": [
+        "synthesis",
+        "decomposition",
+        "single",
+        "replacement",
+        "combustion"
+      ],
+      "description": "General reaction patterns",
+      "path": "/assets/chemistry/reaction-types.svg",
+      "alt": "Types of chemical reactions. General reaction patterns",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "stoichiometry-map",
+      "title": "Stoichiometry workflow",
+      "category": "stoichiometry",
+      "keywords": [
+        "mole",
+        "ratio",
+        "grams",
+        "to",
+        "moles",
+        "reaction",
+        "coefficients"
+      ],
+      "description": "Known mass → mol A → mol B → unknown mass",
+      "path": "/assets/chemistry/stoichiometry-map.svg",
+      "alt": "Stoichiometry workflow. Known mass → mol A → mol B → unknown mass",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "states-of-matter",
+      "title": "States of matter",
+      "category": "matter",
+      "keywords": [
+        "solid",
+        "liquid",
+        "gas",
+        "particles",
+        "phase",
+        "state"
+      ],
+      "description": "Schematic relative particle arrangement",
+      "path": "/assets/chemistry/states-of-matter.svg",
+      "alt": "States of matter. Schematic relative particle arrangement",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "heating-curve",
+      "title": "Heating curve of water",
+      "category": "matter",
+      "keywords": [
+        "heating",
+        "curve",
+        "melting",
+        "boiling",
+        "phase",
+        "change",
+        "temperature"
+      ],
+      "description": "Water near 1 atm; melting at 0 °C and boiling at 100 °C",
+      "path": "/assets/chemistry/heating-curve.svg",
+      "alt": "Heating curve of water. Water near 1 atm; melting at 0 °C and boiling at 100 °C",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "phase-diagram",
+      "title": "Generic phase diagram",
+      "category": "matter",
+      "keywords": [
+        "phase",
+        "diagram",
+        "triple",
+        "point",
+        "critical",
+        "point",
+        "pressure",
+        "temperature"
+      ],
+      "description": "Generic substance; not a water-specific diagram",
+      "path": "/assets/chemistry/phase-diagram.svg",
+      "alt": "Generic phase diagram. Generic substance; not a water-specific diagram",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "boyle-law",
+      "title": "Boyle and Charles gas laws",
+      "category": "gases",
+      "keywords": [
+        "boyle",
+        "law",
+        "charles",
+        "law",
+        "pressure",
+        "volume",
+        "temperature"
+      ],
+      "description": "Qualitative P–V inverse and V–T direct relationships",
+      "path": "/assets/chemistry/boyle-law.svg",
+      "alt": "Boyle and Charles gas laws. Qualitative P–V inverse and V–T direct relationships",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "ideal-gas-law",
+      "title": "Ideal gas particles and PV=nRT",
+      "category": "gases",
+      "keywords": [
+        "ideal",
+        "gas",
+        "law",
+        "kinetic",
+        "molecular",
+        "theory",
+        "gas",
+        "pressure",
+        "container"
+      ],
+      "description": "Particles, container, collision and ideal-gas relation",
+      "path": "/assets/chemistry/ideal-gas-law.svg",
+      "alt": "Ideal gas particles and PV=nRT. Particles, container, collision and ideal-gas relation",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "molarity",
+      "title": "Molarity and solution volume",
+      "category": "solutions",
+      "keywords": [
+        "molarity",
+        "moles",
+        "solute",
+        "liter",
+        "solution",
+        "concentration"
+      ],
+      "description": "M = n / V for the final solution volume",
+      "path": "/assets/chemistry/molarity.svg",
+      "alt": "Molarity and solution volume. M = n / V for the final solution volume",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "dilution",
+      "title": "Solution dilution",
+      "category": "solutions",
+      "keywords": [
+        "dilution",
+        "M1V1",
+        "M2V2",
+        "concentration"
+      ],
+      "description": "Same solute amount before and after adding solvent",
+      "path": "/assets/chemistry/dilution.svg",
+      "alt": "Solution dilution. Same solute amount before and after adding solvent",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "solubility",
+      "title": "Solubility versus temperature",
+      "category": "solutions",
+      "keywords": [
+        "solubility",
+        "curve",
+        "saturated",
+        "unsaturated",
+        "temperature"
+      ],
+      "description": "Illustrative generic solubility trend — not a measured compound",
+      "path": "/assets/chemistry/solubility.svg",
+      "alt": "Solubility versus temperature. Illustrative generic solubility trend — not a measured compound",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "pH-scale",
+      "title": "Acid-base pH scale",
+      "category": "acids",
+      "keywords": [
+        "acid",
+        "base",
+        "pH",
+        "scale",
+        "strong",
+        "weak",
+        "hydrogen",
+        "ions"
+      ],
+      "description": "pH scale 0–14, neutral pH 7 at 25 °C for water",
+      "path": "/assets/chemistry/pH-scale.svg",
+      "alt": "Acid-base pH scale. pH scale 0–14, neutral pH 7 at 25 °C for water",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "titration-setup",
+      "title": "Acid-base titration apparatus",
+      "category": "acids",
+      "keywords": [
+        "titration",
+        "burette",
+        "flask",
+        "indicator",
+        "endpoint"
+      ],
+      "description": "Burette into Erlenmeyer flask — apparatus schematic",
+      "path": "/assets/chemistry/titration-setup.svg",
+      "alt": "Acid-base titration apparatus. Burette into Erlenmeyer flask — apparatus schematic",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "titration-curve",
+      "title": "Strong acid–base titration curve",
+      "category": "acids",
+      "keywords": [
+        "titration",
+        "curve",
+        "equivalence",
+        "point",
+        "strong",
+        "acid",
+        "strong",
+        "base"
+      ],
+      "description": "Illustrative strong acid–strong base endpoint near pH 7 at 25 °C",
+      "path": "/assets/chemistry/titration-curve.svg",
+      "alt": "Strong acid–base titration curve. Illustrative strong acid–strong base endpoint near pH 7 at 25 °C",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "calorimetry",
+      "title": "Coffee-cup calorimetry",
+      "category": "thermochemistry",
+      "keywords": [
+        "calorimetry",
+        "heat",
+        "specific",
+        "heat",
+        "q",
+        "m",
+        "c",
+        "delta",
+        "t"
+      ],
+      "description": "Insulated cup, thermometer and heat calculation",
+      "path": "/assets/chemistry/calorimetry.svg",
+      "alt": "Coffee-cup calorimetry. Insulated cup, thermometer and heat calculation",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "enthalpy",
+      "title": "Reaction enthalpy",
+      "category": "thermochemistry",
+      "keywords": [
+        "enthalpy",
+        "exothermic",
+        "endothermic",
+        "energy",
+        "diagram"
+      ],
+      "description": "Energy levels and signed ΔH for reactions",
+      "path": "/assets/chemistry/enthalpy.svg",
+      "alt": "Reaction enthalpy. Energy levels and signed ΔH for reactions",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "hess-law",
+      "title": "Hess law pathway",
+      "category": "thermochemistry",
+      "keywords": [
+        "hess",
+        "law",
+        "enthalpy",
+        "formation",
+        "sum",
+        "paths"
+      ],
+      "description": "Enthalpy difference independent of reaction path",
+      "path": "/assets/chemistry/hess-law.svg",
+      "alt": "Hess law pathway. Enthalpy difference independent of reaction path",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "activation-energy",
+      "title": "Activation energy with a catalyst",
+      "category": "kinetics",
+      "keywords": [
+        "reaction",
+        "coordinate",
+        "activation",
+        "energy",
+        "catalyst",
+        "kinetics"
+      ],
+      "description": "Catalyst lowers the barrier without changing reaction ΔH",
+      "path": "/assets/chemistry/activation-energy.svg",
+      "alt": "Activation energy with a catalyst. Catalyst lowers the barrier without changing reaction ΔH",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "equilibrium",
+      "title": "Dynamic equilibrium",
+      "category": "equilibrium",
+      "keywords": [
+        "chemical",
+        "equilibrium",
+        "forward",
+        "reverse",
+        "rates",
+        "le",
+        "chatelier"
+      ],
+      "description": "Equal forward/reverse rates at dynamic equilibrium",
+      "path": "/assets/chemistry/equilibrium.svg",
+      "alt": "Dynamic equilibrium. Equal forward/reverse rates at dynamic equilibrium",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "galvanic-cell",
+      "title": "Galvanic zinc–copper cell",
+      "category": "electrochemistry",
+      "keywords": [
+        "galvanic",
+        "cell",
+        "electrochemical",
+        "redox",
+        "voltaic",
+        "cell",
+        "electron",
+        "flow"
+      ],
+      "description": "Zn anode → electrons → Cu cathode and salt bridge",
+      "path": "/assets/chemistry/galvanic-cell.svg",
+      "alt": "Galvanic zinc–copper cell. Zn anode → electrons → Cu cathode and salt bridge",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "redox",
+      "title": "Oxidation and reduction",
+      "category": "electrochemistry",
+      "keywords": [
+        "oxidation",
+        "reduction",
+        "OIL",
+        "RIG",
+        "electron",
+        "transfer"
+      ],
+      "description": "Oxidation loses e⁻; reduction gains e⁻",
+      "path": "/assets/chemistry/redox.svg",
+      "alt": "Oxidation and reduction. Oxidation loses e⁻; reduction gains e⁻",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "nuclear-decay",
+      "title": "Alpha beta and gamma radiation",
+      "category": "nuclear",
+      "keywords": [
+        "radioactivity",
+        "alpha",
+        "beta",
+        "gamma",
+        "nuclear",
+        "reaction"
+      ],
+      "description": "Types and simple nuclear-emission notation",
+      "path": "/assets/chemistry/nuclear-decay.svg",
+      "alt": "Alpha beta and gamma radiation. Types and simple nuclear-emission notation",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "laboratory-glassware",
+      "title": "Common laboratory glassware",
+      "category": "laboratory",
+      "keywords": [
+        "beaker",
+        "graduated",
+        "cylinder",
+        "burette",
+        "volumetric",
+        "flask"
+      ],
+      "description": "Major glassware silhouettes; no scale calibration",
+      "path": "/assets/chemistry/laboratory-glassware.svg",
+      "alt": "Common laboratory glassware. Major glassware silhouettes; no scale calibration",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "solution-hydration",
+      "title": "Hydration of dissolved ions",
+      "category": "solutions",
+      "keywords": [
+        "hydration",
+        "dissolution",
+        "ions",
+        "polar",
+        "water",
+        "solvation"
+      ],
+      "description": "Water orientation around cations and anions",
+      "path": "/assets/chemistry/solution-hydration.svg",
+      "alt": "Hydration of dissolved ions. Water orientation around cations and anions",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    }
+  ],
+  "elements": [
+    {
+      "id": "element-001",
+      "category": "elements",
+      "title": "Hydrogen (H)",
+      "atomicNumber": 1,
+      "symbol": "H",
+      "path": "/assets/chemistry/elements/001-h.svg",
+      "alt": "Element 1: Hydrogen, symbol H. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-002",
+      "category": "elements",
+      "title": "Helium (He)",
+      "atomicNumber": 2,
+      "symbol": "He",
+      "path": "/assets/chemistry/elements/002-he.svg",
+      "alt": "Element 2: Helium, symbol He. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-003",
+      "category": "elements",
+      "title": "Lithium (Li)",
+      "atomicNumber": 3,
+      "symbol": "Li",
+      "path": "/assets/chemistry/elements/003-li.svg",
+      "alt": "Element 3: Lithium, symbol Li. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-004",
+      "category": "elements",
+      "title": "Beryllium (Be)",
+      "atomicNumber": 4,
+      "symbol": "Be",
+      "path": "/assets/chemistry/elements/004-be.svg",
+      "alt": "Element 4: Beryllium, symbol Be. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-005",
+      "category": "elements",
+      "title": "Boron (B)",
+      "atomicNumber": 5,
+      "symbol": "B",
+      "path": "/assets/chemistry/elements/005-b.svg",
+      "alt": "Element 5: Boron, symbol B. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-006",
+      "category": "elements",
+      "title": "Carbon (C)",
+      "atomicNumber": 6,
+      "symbol": "C",
+      "path": "/assets/chemistry/elements/006-c.svg",
+      "alt": "Element 6: Carbon, symbol C. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-007",
+      "category": "elements",
+      "title": "Nitrogen (N)",
+      "atomicNumber": 7,
+      "symbol": "N",
+      "path": "/assets/chemistry/elements/007-n.svg",
+      "alt": "Element 7: Nitrogen, symbol N. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-008",
+      "category": "elements",
+      "title": "Oxygen (O)",
+      "atomicNumber": 8,
+      "symbol": "O",
+      "path": "/assets/chemistry/elements/008-o.svg",
+      "alt": "Element 8: Oxygen, symbol O. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-009",
+      "category": "elements",
+      "title": "Fluorine (F)",
+      "atomicNumber": 9,
+      "symbol": "F",
+      "path": "/assets/chemistry/elements/009-f.svg",
+      "alt": "Element 9: Fluorine, symbol F. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-010",
+      "category": "elements",
+      "title": "Neon (Ne)",
+      "atomicNumber": 10,
+      "symbol": "Ne",
+      "path": "/assets/chemistry/elements/010-ne.svg",
+      "alt": "Element 10: Neon, symbol Ne. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-011",
+      "category": "elements",
+      "title": "Sodium (Na)",
+      "atomicNumber": 11,
+      "symbol": "Na",
+      "path": "/assets/chemistry/elements/011-na.svg",
+      "alt": "Element 11: Sodium, symbol Na. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-012",
+      "category": "elements",
+      "title": "Magnesium (Mg)",
+      "atomicNumber": 12,
+      "symbol": "Mg",
+      "path": "/assets/chemistry/elements/012-mg.svg",
+      "alt": "Element 12: Magnesium, symbol Mg. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-013",
+      "category": "elements",
+      "title": "Aluminium (Al)",
+      "atomicNumber": 13,
+      "symbol": "Al",
+      "path": "/assets/chemistry/elements/013-al.svg",
+      "alt": "Element 13: Aluminium, symbol Al. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-014",
+      "category": "elements",
+      "title": "Silicon (Si)",
+      "atomicNumber": 14,
+      "symbol": "Si",
+      "path": "/assets/chemistry/elements/014-si.svg",
+      "alt": "Element 14: Silicon, symbol Si. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-015",
+      "category": "elements",
+      "title": "Phosphorus (P)",
+      "atomicNumber": 15,
+      "symbol": "P",
+      "path": "/assets/chemistry/elements/015-p.svg",
+      "alt": "Element 15: Phosphorus, symbol P. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-016",
+      "category": "elements",
+      "title": "Sulfur (S)",
+      "atomicNumber": 16,
+      "symbol": "S",
+      "path": "/assets/chemistry/elements/016-s.svg",
+      "alt": "Element 16: Sulfur, symbol S. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-017",
+      "category": "elements",
+      "title": "Chlorine (Cl)",
+      "atomicNumber": 17,
+      "symbol": "Cl",
+      "path": "/assets/chemistry/elements/017-cl.svg",
+      "alt": "Element 17: Chlorine, symbol Cl. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-018",
+      "category": "elements",
+      "title": "Argon (Ar)",
+      "atomicNumber": 18,
+      "symbol": "Ar",
+      "path": "/assets/chemistry/elements/018-ar.svg",
+      "alt": "Element 18: Argon, symbol Ar. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-019",
+      "category": "elements",
+      "title": "Potassium (K)",
+      "atomicNumber": 19,
+      "symbol": "K",
+      "path": "/assets/chemistry/elements/019-k.svg",
+      "alt": "Element 19: Potassium, symbol K. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-020",
+      "category": "elements",
+      "title": "Calcium (Ca)",
+      "atomicNumber": 20,
+      "symbol": "Ca",
+      "path": "/assets/chemistry/elements/020-ca.svg",
+      "alt": "Element 20: Calcium, symbol Ca. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-021",
+      "category": "elements",
+      "title": "Scandium (Sc)",
+      "atomicNumber": 21,
+      "symbol": "Sc",
+      "path": "/assets/chemistry/elements/021-sc.svg",
+      "alt": "Element 21: Scandium, symbol Sc. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-022",
+      "category": "elements",
+      "title": "Titanium (Ti)",
+      "atomicNumber": 22,
+      "symbol": "Ti",
+      "path": "/assets/chemistry/elements/022-ti.svg",
+      "alt": "Element 22: Titanium, symbol Ti. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-023",
+      "category": "elements",
+      "title": "Vanadium (V)",
+      "atomicNumber": 23,
+      "symbol": "V",
+      "path": "/assets/chemistry/elements/023-v.svg",
+      "alt": "Element 23: Vanadium, symbol V. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-024",
+      "category": "elements",
+      "title": "Chromium (Cr)",
+      "atomicNumber": 24,
+      "symbol": "Cr",
+      "path": "/assets/chemistry/elements/024-cr.svg",
+      "alt": "Element 24: Chromium, symbol Cr. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-025",
+      "category": "elements",
+      "title": "Manganese (Mn)",
+      "atomicNumber": 25,
+      "symbol": "Mn",
+      "path": "/assets/chemistry/elements/025-mn.svg",
+      "alt": "Element 25: Manganese, symbol Mn. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-026",
+      "category": "elements",
+      "title": "Iron (Fe)",
+      "atomicNumber": 26,
+      "symbol": "Fe",
+      "path": "/assets/chemistry/elements/026-fe.svg",
+      "alt": "Element 26: Iron, symbol Fe. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-027",
+      "category": "elements",
+      "title": "Cobalt (Co)",
+      "atomicNumber": 27,
+      "symbol": "Co",
+      "path": "/assets/chemistry/elements/027-co.svg",
+      "alt": "Element 27: Cobalt, symbol Co. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-028",
+      "category": "elements",
+      "title": "Nickel (Ni)",
+      "atomicNumber": 28,
+      "symbol": "Ni",
+      "path": "/assets/chemistry/elements/028-ni.svg",
+      "alt": "Element 28: Nickel, symbol Ni. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-029",
+      "category": "elements",
+      "title": "Copper (Cu)",
+      "atomicNumber": 29,
+      "symbol": "Cu",
+      "path": "/assets/chemistry/elements/029-cu.svg",
+      "alt": "Element 29: Copper, symbol Cu. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-030",
+      "category": "elements",
+      "title": "Zinc (Zn)",
+      "atomicNumber": 30,
+      "symbol": "Zn",
+      "path": "/assets/chemistry/elements/030-zn.svg",
+      "alt": "Element 30: Zinc, symbol Zn. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-031",
+      "category": "elements",
+      "title": "Gallium (Ga)",
+      "atomicNumber": 31,
+      "symbol": "Ga",
+      "path": "/assets/chemistry/elements/031-ga.svg",
+      "alt": "Element 31: Gallium, symbol Ga. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-032",
+      "category": "elements",
+      "title": "Germanium (Ge)",
+      "atomicNumber": 32,
+      "symbol": "Ge",
+      "path": "/assets/chemistry/elements/032-ge.svg",
+      "alt": "Element 32: Germanium, symbol Ge. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-033",
+      "category": "elements",
+      "title": "Arsenic (As)",
+      "atomicNumber": 33,
+      "symbol": "As",
+      "path": "/assets/chemistry/elements/033-as.svg",
+      "alt": "Element 33: Arsenic, symbol As. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-034",
+      "category": "elements",
+      "title": "Selenium (Se)",
+      "atomicNumber": 34,
+      "symbol": "Se",
+      "path": "/assets/chemistry/elements/034-se.svg",
+      "alt": "Element 34: Selenium, symbol Se. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-035",
+      "category": "elements",
+      "title": "Bromine (Br)",
+      "atomicNumber": 35,
+      "symbol": "Br",
+      "path": "/assets/chemistry/elements/035-br.svg",
+      "alt": "Element 35: Bromine, symbol Br. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-036",
+      "category": "elements",
+      "title": "Krypton (Kr)",
+      "atomicNumber": 36,
+      "symbol": "Kr",
+      "path": "/assets/chemistry/elements/036-kr.svg",
+      "alt": "Element 36: Krypton, symbol Kr. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-037",
+      "category": "elements",
+      "title": "Rubidium (Rb)",
+      "atomicNumber": 37,
+      "symbol": "Rb",
+      "path": "/assets/chemistry/elements/037-rb.svg",
+      "alt": "Element 37: Rubidium, symbol Rb. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-038",
+      "category": "elements",
+      "title": "Strontium (Sr)",
+      "atomicNumber": 38,
+      "symbol": "Sr",
+      "path": "/assets/chemistry/elements/038-sr.svg",
+      "alt": "Element 38: Strontium, symbol Sr. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-039",
+      "category": "elements",
+      "title": "Yttrium (Y)",
+      "atomicNumber": 39,
+      "symbol": "Y",
+      "path": "/assets/chemistry/elements/039-y.svg",
+      "alt": "Element 39: Yttrium, symbol Y. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-040",
+      "category": "elements",
+      "title": "Zirconium (Zr)",
+      "atomicNumber": 40,
+      "symbol": "Zr",
+      "path": "/assets/chemistry/elements/040-zr.svg",
+      "alt": "Element 40: Zirconium, symbol Zr. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-041",
+      "category": "elements",
+      "title": "Niobium (Nb)",
+      "atomicNumber": 41,
+      "symbol": "Nb",
+      "path": "/assets/chemistry/elements/041-nb.svg",
+      "alt": "Element 41: Niobium, symbol Nb. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-042",
+      "category": "elements",
+      "title": "Molybdenum (Mo)",
+      "atomicNumber": 42,
+      "symbol": "Mo",
+      "path": "/assets/chemistry/elements/042-mo.svg",
+      "alt": "Element 42: Molybdenum, symbol Mo. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-043",
+      "category": "elements",
+      "title": "Technetium (Tc)",
+      "atomicNumber": 43,
+      "symbol": "Tc",
+      "path": "/assets/chemistry/elements/043-tc.svg",
+      "alt": "Element 43: Technetium, symbol Tc. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-044",
+      "category": "elements",
+      "title": "Ruthenium (Ru)",
+      "atomicNumber": 44,
+      "symbol": "Ru",
+      "path": "/assets/chemistry/elements/044-ru.svg",
+      "alt": "Element 44: Ruthenium, symbol Ru. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-045",
+      "category": "elements",
+      "title": "Rhodium (Rh)",
+      "atomicNumber": 45,
+      "symbol": "Rh",
+      "path": "/assets/chemistry/elements/045-rh.svg",
+      "alt": "Element 45: Rhodium, symbol Rh. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-046",
+      "category": "elements",
+      "title": "Palladium (Pd)",
+      "atomicNumber": 46,
+      "symbol": "Pd",
+      "path": "/assets/chemistry/elements/046-pd.svg",
+      "alt": "Element 46: Palladium, symbol Pd. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-047",
+      "category": "elements",
+      "title": "Silver (Ag)",
+      "atomicNumber": 47,
+      "symbol": "Ag",
+      "path": "/assets/chemistry/elements/047-ag.svg",
+      "alt": "Element 47: Silver, symbol Ag. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-048",
+      "category": "elements",
+      "title": "Cadmium (Cd)",
+      "atomicNumber": 48,
+      "symbol": "Cd",
+      "path": "/assets/chemistry/elements/048-cd.svg",
+      "alt": "Element 48: Cadmium, symbol Cd. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-049",
+      "category": "elements",
+      "title": "Indium (In)",
+      "atomicNumber": 49,
+      "symbol": "In",
+      "path": "/assets/chemistry/elements/049-in.svg",
+      "alt": "Element 49: Indium, symbol In. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-050",
+      "category": "elements",
+      "title": "Tin (Sn)",
+      "atomicNumber": 50,
+      "symbol": "Sn",
+      "path": "/assets/chemistry/elements/050-sn.svg",
+      "alt": "Element 50: Tin, symbol Sn. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-051",
+      "category": "elements",
+      "title": "Antimony (Sb)",
+      "atomicNumber": 51,
+      "symbol": "Sb",
+      "path": "/assets/chemistry/elements/051-sb.svg",
+      "alt": "Element 51: Antimony, symbol Sb. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-052",
+      "category": "elements",
+      "title": "Tellurium (Te)",
+      "atomicNumber": 52,
+      "symbol": "Te",
+      "path": "/assets/chemistry/elements/052-te.svg",
+      "alt": "Element 52: Tellurium, symbol Te. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-053",
+      "category": "elements",
+      "title": "Iodine (I)",
+      "atomicNumber": 53,
+      "symbol": "I",
+      "path": "/assets/chemistry/elements/053-i.svg",
+      "alt": "Element 53: Iodine, symbol I. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-054",
+      "category": "elements",
+      "title": "Xenon (Xe)",
+      "atomicNumber": 54,
+      "symbol": "Xe",
+      "path": "/assets/chemistry/elements/054-xe.svg",
+      "alt": "Element 54: Xenon, symbol Xe. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-055",
+      "category": "elements",
+      "title": "Caesium (Cs)",
+      "atomicNumber": 55,
+      "symbol": "Cs",
+      "path": "/assets/chemistry/elements/055-cs.svg",
+      "alt": "Element 55: Caesium, symbol Cs. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-056",
+      "category": "elements",
+      "title": "Barium (Ba)",
+      "atomicNumber": 56,
+      "symbol": "Ba",
+      "path": "/assets/chemistry/elements/056-ba.svg",
+      "alt": "Element 56: Barium, symbol Ba. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-057",
+      "category": "elements",
+      "title": "Lanthanum (La)",
+      "atomicNumber": 57,
+      "symbol": "La",
+      "path": "/assets/chemistry/elements/057-la.svg",
+      "alt": "Element 57: Lanthanum, symbol La. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-058",
+      "category": "elements",
+      "title": "Cerium (Ce)",
+      "atomicNumber": 58,
+      "symbol": "Ce",
+      "path": "/assets/chemistry/elements/058-ce.svg",
+      "alt": "Element 58: Cerium, symbol Ce. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-059",
+      "category": "elements",
+      "title": "Praseodymium (Pr)",
+      "atomicNumber": 59,
+      "symbol": "Pr",
+      "path": "/assets/chemistry/elements/059-pr.svg",
+      "alt": "Element 59: Praseodymium, symbol Pr. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-060",
+      "category": "elements",
+      "title": "Neodymium (Nd)",
+      "atomicNumber": 60,
+      "symbol": "Nd",
+      "path": "/assets/chemistry/elements/060-nd.svg",
+      "alt": "Element 60: Neodymium, symbol Nd. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-061",
+      "category": "elements",
+      "title": "Promethium (Pm)",
+      "atomicNumber": 61,
+      "symbol": "Pm",
+      "path": "/assets/chemistry/elements/061-pm.svg",
+      "alt": "Element 61: Promethium, symbol Pm. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-062",
+      "category": "elements",
+      "title": "Samarium (Sm)",
+      "atomicNumber": 62,
+      "symbol": "Sm",
+      "path": "/assets/chemistry/elements/062-sm.svg",
+      "alt": "Element 62: Samarium, symbol Sm. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-063",
+      "category": "elements",
+      "title": "Europium (Eu)",
+      "atomicNumber": 63,
+      "symbol": "Eu",
+      "path": "/assets/chemistry/elements/063-eu.svg",
+      "alt": "Element 63: Europium, symbol Eu. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-064",
+      "category": "elements",
+      "title": "Gadolinium (Gd)",
+      "atomicNumber": 64,
+      "symbol": "Gd",
+      "path": "/assets/chemistry/elements/064-gd.svg",
+      "alt": "Element 64: Gadolinium, symbol Gd. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-065",
+      "category": "elements",
+      "title": "Terbium (Tb)",
+      "atomicNumber": 65,
+      "symbol": "Tb",
+      "path": "/assets/chemistry/elements/065-tb.svg",
+      "alt": "Element 65: Terbium, symbol Tb. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-066",
+      "category": "elements",
+      "title": "Dysprosium (Dy)",
+      "atomicNumber": 66,
+      "symbol": "Dy",
+      "path": "/assets/chemistry/elements/066-dy.svg",
+      "alt": "Element 66: Dysprosium, symbol Dy. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-067",
+      "category": "elements",
+      "title": "Holmium (Ho)",
+      "atomicNumber": 67,
+      "symbol": "Ho",
+      "path": "/assets/chemistry/elements/067-ho.svg",
+      "alt": "Element 67: Holmium, symbol Ho. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-068",
+      "category": "elements",
+      "title": "Erbium (Er)",
+      "atomicNumber": 68,
+      "symbol": "Er",
+      "path": "/assets/chemistry/elements/068-er.svg",
+      "alt": "Element 68: Erbium, symbol Er. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-069",
+      "category": "elements",
+      "title": "Thulium (Tm)",
+      "atomicNumber": 69,
+      "symbol": "Tm",
+      "path": "/assets/chemistry/elements/069-tm.svg",
+      "alt": "Element 69: Thulium, symbol Tm. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-070",
+      "category": "elements",
+      "title": "Ytterbium (Yb)",
+      "atomicNumber": 70,
+      "symbol": "Yb",
+      "path": "/assets/chemistry/elements/070-yb.svg",
+      "alt": "Element 70: Ytterbium, symbol Yb. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-071",
+      "category": "elements",
+      "title": "Lutetium (Lu)",
+      "atomicNumber": 71,
+      "symbol": "Lu",
+      "path": "/assets/chemistry/elements/071-lu.svg",
+      "alt": "Element 71: Lutetium, symbol Lu. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-072",
+      "category": "elements",
+      "title": "Hafnium (Hf)",
+      "atomicNumber": 72,
+      "symbol": "Hf",
+      "path": "/assets/chemistry/elements/072-hf.svg",
+      "alt": "Element 72: Hafnium, symbol Hf. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-073",
+      "category": "elements",
+      "title": "Tantalum (Ta)",
+      "atomicNumber": 73,
+      "symbol": "Ta",
+      "path": "/assets/chemistry/elements/073-ta.svg",
+      "alt": "Element 73: Tantalum, symbol Ta. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-074",
+      "category": "elements",
+      "title": "Tungsten (W)",
+      "atomicNumber": 74,
+      "symbol": "W",
+      "path": "/assets/chemistry/elements/074-w.svg",
+      "alt": "Element 74: Tungsten, symbol W. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-075",
+      "category": "elements",
+      "title": "Rhenium (Re)",
+      "atomicNumber": 75,
+      "symbol": "Re",
+      "path": "/assets/chemistry/elements/075-re.svg",
+      "alt": "Element 75: Rhenium, symbol Re. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-076",
+      "category": "elements",
+      "title": "Osmium (Os)",
+      "atomicNumber": 76,
+      "symbol": "Os",
+      "path": "/assets/chemistry/elements/076-os.svg",
+      "alt": "Element 76: Osmium, symbol Os. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-077",
+      "category": "elements",
+      "title": "Iridium (Ir)",
+      "atomicNumber": 77,
+      "symbol": "Ir",
+      "path": "/assets/chemistry/elements/077-ir.svg",
+      "alt": "Element 77: Iridium, symbol Ir. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-078",
+      "category": "elements",
+      "title": "Platinum (Pt)",
+      "atomicNumber": 78,
+      "symbol": "Pt",
+      "path": "/assets/chemistry/elements/078-pt.svg",
+      "alt": "Element 78: Platinum, symbol Pt. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-079",
+      "category": "elements",
+      "title": "Gold (Au)",
+      "atomicNumber": 79,
+      "symbol": "Au",
+      "path": "/assets/chemistry/elements/079-au.svg",
+      "alt": "Element 79: Gold, symbol Au. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-080",
+      "category": "elements",
+      "title": "Mercury (Hg)",
+      "atomicNumber": 80,
+      "symbol": "Hg",
+      "path": "/assets/chemistry/elements/080-hg.svg",
+      "alt": "Element 80: Mercury, symbol Hg. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-081",
+      "category": "elements",
+      "title": "Thallium (Tl)",
+      "atomicNumber": 81,
+      "symbol": "Tl",
+      "path": "/assets/chemistry/elements/081-tl.svg",
+      "alt": "Element 81: Thallium, symbol Tl. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-082",
+      "category": "elements",
+      "title": "Lead (Pb)",
+      "atomicNumber": 82,
+      "symbol": "Pb",
+      "path": "/assets/chemistry/elements/082-pb.svg",
+      "alt": "Element 82: Lead, symbol Pb. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-083",
+      "category": "elements",
+      "title": "Bismuth (Bi)",
+      "atomicNumber": 83,
+      "symbol": "Bi",
+      "path": "/assets/chemistry/elements/083-bi.svg",
+      "alt": "Element 83: Bismuth, symbol Bi. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-084",
+      "category": "elements",
+      "title": "Polonium (Po)",
+      "atomicNumber": 84,
+      "symbol": "Po",
+      "path": "/assets/chemistry/elements/084-po.svg",
+      "alt": "Element 84: Polonium, symbol Po. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-085",
+      "category": "elements",
+      "title": "Astatine (At)",
+      "atomicNumber": 85,
+      "symbol": "At",
+      "path": "/assets/chemistry/elements/085-at.svg",
+      "alt": "Element 85: Astatine, symbol At. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-086",
+      "category": "elements",
+      "title": "Radon (Rn)",
+      "atomicNumber": 86,
+      "symbol": "Rn",
+      "path": "/assets/chemistry/elements/086-rn.svg",
+      "alt": "Element 86: Radon, symbol Rn. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-087",
+      "category": "elements",
+      "title": "Francium (Fr)",
+      "atomicNumber": 87,
+      "symbol": "Fr",
+      "path": "/assets/chemistry/elements/087-fr.svg",
+      "alt": "Element 87: Francium, symbol Fr. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-088",
+      "category": "elements",
+      "title": "Radium (Ra)",
+      "atomicNumber": 88,
+      "symbol": "Ra",
+      "path": "/assets/chemistry/elements/088-ra.svg",
+      "alt": "Element 88: Radium, symbol Ra. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-089",
+      "category": "elements",
+      "title": "Actinium (Ac)",
+      "atomicNumber": 89,
+      "symbol": "Ac",
+      "path": "/assets/chemistry/elements/089-ac.svg",
+      "alt": "Element 89: Actinium, symbol Ac. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-090",
+      "category": "elements",
+      "title": "Thorium (Th)",
+      "atomicNumber": 90,
+      "symbol": "Th",
+      "path": "/assets/chemistry/elements/090-th.svg",
+      "alt": "Element 90: Thorium, symbol Th. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-091",
+      "category": "elements",
+      "title": "Protactinium (Pa)",
+      "atomicNumber": 91,
+      "symbol": "Pa",
+      "path": "/assets/chemistry/elements/091-pa.svg",
+      "alt": "Element 91: Protactinium, symbol Pa. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-092",
+      "category": "elements",
+      "title": "Uranium (U)",
+      "atomicNumber": 92,
+      "symbol": "U",
+      "path": "/assets/chemistry/elements/092-u.svg",
+      "alt": "Element 92: Uranium, symbol U. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-093",
+      "category": "elements",
+      "title": "Neptunium (Np)",
+      "atomicNumber": 93,
+      "symbol": "Np",
+      "path": "/assets/chemistry/elements/093-np.svg",
+      "alt": "Element 93: Neptunium, symbol Np. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-094",
+      "category": "elements",
+      "title": "Plutonium (Pu)",
+      "atomicNumber": 94,
+      "symbol": "Pu",
+      "path": "/assets/chemistry/elements/094-pu.svg",
+      "alt": "Element 94: Plutonium, symbol Pu. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-095",
+      "category": "elements",
+      "title": "Americium (Am)",
+      "atomicNumber": 95,
+      "symbol": "Am",
+      "path": "/assets/chemistry/elements/095-am.svg",
+      "alt": "Element 95: Americium, symbol Am. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-096",
+      "category": "elements",
+      "title": "Curium (Cm)",
+      "atomicNumber": 96,
+      "symbol": "Cm",
+      "path": "/assets/chemistry/elements/096-cm.svg",
+      "alt": "Element 96: Curium, symbol Cm. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-097",
+      "category": "elements",
+      "title": "Berkelium (Bk)",
+      "atomicNumber": 97,
+      "symbol": "Bk",
+      "path": "/assets/chemistry/elements/097-bk.svg",
+      "alt": "Element 97: Berkelium, symbol Bk. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-098",
+      "category": "elements",
+      "title": "Californium (Cf)",
+      "atomicNumber": 98,
+      "symbol": "Cf",
+      "path": "/assets/chemistry/elements/098-cf.svg",
+      "alt": "Element 98: Californium, symbol Cf. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-099",
+      "category": "elements",
+      "title": "Einsteinium (Es)",
+      "atomicNumber": 99,
+      "symbol": "Es",
+      "path": "/assets/chemistry/elements/099-es.svg",
+      "alt": "Element 99: Einsteinium, symbol Es. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-100",
+      "category": "elements",
+      "title": "Fermium (Fm)",
+      "atomicNumber": 100,
+      "symbol": "Fm",
+      "path": "/assets/chemistry/elements/100-fm.svg",
+      "alt": "Element 100: Fermium, symbol Fm. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-101",
+      "category": "elements",
+      "title": "Mendelevium (Md)",
+      "atomicNumber": 101,
+      "symbol": "Md",
+      "path": "/assets/chemistry/elements/101-md.svg",
+      "alt": "Element 101: Mendelevium, symbol Md. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-102",
+      "category": "elements",
+      "title": "Nobelium (No)",
+      "atomicNumber": 102,
+      "symbol": "No",
+      "path": "/assets/chemistry/elements/102-no.svg",
+      "alt": "Element 102: Nobelium, symbol No. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-103",
+      "category": "elements",
+      "title": "Lawrencium (Lr)",
+      "atomicNumber": 103,
+      "symbol": "Lr",
+      "path": "/assets/chemistry/elements/103-lr.svg",
+      "alt": "Element 103: Lawrencium, symbol Lr. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-104",
+      "category": "elements",
+      "title": "Rutherfordium (Rf)",
+      "atomicNumber": 104,
+      "symbol": "Rf",
+      "path": "/assets/chemistry/elements/104-rf.svg",
+      "alt": "Element 104: Rutherfordium, symbol Rf. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-105",
+      "category": "elements",
+      "title": "Dubnium (Db)",
+      "atomicNumber": 105,
+      "symbol": "Db",
+      "path": "/assets/chemistry/elements/105-db.svg",
+      "alt": "Element 105: Dubnium, symbol Db. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-106",
+      "category": "elements",
+      "title": "Seaborgium (Sg)",
+      "atomicNumber": 106,
+      "symbol": "Sg",
+      "path": "/assets/chemistry/elements/106-sg.svg",
+      "alt": "Element 106: Seaborgium, symbol Sg. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-107",
+      "category": "elements",
+      "title": "Bohrium (Bh)",
+      "atomicNumber": 107,
+      "symbol": "Bh",
+      "path": "/assets/chemistry/elements/107-bh.svg",
+      "alt": "Element 107: Bohrium, symbol Bh. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-108",
+      "category": "elements",
+      "title": "Hassium (Hs)",
+      "atomicNumber": 108,
+      "symbol": "Hs",
+      "path": "/assets/chemistry/elements/108-hs.svg",
+      "alt": "Element 108: Hassium, symbol Hs. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-109",
+      "category": "elements",
+      "title": "Meitnerium (Mt)",
+      "atomicNumber": 109,
+      "symbol": "Mt",
+      "path": "/assets/chemistry/elements/109-mt.svg",
+      "alt": "Element 109: Meitnerium, symbol Mt. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-110",
+      "category": "elements",
+      "title": "Darmstadtium (Ds)",
+      "atomicNumber": 110,
+      "symbol": "Ds",
+      "path": "/assets/chemistry/elements/110-ds.svg",
+      "alt": "Element 110: Darmstadtium, symbol Ds. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-111",
+      "category": "elements",
+      "title": "Roentgenium (Rg)",
+      "atomicNumber": 111,
+      "symbol": "Rg",
+      "path": "/assets/chemistry/elements/111-rg.svg",
+      "alt": "Element 111: Roentgenium, symbol Rg. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-112",
+      "category": "elements",
+      "title": "Copernicium (Cn)",
+      "atomicNumber": 112,
+      "symbol": "Cn",
+      "path": "/assets/chemistry/elements/112-cn.svg",
+      "alt": "Element 112: Copernicium, symbol Cn. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-113",
+      "category": "elements",
+      "title": "Nihonium (Nh)",
+      "atomicNumber": 113,
+      "symbol": "Nh",
+      "path": "/assets/chemistry/elements/113-nh.svg",
+      "alt": "Element 113: Nihonium, symbol Nh. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-114",
+      "category": "elements",
+      "title": "Flerovium (Fl)",
+      "atomicNumber": 114,
+      "symbol": "Fl",
+      "path": "/assets/chemistry/elements/114-fl.svg",
+      "alt": "Element 114: Flerovium, symbol Fl. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-115",
+      "category": "elements",
+      "title": "Moscovium (Mc)",
+      "atomicNumber": 115,
+      "symbol": "Mc",
+      "path": "/assets/chemistry/elements/115-mc.svg",
+      "alt": "Element 115: Moscovium, symbol Mc. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-116",
+      "category": "elements",
+      "title": "Livermorium (Lv)",
+      "atomicNumber": 116,
+      "symbol": "Lv",
+      "path": "/assets/chemistry/elements/116-lv.svg",
+      "alt": "Element 116: Livermorium, symbol Lv. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-117",
+      "category": "elements",
+      "title": "Tennessine (Ts)",
+      "atomicNumber": 117,
+      "symbol": "Ts",
+      "path": "/assets/chemistry/elements/117-ts.svg",
+      "alt": "Element 117: Tennessine, symbol Ts. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    },
+    {
+      "id": "element-118",
+      "category": "elements",
+      "title": "Oganesson (Og)",
+      "atomicNumber": 118,
+      "symbol": "Og",
+      "path": "/assets/chemistry/elements/118-og.svg",
+      "alt": "Element 118: Oganesson, symbol Og. Periodic-table tile, not a photo.",
+      "license": "CC0-1.0",
+      "creator": "StudyCade original vector illustration"
+    }
+  ],
+  "externalReferenceCollections": [
+    {
+      "title": "Wikimedia Commons — element samples",
+      "page": "https://commons.wikimedia.org/wiki/Category:Element_samples",
+      "note": "Each individual photo has its own license; verify before reuse."
+    },
+    {
+      "title": "Wikimedia Commons — CC0 simple periodic table",
+      "page": "https://commons.wikimedia.org/wiki/File:Simple_Periodic_Table_Chart.svg",
+      "license": "CC0-1.0"
+    },
+    {
+      "title": "Wikimedia Commons — CC0 element samples photo",
+      "page": "https://commons.wikimedia.org/wiki/File:Element_samples.jpg",
+      "license": "CC0-1.0"
+    },
+    {
+      "title": "IUPAC element symbols",
+      "page": "https://iupac.org/what-we-do/periodic-table-of-elements/",
+      "note": "Data reference, not a license to reproduce IUPAC artwork."
+    }
+  ]
+}
