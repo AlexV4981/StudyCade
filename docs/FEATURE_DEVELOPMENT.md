@@ -20,6 +20,10 @@ This is the branch's feature-extension guide. Follow [security boundaries](../SE
 
 Avoid adding another large feature inside `main.jsx`. Put UI in a focused component file, and pure calculations in a focused JavaScript module with adjacent `*.test.js` tests.
 
+## Image handling
+
+Use [StudyImage](../frontend/src/StudyImage.js) through the shared [Content](../frontend/src/content.js) Markdown renderer. Keep external images consent-gated; do not add a background fetcher, embed raw HTML, or weaken the CSP beyond images. See [Markdown image support](IMAGES.md) and its test cases.
+
 ## Feature checklist
 
 1. **Write the behavior contract first.** Specify input, output, error handling, existing workflows affected, and whether the feature stores study content or reads anything private.
