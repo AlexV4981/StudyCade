@@ -51,3 +51,10 @@ test("exam generator allows verified direct image URLs with explicit SOURCE prov
   assert.match(EXAM_PROMPT, /all essential givens in text/);
   assert.match(EXAM_PROMPT, /Do not leave a placeholder URL/);
 });
+
+test("MCQ prompt permits only source-safe interactive chemistry navigation", () => {
+  assert.match(EXAM_PROMPT, /\/interactive\/periodic-table/);
+  assert.match(EXAM_PROMPT, /\/interactive\/diagram\?id=periodic-trends/);
+  assert.match(EXAM_PROMPT, /Do not invent element symbols, diagram IDs/);
+  assert.match(EXAM_PROMPT, /solvable without opening the interactive tool/);
+});
