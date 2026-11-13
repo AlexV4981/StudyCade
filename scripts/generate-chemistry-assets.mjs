@@ -297,8 +297,9 @@ function pos(z){
 function periodicTable(){
  const W=1880,H=1210,cw=92,ch=83,left=100,top=170;
  const cells=ELEMENTS.map(e=>{let [g,p]=pos(e.atomicNumber),x=left+(g-1)*cw,y=top+(p-1)*ch,fill=familyColor(family(e.atomicNumber));
-  return '<rect x="'+x+'" y="'+y+'" width="87" height="78" rx="9" fill="'+C.panel+'" stroke="'+fill+'" stroke-width="3"/>'+
-   T(x+9,y+18,e.atomicNumber,15,fill,'start',700)+T(x+44,y+52,e.symbol,31,C.ink,'middle',700);
+  return '<g><title>'+esc(e.name)+' (atomic number '+e.atomicNumber+')</title>'+
+   '<rect x="'+x+'" y="'+y+'" width="87" height="78" rx="9" fill="'+C.panel+'" stroke="'+fill+'" stroke-width="3"/>'+
+   T(x+9,y+18,e.atomicNumber,15,fill,'start',700)+T(x+44,y+52,e.symbol,31,C.ink,'middle',700)+'</g>';
  }).join('');
  let head='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-labelledby="title desc">'+
  '<title id="title">Periodic table of all 118 chemical elements</title><desc id="desc">All 118 IUPAC element symbols and atomic numbers, arranged by group, period, lanthanide and actinide series. Atomic weights not shown.</desc>'+
