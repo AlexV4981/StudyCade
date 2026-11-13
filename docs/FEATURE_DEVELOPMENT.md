@@ -22,7 +22,7 @@ Avoid adding another large feature inside `main.jsx`. Put UI in a focused compon
 
 ## Image handling
 
-Use [StudyImage](../frontend/src/StudyImage.js) through the shared [Content](../frontend/src/content.js) Markdown renderer. Keep external images consent-gated; do not add a background fetcher, embed raw HTML, or weaken the CSP beyond images. See [Markdown image support](IMAGES.md) and its test cases.
+Use [StudyImage](../frontend/src/StudyImage.js) through the shared [Content](../frontend/src/content.js) Markdown renderer. Keep external images consent-gated; do not add a background fetcher, embed raw HTML, or weaken the CSP beyond images. See [Markdown image support](IMAGES.md) and the [chemistry visual library](CHEMISTRY_VISUAL_LIBRARY.md). Edit the source catalogue and generator rather than manually modifying generated SVGs.
 
 ## Feature checklist
 
