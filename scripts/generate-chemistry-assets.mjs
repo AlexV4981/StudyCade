@@ -122,8 +122,10 @@ function scene(id) {
    s=R(64,171,896,352)+[['CO₂','Linear','180°'],['H₂O','Bent','~104.5°'],['BF₃','Trigonal planar','120°'],['CH₄','Tetrahedral','~109.5°']].map(([formula,name,angle],i)=>{const x=179+i*220;return R(x-96,210,193,258)+T(x,257,formula,36,C.teal)+T(x,321,name,22,C.ink)+T(x,382,angle,26,C.gold)+T(x,429,'Ideal / example',15,C.muted)}).join('');
    break;
  case 'hydrogen-bonding':
-   s=R(90,175,844,355)+molecular(309,337,'H2O')+molecular(712,337,'H2O')+
-   L(363,368,652,339,C.teal,4,'8 10')+T(515,290,'Hydrogen bond  ···',23,C.teal)+T(513,484,'Between molecules, not the internal O—H bond',21,C.muted);
+   s=R(90,175,844,355)+molecular(309,337,'H2O')+
+   atom(712,337,'O',25,C.red)+atom(760,304,'H',18,C.white)+atom(760,376,'H',18,C.white)+
+   L(731,324,747,313,C.muted,4)+L(731,351,747,365,C.muted,4)+
+   L(357,370,688,342,C.teal,4,'8 10')+T(515,290,'H···O hydrogen bond',23,C.teal)+T(513,484,'Intermolecular attraction, not an O—H covalent bond',21,C.muted);
    break;
  case 'mole-conversions':
    s=row3([['Mass (g)','÷ molar mass'],['Amount (mol)','× 6.022 × 10²³'],['Particles','atoms / molecules']]);
@@ -307,7 +309,12 @@ function periodicTable(){
  R(left+2*cw,top+5*ch,87,78,C.panel,C.line,9)+T(left+2*cw+44,top+5*ch+38,'57–71',15,C.muted)+
  R(left+2*cw,top+6*ch,87,78,C.panel,C.line,9)+T(left+2*cw+44,top+6*ch+38,'89–103',15,C.muted)+
  T(91,top+7*ch+51,'Lanthanides',19,C.muted,'start')+T(91,top+8*ch+51,'Actinides',19,C.muted,'start')+
- T(90,1040,'Reference chart: symbols and atomic numbers only. Periodic-table group-3 convention varies.',21,C.muted,'start')+
+ [
+   ['Alkali metal',C.gold],['Alkaline earth', '#f5ac83'],['Transition metal',C.muted],
+   ['Metalloid',C.violet],['Nonmetal',C.teal],['Halogen',C.green],
+   ['Noble gas',C.blue],['Lanthanide', '#f5a3ce'],['Actinide', '#cd99ec']
+ ].map(([name,color],i)=>{const x=96+(i%5)*336,y=980+Math.floor(i/5)*50;return O(x,y,12,color)+T(x+22,y+7,name,21,C.ink,'start')}).join('')+
+ T(90,1100,'Reference: symbols and atomic numbers only. Group-3 convention can vary.',19,C.muted,'start')+
  T(90,1130,'StudyCade • original vector chart • CC0-1.0',18,C.teal,'start')+
  T(1790,1130,'Element names: IUPAC',17,C.muted,'end')+'</svg>\n';
  return head;
