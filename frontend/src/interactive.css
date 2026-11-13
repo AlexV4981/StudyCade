@@ -70,3 +70,10 @@
  .interactive-share { clear: both; margin-top: 20px; }
  .diagram-stage { min-width: 480px; }
 }
+
+.interactive-trend { display: flex; align-items: center; gap: 14px; }
+.interactive-trend-arrow { display: inline-grid; place-items: center; flex: 0 0 48px; height: 48px; border-radius: 10px;
+  background: #245470; color: #d0fcf0; font-size: 34px; line-height: 1; }
+.periodic-legend { display: flex; flex-wrap: wrap; gap: 8px 17px; padding: 14px 4px 5px; }
+.periodic-legend span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #c3d7e8; }
+.periodic-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
