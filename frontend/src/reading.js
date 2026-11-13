@@ -1,19 +1,16 @@
 export function mostRecentNote(documents = []) {
-  return documents
-    .filter(
-      (d) =>
-        !d.examSummary &&
-        !d.exam &&
-        typeof d.lastReadAt === "string" &&
-        Number.isFinite(Date.parse(d.lastReadAt)),
-    )
-    .reduce(
-      (latest, d) =>
-        !latest || Date.parse(d.lastReadAt) > Date.parse(latest.lastReadAt)
-          ? d
-          : latest,
-      null,
-    );
+  let latest = null;
+  let latestTimestamp = -Infinity;
+  for (const document of documents) {
+    if (document.examSummary || document.exam ||
+        typeof document.lastReadAt !== "string") continue;
+    const timestamp = Date.parse(document.lastReadAt);
+    if (Number.isFinite(timestamp) && timestamp > latestTimestamp) {
+      latest = document;
+      latestTimestamp = timestamp;
+    }
+  }
+  return latest;
 }
 
 export function hasSectionBody(section) {

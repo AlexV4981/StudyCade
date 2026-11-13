@@ -1,0 +1,59 @@
+name: Chemistry illustration library
+
+on:
+  push:
+    branches:
+      - optimization-and-updates
+    paths:
+      - 'scripts/generate-chemistry-assets.mjs'
+      - 'frontend/src/chemistry-library.js'
+      - '.github/workflows/chemistry-assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: studycade-chemistry-assets
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: optimization-and-updates
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Validate and generate original chemistry SVG assets
+        run: |
+          node --check scripts/generate-chemistry-assets.mjs
+          node --check frontend/src/chemistry-library.js
+          node scripts/generate-chemistry-assets.mjs
+          node scripts/generate-chemistry-assets.mjs --check
+      - name: Verify SVGs contain no active content or external references
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, xml.etree.ElementTree as ET
+          path = Path("frontend/public/assets/chemistry")
+          svgs = list(path.rglob("*.svg"))
+          assert len(svgs) == 158, f"Expected 158 diagrams/tiles, got {len(svgs)}"
+          for svg in svgs:
+              source = svg.read_text(encoding="utf-8")
+              ET.fromstring(source)
+              assert not re.search(r"<(?:script|foreignObject|image|iframe)\b|(?:onload|onerror)\s*=|(?:href|xlink:href)\s*=", source, re.I), svg
+          print(f"Validated {len(svgs)} parseable, self-contained SVGs")
+          PY
+      - name: Publish assets to the optimization branch only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/public/assets/chemistry
+          if ! git diff --cached --quiet; then
+            git commit -m "assets: generate chemistry diagrams and all 118 element reference tiles"
+            git push origin HEAD:optimization-and-updates
+          fi

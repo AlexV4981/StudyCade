@@ -1,14 +1,10 @@
 # Deployment and release boundaries
 
-## Connected Render service
+## Hosting configuration
 
-As inspected October 29, 2026, the StudyCade Render service is configured with:
+The repository contains the Docker build and a sample Render blueprint. Live hosting settings (deployed source branch, automatic deployments, account allowlists and environment values) are managed outside the public repository. Do not assume pushes to `main` or `optimization-and-updates` trigger a release.
 
-- Source: **AlexV4981/StudyCade**, branch **render-guest-security**
-- Runtime: **Docker**, context **.**, Dockerfile **./Dockerfile.render**
-- Automatic deployment: **off**
-
-The **main** branch is a reviewed, organized public source tree. A commit to main does **not** update the active service. The [Dockerfile](../Dockerfile.render) builds React/Vite assets and runs the FastAPI application under an unprivileged user; [render.yaml](../render.yaml) contains comparable deployment settings.
+The [Dockerfile](../Dockerfile.render) builds React/Vite assets and starts the FastAPI application under an unprivileged user. The [Render blueprint](../render.yaml) documents public deployment structure but must not contain live secrets.
 
 ## Persistence modes
 
@@ -26,8 +22,8 @@ The [SQL migration](../supabase/migrations/202610160001_private_cloud_workspaces
 
 1. Review diffs for real addresses, tokens, allowlists, coursework, dumps and logs.
 2. Build the Docker image and run the [verification checklist](DEVELOPMENT.md).
-3. Intentionally integrate approved changes to **render-guest-security** only after review.
+3. Integrate approved changes to the configured deployment branch only after an explicit release review.
 4. Validate guest and approved cloud flows with disposable data, including conflict handling.
 5. Trigger deployment separately; check health and redacted logs.
 
-A documentation/reorganization commit to **main** does not change Render settings, Supabase data, production secrets or the deployed branch.
+Documentation and development commits must not change live hosting settings, Supabase data or production secrets.

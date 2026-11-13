@@ -9,6 +9,10 @@ StudyCade can process private notes, progress and cloud identities. This public 
 - Approved cloud accounts use Supabase Auth and private owner-scoped PostgreSQL storage through the Render gateway. Session tokens use encrypted secure HttpOnly cookies. This is **not** end-to-end encryption.
 - Input controls, RLS, membership checks and stale-write protection are described in [Architecture](docs/ARCHITECTURE.md) and [cloud security design](docs/CLOUD_SECURITY.md).
 
+## Remote Markdown images
+
+External HTTPS images are not loaded automatically. A learner must explicitly choose **Load image**; this sends a direct browser request to the image host (which may observe the visitor's IP address), with no referrer. Images are linked rather than uploaded to or fetched by the StudyCade server. See [Markdown images](docs/IMAGES.md).
+
 ## Do not commit
 
 Private environment values, cloud session keys, service-role tokens, email allowlist entries or hashes, personal coursework, backups, user records, local databases, browser session material, raw logs, recovery archives or computer-specific identifiers.

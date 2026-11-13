@@ -2432,3 +2432,62 @@ main {
     font-size: 24px;
   }
 }
+
+/* Images inside Markdown (including [!RECALL] questions) are untrusted links. */
+.content .study-image {
+  display: block;
+  width: min(100%, 720px);
+  max-width: 100%;
+  margin: 14px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--tint);
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.content .study-image-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.content .study-image img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(65vh, 640px);
+  object-fit: contain;
+  border-radius: 6px;
+}
+.content .study-image-load {
+  display: inline-flex;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+.content .study-image-help,
+.content .study-image-source {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.content .study-image-source {
+  color: var(--accent);
+  width: fit-content;
+}
+.content .study-image-unavailable {
+  border-style: dashed;
+  color: var(--muted);
+}
+@media print {
+  .content .study-image img {
+    max-height: none;
+  }
+  .content .study-image button {
+    display: none;
+  }
+}

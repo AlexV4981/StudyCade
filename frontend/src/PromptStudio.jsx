@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { buildStudyPrompt } from "./prompts.js";
+import ChemistryGallery from "./ChemistryGallery.jsx";
 export default function PromptStudio({
   documents,
   deck,
@@ -11,6 +12,7 @@ export default function PromptStudio({
     [includeDeck, setIncludeDeck] = useState(false),
     [goal, setGoal] = useState(""),
     [kind, setKind] = useState("guide"),
+    [includeImages, setIncludeImages] = useState(true),
     [busy, setBusy] = useState(false),
     [copied, setCopied] = useState(false);
   useEffect(() => {
@@ -36,6 +38,7 @@ export default function PromptStudio({
     deck: includeDeck ? deck : null,
     goal,
     kind,
+    includeImages,
   });
   async function copy() {
     try {
@@ -129,6 +132,22 @@ export default function PromptStudio({
               <option value="tutor">Guided tutoring recap</option>
             </select>
           </label>
+          <label className="check-row">
+            <input
+              type="checkbox"
+              checked={includeImages}
+              onChange={(event) => {
+                setIncludeImages(event.target.checked);
+                setCopied(false);
+              }}
+            />
+            <span>Use built-in chemistry images or verified online images</span>
+          </label>
+          <p className="muted small">
+            Bundled chemistry diagrams work without web access. For other images, the chosen model needs browsing; StudyCade does not search
+            for or download images. External image links load only when clicked.
+          </p>
+          <ChemistryGallery onError={onError} />
           <label>
             What would you like to work on?
             <textarea

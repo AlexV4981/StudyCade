@@ -2,7 +2,7 @@
 
 A browser-based study workspace for turning Markdown and CSV study material into notes, review decks, paper practice, recall sessions and self-checks. Built with **React/Vite**, **FastAPI on Render**, and optional **Supabase** login and private workspace persistence.
 
-[Open the app](https://studycade-guest.onrender.com) · [Topology and architecture](docs/ARCHITECTURE.md) · [Development](docs/DEVELOPMENT.md) · [Deployment](docs/DEPLOYMENT.md) · [Security](SECURITY.md)
+[Open the app](https://studycade-guest.onrender.com) · [Topology and architecture](docs/ARCHITECTURE.md) · [Development](docs/DEVELOPMENT.md) · [Adding features](docs/FEATURE_DEVELOPMENT.md) · [Markdown images](docs/IMAGES.md) · [Chemistry visual library](docs/CHEMISTRY_VISUAL_LIBRARY.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Deployment](docs/DEPLOYMENT.md) · [Security](SECURITY.md)
 
 ## Features
 
@@ -55,6 +55,6 @@ Open **http://localhost:10000**. This runs guest mode only; cloud authentication
 
 Guest content and progress are stored in browser IndexedDB. The import **Preview** feature temporarily sends selected source text to FastAPI for parsing, but does not save it as a server-side guest account. Approved signed-in users can save an owner-scoped workspace to Supabase through the Render gateway. See the [data-flow diagram](docs/ARCHITECTURE.md).
 
-Render currently deploys from the **render-guest-security** branch, with automatic deployments disabled. This **main** branch is the organized public source; pushing here does **not** update the live application. [Release instructions](docs/DEPLOYMENT.md).
+Live deployment settings are managed separately from this source tree. A push to this development branch is not a release; confirm the approved deployment source before shipping. [Release instructions](docs/DEPLOYMENT.md).
 
 The repository should not contain live credentials, private email approvals, personal coursework, database exports or user backups. [Security and privacy](SECURITY.md). Source code and design notes are not an external security audit.
