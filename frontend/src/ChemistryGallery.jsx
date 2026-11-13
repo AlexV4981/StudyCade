@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { CHEMISTRY_CATEGORIES, CHEMISTRY_LIBRARY } from "./chemistry-library.js";
+import { CHEMISTRY_CATEGORIES, CHEMISTRY_LIBRARY, CHEMISTRY_STOCK_REFERENCES } from "./chemistry-library.js";
 import "./chemistry.css";
 
 const INITIAL_LIMIT = 18;
@@ -73,6 +73,23 @@ export default function ChemistryGallery({ onError }) {
         </button>
       )}
       {!results.length && <p className="muted">No matching chemistry diagrams. Try another topic or element name.</p>}
+      <details className="chem-stock-sources">
+        <summary>Verified CC0 stock photographs and reference charts ({CHEMISTRY_STOCK_REFERENCES.length})</summary>
+        <p className="muted small">
+          These are external Wikimedia Commons source pages, not locally bundled photographs.
+          Visit the original file page to view the photo and confirm reuse details.
+        </p>
+        <ul>
+          {CHEMISTRY_STOCK_REFERENCES.map((asset) => (
+            <li key={asset.sourcePage}>
+              <a href={asset.sourcePage} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">
+                {asset.title}
+              </a>
+              <span className="muted small"> · {asset.creator} · CC0 1.0</span>
+            </li>
+          ))}
+        </ul>
+      </details>
     </details>
   );
 }
