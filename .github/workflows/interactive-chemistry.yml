@@ -1,0 +1,46 @@
+name: Interactive chemistry verification
+
+on:
+  push:
+    branches:
+      - feature/interactive-chemistry
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: studycade-interactive-chemistry
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan tracked files for private data
+        run: python3 scripts/check_public_tree.py
+      - name: Test privacy scanner
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Configure pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@11.25.0 --activate
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: pnpm install --frozen-lockfile
+      - name: Check chemistry SVGs
+        run: node scripts/generate-chemistry-assets.mjs --check
+      - name: Run frontend and interactive-link tests
+        working-directory: frontend
+        run: pnpm test
+      - name: Build production frontend
+        working-directory: frontend
+        run: pnpm build
+      - name: Install pinned backend dependencies
+        run: python3 -m pip install -r requirements-guest.lock
+      - name: Test backend routes and static assets
+        run: python3 -m unittest discover -s backend/tests -p 'test_*.py'
