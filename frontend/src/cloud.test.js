@@ -79,12 +79,14 @@ test("signed-in cloud API bootstraps against remote state without guest database
     fetcher: async (_path, options) => {
       assert.equal(options.headers["X-StudyCade-Account"], "owner-one");
       reads++;
-      return response(200, { state: null, version: 0 });
+      return options.method === "PUT"
+        ? response(200, { version: 1 })
+        : response(200, { state: null, version: 0 });
     },
   });
   const data = await api("/api/bootstrap");
   assert.equal(data.user.role, "cloud");
   assert.equal(data.sets.length, 1);
-  assert.equal(reads, 1);
+  assert.equal(reads, 2);
   await assert.rejects(() => api("/api/admin/users"), /unavailable/i);
 });
