@@ -7,6 +7,7 @@ import "katex/contrib/mhchem";
 import { StudyContext, StudyProblem } from "./StudyProblem.js";
 import { countRecall, humanTopic } from "./study.js";
 import StudyImage from "./StudyImage.js";
+import { parseInteractiveHref } from "./interactive-chemistry.js";
 // Protect fenced and inline code before normalizing the legacy math delimiters.
 export function normalize(source = "") {
   // A short answer such as "1789." is a date, not an empty Markdown list.
@@ -210,12 +211,32 @@ function RenderContent({
           "study-problem": StudyProblem,
           img: ({ src, alt, title }) =>
             React.createElement(StudyImage, { src, alt, title }),
-          a: ({ children, ...props }) =>
-            React.createElement(
+          a: ({ children, href, ...props }) => {
+            const interactive = parseInteractiveHref(href);
+            if (typeof href === "string" && href.startsWith("/interactive/") && !interactive)
+              return React.createElement(
+                "span",
+                { className: "interactive-link-invalid", role: "note" },
+                children, " (interactive reference unavailable)",
+              );
+            return React.createElement(
               "a",
-              { ...props, rel: "noopener noreferrer" },
+              {
+                ...props,
+                href: interactive ? interactive.href : href,
+                rel: "noopener noreferrer",
+                ...(interactive
+                  ? { target: "_blank", className: "interactive-md-link", "data-interactive": interactive.view }
+                  : {}),
+              },
               children,
-            ),
+              interactive && React.createElement(
+                "span",
+                { "aria-hidden": "true", className: "interactive-link-icon" },
+                " ↗",
+              ),
+            );
+          },
         },
       },
       normalize(children),
