@@ -94,3 +94,24 @@ export function findChemistryAssets(query, max = 12) {
   }).filter((candidate) => candidate.score > 0).sort((a, b) => b.score - a.score || a.asset.title.localeCompare(b.asset.title))
     .slice(0, Math.min(Math.max(0, max), 24)).map((candidate) => candidate.asset);
 }
+
+// Public stock reference pages verified individually on Wikimedia Commons.
+// These are NOT bundled photos: retain the creator, page and CC0 licensing when reusing.
+const STOCK_ROWS = [
+ ['Element sample collection','photographs','Arònel123','Element_samples.jpg','Al, Cu, Zn, Ga, Nb, In, C, P and S samples'],
+ ['Sodium metal sample','photographs','Nefronus','Sodium_sample.jpg','Freshly cut elemental sodium'],
+ ['Copper crystal','photographs','范皓程','Copper_crystal.jpg','Electrolytic copper crystal'],
+ ['Titration in progress','laboratory','Alyc321','Titration_of_sulphites_-_initial_step_of_titration.jpg','Real titration setup'],
+ ['Ascorbic acid titration setup','laboratory','I zeneizi','Ascorbic_acid_titration_on_juices_-_the_tools_and_reagents.jpg','Titration tools and reagents'],
+ ['Volumetric flask photograph','laboratory','Goodymeraj','Laboratory_apparatus_01.jpg','500 cm³ volumetric flask'],
+ ['Heating laboratory flask','laboratory','Jahra Tasfia Reza','Laboratory_experiments.jpg','Flat-bottomed flask on a heated support'],
+ ['Chemistry laboratory photograph','laboratory','Hussy~B','Chemistry_lab_01.jpg','Chemistry lab sample analysis area'],
+ ['CC0 simple periodic table','reference','Offnfopt','Simple_Periodic_Table_Chart.svg','Reusable external periodic chart'],
+ ['CC0 basic periodic table','reference','SCB2024','Basic_Periodic_Table.jpg','Reusable external periodic chart'],
+];
+export const CHEMISTRY_STOCK_REFERENCES = Object.freeze(STOCK_ROWS.map(([title, category, creator, filename, description]) => Object.freeze({
+  title, category, creator, description,
+  license: 'CC0-1.0',
+  sourcePage: 'https://commons.wikimedia.org/wiki/File:' + filename,
+  downloaded: false,
+})));
