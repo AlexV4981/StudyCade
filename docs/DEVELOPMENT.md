@@ -43,6 +43,8 @@ corepack pnpm build
 cd ..
 python3 scripts/check_public_tree.py
 python3 -m unittest discover -s scripts -p 'test_*.py'
+python3 -m pip install -r requirements-guest.lock
+python3 -m unittest discover -s backend/tests -p 'test_*.py'
 ~~~
 
 These gates do not replace browser acceptance tests, backend deployment verification, or a review of earlier Git history.
