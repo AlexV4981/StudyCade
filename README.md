@@ -2,7 +2,7 @@
 
 A browser-based study workspace for turning Markdown and CSV study material into notes, review decks, paper practice, recall sessions and self-checks. Built with **React/Vite**, **FastAPI on Render**, and optional **Supabase** login and private workspace persistence.
 
-[Open the app](https://studycade-guest.onrender.com) · [Topology and architecture](docs/ARCHITECTURE.md) · [Development](docs/DEVELOPMENT.md) · [Adding features](docs/FEATURE_DEVELOPMENT.md) · [Markdown images](docs/IMAGES.md) · [Chemistry visual library](docs/CHEMISTRY_VISUAL_LIBRARY.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Deployment](docs/DEPLOYMENT.md) · [Security](SECURITY.md)
+[Open the app](https://studycade-guest.onrender.com) · [Topology and architecture](docs/ARCHITECTURE.md) · [Development](docs/DEVELOPMENT.md) · [Adding features](docs/FEATURE_DEVELOPMENT.md) · [Markdown images](docs/IMAGES.md) · [Chemistry visual library](docs/CHEMISTRY_VISUAL_LIBRARY.md) · [Interactive chemistry links](docs/INTERACTIVE_CHEMISTRY.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Deployment](docs/DEPLOYMENT.md) · [Security](SECURITY.md)
 
 ## Features
 

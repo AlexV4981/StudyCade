@@ -20,6 +20,10 @@ This is the branch's feature-extension guide. Follow [security boundaries](../SE
 
 Avoid adding another large feature inside `main.jsx`. Put UI in a focused component file, and pure calculations in a focused JavaScript module with adjacent `*.test.js` tests.
 
+## Interactive chemistry routes
+
+The server exposes only `/interactive/periodic-table` and `/interactive/diagram`, both read-only local pages. Markdown references pass through the strict [interactive-link parser](../frontend/src/interactive-chemistry.js). Never accept arbitrary dynamic URLs, run scripts or forward notes in route parameters. See [Interactive chemistry](INTERACTIVE_CHEMISTRY.md).
+
 ## Image handling
 
 Use [StudyImage](../frontend/src/StudyImage.js) through the shared [Content](../frontend/src/content.js) Markdown renderer. Keep external images consent-gated; do not add a background fetcher, embed raw HTML, or weaken the CSP beyond images. See [Markdown image support](IMAGES.md) and the [chemistry visual library](CHEMISTRY_VISUAL_LIBRARY.md). Edit the source catalogue and generator rather than manually modifying generated SVGs.

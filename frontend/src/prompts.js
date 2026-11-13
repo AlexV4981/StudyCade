@@ -1,5 +1,6 @@
 // Provider-independent instructions. This module never invokes an AI service.
 import { CHEMISTRY_TOPICS, findChemistryAssets } from "./chemistry-library.js";
+import { periodicHref, diagramHref } from "./interactive-chemistry.js";
 export const SUBJECT_CODES = {
   general: "GEN",
   mathematics: "MATH",
@@ -35,6 +36,7 @@ export function buildStudyPrompt({
   goal = "",
   kind = "guide",
   includeImages = true,
+  includeInteractive = true,
 } = {}) {
   const instructions = [
     "Create an import-ready StudyCade Markdown study file. All questions, answers and factual claims must come from the supplied source material; optional verified public images may illustrate those facts, never supply new ones.",
@@ -57,6 +59,9 @@ export function buildStudyPrompt({
       : "10. Do not search the web for illustrations or add new image URLs. Preserve image references already in the supplied source without claiming they have been checked; describe missing visuals and ensure every question is solvable without them.",
     "11. Finish with a brief cumulative retrieval section only when useful, keeping subjects separate and question numbers unique. Each cumulative problem must repeat its own required givens; do not refer to earlier problems for essential data.",
     "12. StudyCade supplies manual progress controls: red X Needs practice by default, yellow flag Review later, and green check Complete. Do not pre-mark questions mastered or embed checkboxes, timers, navigation sidebars or saved-progress metadata. Keep subject IDs in headings for source identification; StudyCade handles their presentation.",
+    includeInteractive
+      ? "13. INTERACTIVE CHEMISTRY REFERENCES: Standard Markdown links may open StudyCade's read-only periodic table and zoomable diagrams in a new tab. Only use exact links provided in BUILT-IN INTERACTIVE CHEMISTRY LINKS; never invent identifiers, URL parameters, routes or external embed code. Link syntax is [Explore a concept](/interactive/diagram?id=verified-id) or [Explore the periodic table](/interactive/periodic-table), using real provided paths rather than placeholders. Inside [!RECALL], prefix the entire Markdown link line with >. Give at most one relevant interactive link per question, and keep all givens, values, terms, and answers in the question text; the tool is for exploration, not a substitute for source evidence. Interactive references are navigation, not additional factual sources. No scripts, iframes, arbitrary HTML, automatic actions or fabricated data."
+      : "13. Do not add interactive-study links. Preserve valid links already in the supplied source without changing their intended meaning.",
     "",
     "FORMAT EXAMPLE (replace these examples with source-based content)",
     "# [MIXED] Review",
@@ -81,7 +86,7 @@ export function buildStudyPrompt({
     "> $\\ce{2H2 + O2 -> 2H2O}$.",
     "",
     "BEFORE RETURNING THE FILE",
-    "Check delimiters, ordered unique Q# headings, complete self-contained givens, clear answers, collapsed hints/solutions, SOURCE provenance, subject IDs, verified calculations, and correct chemistry/units. Add images only under rule 10, with meaningful alt text and a source link; never invent or promise to fetch a URL. No enclosing code fence or editorial preamble.",
+    "Check delimiters, ordered unique Q# headings, complete self-contained givens, clear answers, collapsed hints/solutions, SOURCE provenance, subject IDs, verified calculations, and correct chemistry/units. Add images only under rule 10; add interactive links only under rule 13 using exact supplied local routes. Never invent an image URL or interactive route. No enclosing code fence or editorial preamble.",
     "",
     `REQUESTED OUTPUT: ${kind === "practice" ? "Practice questions with progressive hints and worked answers" : kind === "tutor" ? "A guided tutoring recap with hints, error analysis and worked solutions" : "Readable notes with paper practice, hidden answers and worked solutions"}.`,
     goal.trim()
@@ -101,10 +106,11 @@ export function buildStudyPrompt({
     (deck && subjectsOf(deck).includes("chemistry")) ||
     /\b(?:chemistry|chemical|periodic table|stoichiometry|titration|molarity|enthalpy|electron configuration|oxidation|reduction|isotope|ionization|acid.base|covalent|atomic structure|gas laws|solubility|calorimetry)\b/i.test(studyContext) ||
     /\[CHEM\]/i.test(studyContext);
+  const matchedAssets = chemistryInput ? findChemistryAssets(studyContext, 10) : [];
+  const selectedAssets = matchedAssets.length ? matchedAssets :
+    CHEMISTRY_TOPICS.filter((item) => ["periodic-table", "atomic-structure", "mole-conversions", "titration-setup"].includes(item.id));
   if (includeImages && chemistryInput) {
-    const matched = findChemistryAssets(studyContext, 10);
-    const chosen = matched.length ? matched :
-      CHEMISTRY_TOPICS.filter((item) => ["periodic-table", "atomic-structure", "mole-conversions", "titration-setup"].includes(item.id));
+    const chosen = selectedAssets;
     const lines = [
       "BUILT-IN CHEMISTRY VISUALS (public, locally bundled)",
       "The exact paths below load immediately in StudyCade and require no browsing. Use only a matching entry. Use Markdown image syntax with its exact listed path and meaningful alt text; do not output placeholder paths. Keep the question self-contained without the image.",
@@ -114,6 +120,23 @@ export function buildStudyPrompt({
       "",
     ];
     instructions.splice(instructions.length - 1, 0, ...lines);
+  }
+  if (includeInteractive && chemistryInput) {
+    const paths = new Map();
+    paths.set(periodicHref(), "Interactive periodic table — all 118 elements");
+    for (const asset of selectedAssets) {
+      const url = asset.symbol
+        ? periodicHref({ element: asset.symbol })
+        : asset.id === "periodic-table" ? periodicHref() : diagramHref(asset.id);
+      if (url) paths.set(url, asset.title);
+    }
+    instructions.splice(instructions.length - 1, 0,
+      "BUILT-IN INTERACTIVE CHEMISTRY LINKS (local, read-only)",
+      "These exact links work in StudyCade Markdown. Use a standard link such as [Explore the periodic table](/interactive/periodic-table), and copy other exact URLs from this list. Do not invent identifiers or assume the interactive diagram provides missing experimental measurements.",
+      ...[...paths].slice(0, 12).map(([url, title]) => title + " — " + url),
+      "END BUILT-IN INTERACTIVE CHEMISTRY LINKS",
+      "",
+    );
   }
   let budget = 60000;
   const warnings = [];

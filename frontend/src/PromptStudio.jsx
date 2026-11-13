@@ -13,6 +13,7 @@ export default function PromptStudio({
     [goal, setGoal] = useState(""),
     [kind, setKind] = useState("guide"),
     [includeImages, setIncludeImages] = useState(true),
+    [includeInteractive, setIncludeInteractive] = useState(true),
     [busy, setBusy] = useState(false),
     [copied, setCopied] = useState(false);
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function PromptStudio({
     goal,
     kind,
     includeImages,
+    includeInteractive,
   });
   async function copy() {
     try {
@@ -146,6 +148,22 @@ export default function PromptStudio({
           <p className="muted small">
             Bundled chemistry diagrams work without web access. For other images, the chosen model needs browsing; StudyCade does not search
             for or download images. External image links load only when clicked.
+          </p>
+          <label className="check-row">
+            <input
+              type="checkbox"
+              checked={includeInteractive}
+              onChange={(event) => {
+                setIncludeInteractive(event.target.checked);
+                setCopied(false);
+              }}
+            />
+            <span>Add links to interactive chemistry references</span>
+          </label>
+          <p className="muted small">
+            These are built-in, offline-compatible StudyCade pages. The periodic
+            table lets you select elements and inspect trend directions; diagrams
+            support zoom and guided markers when available.
           </p>
           <ChemistryGallery onError={onError} />
           <label>

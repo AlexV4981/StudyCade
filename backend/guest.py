@@ -188,6 +188,16 @@ def create_guest_app(dist_dir=None):
     async def robots():
         return "User-agent: *\nDisallow: /\n"
 
+    @app.get("/interactive/{view}")
+    async def interactive_page(view: str):
+        # Public, read-only learning tools; never expose private or arbitrary files.
+        if view not in ("periodic-table", "diagram"):
+            raise HTTPException(404, "Not found.")
+        entry = (dist / "index.html").resolve()
+        if not entry.is_relative_to(dist.resolve()) or not entry.is_file():
+            raise HTTPException(404, "Not found.")
+        return FileResponse(entry)
+
     @app.get("/{path:path}")
     async def frontend(path: str):
         parts = Path(path).parts

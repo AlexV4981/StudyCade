@@ -29,6 +29,10 @@ class GuestSmokeTests(unittest.TestCase):
                 self.assertFalse(deployment["cloudAvailable"])
                 self.assertEqual(client.get("/").status_code, 200)
                 self.assertEqual(client.get("/robots.txt").status_code, 200)
+                self.assertEqual(client.get("/interactive/periodic-table?element=Na").status_code, 200)
+                self.assertIn("Disposable app", client.get("/interactive/diagram?id=periodic-trends").text)
+                self.assertEqual(client.get("/interactive/unknown").status_code, 404)
+                self.assertEqual(client.get("/interactive/diagram/extra").status_code, 404)
                 self.assertEqual(client.get("/api/admin/users").status_code, 404)
                 self.assertEqual(client.get("/api/cloud/session").status_code, 404)
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import { Content } from "./content.js";
 import Importer from "./Importer.jsx";
@@ -23,6 +23,7 @@ import {
   reloadCloudWorkspace,
   clearCloudCache,
 } from "./api.js";
+const InteractiveExplorer = lazy(() => import("./InteractiveExplorer.jsx"));
 const PROMPT = MARKDOWN_PROMPT;
 function App() {
   const [data, setData] = useState(null),
@@ -795,7 +796,9 @@ function App() {
   );
 }
 createRoot(document.getElementById("root")).render(
-  <RecallProvider>
-    <App />
-  </RecallProvider>,
+  window.location.pathname.startsWith("/interactive/")
+    ? <Suspense fallback={<main role="status" style={{ padding: "2rem" }}>Loading interactive chemistry…</main>}>
+        <InteractiveExplorer />
+      </Suspense>
+    : <RecallProvider><App /></RecallProvider>,
 );

@@ -1,8 +1,15 @@
 import React, { useMemo, useState } from "react";
 import { CHEMISTRY_CATEGORIES, CHEMISTRY_LIBRARY, CHEMISTRY_STOCK_REFERENCES } from "./chemistry-library.js";
+import { periodicHref, diagramHref } from "./interactive-chemistry.js";
 import "./chemistry.css";
 
 const INITIAL_LIMIT = 18;
+const interactiveLinkFor = (item) =>
+  item.symbol
+    ? periodicHref({ element: item.symbol })
+    : item.id === "periodic-table"
+      ? periodicHref()
+      : diagramHref(item.id);
 const markdown = (item) => "![" + item.alt.replace(/[[\]]/g, "") + "](" + item.path + ")";
 
 export default function ChemistryGallery({ onError }) {
@@ -26,13 +33,23 @@ export default function ChemistryGallery({ onError }) {
       onError(Error("Copy unavailable. Use the Markdown example in the asset documentation."));
     }
   }
+  async function copyInteractive(item) {
+    const href = interactiveLinkFor(item);
+    if (!href) return;
+    try {
+      await navigator.clipboard.writeText("[Explore " + item.title.replace(/[\\[\\]]/g, "") + "](" + href + ")");
+      setCopied("interactive-" + item.id);
+    } catch {
+      onError(Error("Copy unavailable. Select the example link in the interactive documentation."));
+    }
+  }
   return (
     <details className="chem-gallery">
       <summary>Browse built-in chemistry images ({CHEMISTRY_LIBRARY.length})</summary>
       <p className="muted small">
         Original, self-contained SVG illustrations. Use the copy button to insert a
-        working image reference into StudyCade Markdown. Element tiles show symbols,
-        not photographs of the elements.
+        working image reference into StudyCade Markdown, or copy a link to an
+        interactive view. Element tiles show symbols, not photographs of the elements.
       </p>
       <div className="chem-gallery-controls">
         <label>
@@ -63,6 +80,9 @@ export default function ChemistryGallery({ onError }) {
             <p className="chem-gallery-name">{item.title}</p>
             <button type="button" onClick={() => copy(item)}>
               {copied === item.id ? "Copied Markdown ✓" : "Copy Markdown image"}
+            </button>
+            <button type="button" onClick={() => copyInteractive(item)}>
+              {copied === "interactive-" + item.id ? "Copied interactive link ✓" : "Copy interactive link"}
             </button>
           </div>
         ))}
