@@ -50,6 +50,10 @@ flowchart LR
 4. **Cloud state:** the [frontend adapter](../frontend/src/cloud.js) uses the Render gateway for saves and reloads. [Validation](../backend/cloud_state.py), [RLS and a versioned save RPC](../supabase/migrations/202610160001_private_cloud_workspaces.sql) enforce workspace shape, ownership and stale-write conflicts.
 5. **Export:** browser-based backups let users retain their work. Signing in does not transfer guest content automatically.
 
+## Optional online images
+
+Markdown images are rendered by [StudyImage](../frontend/src/StudyImage.js). A bundled same-origin image can load normally, but a third-party HTTPS image is requested directly by the browser only after the learner selects **Load image**. The image link remains part of the saved Markdown; no server-side image proxy, scraper, binary attachment store or automatic upload is introduced. See [Markdown images](IMAGES.md).
+
 ## Trust boundaries
 
 | Boundary | Data crossing | Limit |
