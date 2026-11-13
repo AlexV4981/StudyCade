@@ -144,7 +144,7 @@ export default function PromptStudio({
             <span>Use built-in chemistry images or verified online images</span>
           </label>
           <p className="muted small">
-            Requires web access in your chosen model. StudyCade does not search
+            Bundled chemistry diagrams work without web access. For other images, the chosen model needs browsing; StudyCade does not search
             for or download images. External image links load only when clicked.
           </p>
           <ChemistryGallery onError={onError} />
