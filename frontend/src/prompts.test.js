@@ -39,7 +39,7 @@ test("image policy is subordinate to the real study content and all 12 format ru
     assert.match(text, new RegExp(`^\\s*${i}\\. `, "m"));
   }
   assert.match(text, /all required quantities, conditions, units/i);
-  assert.match(text, /without an unavailable diagram/i);
+  assert.match(text, /or an unavailable diagram/i);
   assert.match(text, /Practice questions with progressive hints/);
   assert.match(text, /Practice synthetic microscopy notes/);
 });
