@@ -35,6 +35,8 @@ jobs:
       - name: Install frozen frontend dependencies
         working-directory: frontend
         run: pnpm install --frozen-lockfile
+      - name: Verify bundled chemistry assets match the generator
+        run: node scripts/generate-chemistry-assets.mjs --check
       - name: Run behavior regression tests
         working-directory: frontend
         run: pnpm test
