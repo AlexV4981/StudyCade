@@ -2,33 +2,7 @@ import React, { useState } from "react";
 import { Content } from "./content.js";
 import { countRecall } from "./study.js";
 import { api } from "./api.js";
-
-const SUBJECTS = [
-  "general",
-  "mathematics",
-  "calculus",
-  "chemistry",
-  "physics",
-  "biology",
-  "history",
-  "programming",
-  "languages",
-  "geography",
-  "markdown",
-  "mixed",
-];
-export function SubjectSelect({ value, onChange, auto = false }) {
-  return (
-    <select value={value} onChange={(e) => onChange(e.target.value)}>
-      {auto && <option value="">Auto-detect from material</option>}
-      {SUBJECTS.map((x) => (
-        <option key={x} value={x}>
-          {x[0].toUpperCase() + x.slice(1)}
-        </option>
-      ))}
-    </select>
-  );
-}
+import SubjectSelect from "./SubjectSelect.jsx";
 
 export default function Importer({ onError, onSaved }) {
   const [items, setItems] = useState([]),
