@@ -35,4 +35,4 @@ These tests were added **before verification**. Check GitHub Actions for the act
 1. Inspect `graphify-out/GRAPH_REPORT.md` and traverse relevant graph neighbors before refactoring.
 2. Validate new tests, build, backend compatibility, and cloud/guest isolation. Add coverage for queue ordering and save-version conflicts before touching storage adapters.
 3. Treat behavior-preserving simplifications as small, separate changes; run checks after each and roll back on errors.
-4. Never merge or push to `main`, change the live Render deployment branch, or use production secrets as part of this optimization.
+4. Never merge or push to `main`, change the configured live deployment, or use production secrets as part of this optimization.
