@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - feature/interactive-chemistry
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
