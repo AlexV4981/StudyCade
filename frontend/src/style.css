@@ -2491,3 +2491,16 @@ main {
     display: none;
   }
 }
+
+/* Local interactive references use ordinary Markdown links; no embedded scripts. */
+.content a.interactive-md-link {
+  display: inline-flex;
+  align-items: baseline;
+  max-width: 100%;
+  border-bottom: 1px dashed currentColor;
+  color: var(--accent);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.content .interactive-link-icon { padding-left: 3px; font-size: 12px; }
+.content .interactive-link-invalid { color: var(--muted); font-style: italic; }
