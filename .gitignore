@@ -37,3 +37,19 @@ frontend/dist/
 dist/
 coverage/
 .DS_Store
+
+# Private exports and user-specific development files
+private/
+**/private/
+*.session.json
+*.backup.json
+*.secrets.json
+*.pgdump
+*.dump
+*.db.bak
+
+# Graphify local caches (share only vetted graph/report artifacts)
+graphify-out/.graphify*
+graphify-out/.needs_update
+graphify-out/cache/
+graphify-out/cost.json
