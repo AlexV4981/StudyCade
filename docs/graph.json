@@ -1,0 +1,486 @@
+{
+  "schema_version": "studycade-source-imports-v1",
+  "source_commit": "a1390db07f7a606403a7daddfdad23f8914770be",
+  "description": "Static dependency map from reviewed JS/JSX/Python module imports; not an official Graphify CLI output or complete call graph",
+  "nodes": [
+    {
+      "id": "frontend/src/main.jsx",
+      "lines": 1777,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/Notes.jsx",
+      "lines": 695,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/Exams.jsx",
+      "lines": 534,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/Games.jsx",
+      "lines": 640,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/ForcedRecall.jsx",
+      "lines": 365,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/PaperPractice.jsx",
+      "lines": 104,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/PromptStudio.jsx",
+      "lines": 185,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/StudyProblem.js",
+      "lines": 121,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/StudyStatus.js",
+      "lines": 31,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/content.js",
+      "lines": 309,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/engine.js",
+      "lines": 204,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/exam.js",
+      "lines": 122,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/examPrompt.js",
+      "lines": 35,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/prompts.js",
+      "lines": 139,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/study.js",
+      "lines": 91,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/reading.js",
+      "lines": 34,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/recall.js",
+      "lines": 90,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/api.js",
+      "lines": 69,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/cloud.js",
+      "lines": 197,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/guest.js",
+      "lines": 1319,
+      "language": "javascript"
+    },
+    {
+      "id": "frontend/src/subjects.jsx",
+      "lines": 55,
+      "language": "javascript"
+    },
+    {
+      "id": "backend/cloud.py",
+      "lines": 371,
+      "language": "python"
+    },
+    {
+      "id": "backend/cloud_state.py",
+      "lines": 247,
+      "language": "python"
+    },
+    {
+      "id": "backend/content.py",
+      "lines": 530,
+      "language": "python"
+    },
+    {
+      "id": "backend/guest.py",
+      "lines": 209,
+      "language": "python"
+    },
+    {
+      "id": "backend/headers.py",
+      "lines": 18,
+      "language": "python"
+    },
+    {
+      "id": "backend/subjects.py",
+      "lines": 95,
+      "language": "python"
+    }
+  ],
+  "edges": [
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/content.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/Games.jsx",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/PromptStudio.jsx",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/Notes.jsx",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/PaperPractice.jsx",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/study.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/ForcedRecall.jsx",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/reading.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/prompts.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/subjects.jsx",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/engine.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/api.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/main.jsx",
+      "target": "frontend/src/guest.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Notes.jsx",
+      "target": "frontend/src/content.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Notes.jsx",
+      "target": "frontend/src/prompts.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Notes.jsx",
+      "target": "frontend/src/api.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Notes.jsx",
+      "target": "frontend/src/ForcedRecall.jsx",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Notes.jsx",
+      "target": "frontend/src/Exams.jsx",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Notes.jsx",
+      "target": "frontend/src/StudyStatus.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Notes.jsx",
+      "target": "frontend/src/study.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Notes.jsx",
+      "target": "frontend/src/reading.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Exams.jsx",
+      "target": "frontend/src/api.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Exams.jsx",
+      "target": "frontend/src/content.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Exams.jsx",
+      "target": "frontend/src/exam.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Exams.jsx",
+      "target": "frontend/src/examPrompt.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Exams.jsx",
+      "target": "frontend/src/study.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Games.jsx",
+      "target": "frontend/src/content.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Games.jsx",
+      "target": "frontend/src/PaperPractice.jsx",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Games.jsx",
+      "target": "frontend/src/StudyStatus.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Games.jsx",
+      "target": "frontend/src/study.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/Games.jsx",
+      "target": "frontend/src/engine.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/ForcedRecall.jsx",
+      "target": "frontend/src/api.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/ForcedRecall.jsx",
+      "target": "frontend/src/content.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/ForcedRecall.jsx",
+      "target": "frontend/src/study.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/ForcedRecall.jsx",
+      "target": "frontend/src/recall.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/PaperPractice.jsx",
+      "target": "frontend/src/content.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/PaperPractice.jsx",
+      "target": "frontend/src/study.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/PaperPractice.jsx",
+      "target": "frontend/src/StudyStatus.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/PromptStudio.jsx",
+      "target": "frontend/src/prompts.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/StudyProblem.js",
+      "target": "frontend/src/study.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/StudyProblem.js",
+      "target": "frontend/src/StudyStatus.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/StudyStatus.js",
+      "target": "frontend/src/study.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/content.js",
+      "target": "frontend/src/StudyProblem.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/content.js",
+      "target": "frontend/src/study.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/api.js",
+      "target": "frontend/src/cloud.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/api.js",
+      "target": "frontend/src/guest.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/cloud.js",
+      "target": "frontend/src/guest.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/guest.js",
+      "target": "frontend/src/prompts.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/guest.js",
+      "target": "frontend/src/exam.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "frontend/src/subjects.jsx",
+      "target": "frontend/src/prompts.js",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "backend/cloud.py",
+      "target": "backend/cloud_state.py",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "backend/cloud_state.py",
+      "target": "backend/subjects.py",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "backend/cloud_state.py",
+      "target": "backend/content.py",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "backend/content.py",
+      "target": "backend/subjects.py",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "backend/guest.py",
+      "target": "backend/content.py",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "backend/guest.py",
+      "target": "backend/headers.py",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "backend/guest.py",
+      "target": "backend/cloud.py",
+      "relation": "imports",
+      "confidence": "EXTRACTED"
+    }
+  ]
+}
