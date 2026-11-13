@@ -66,4 +66,4 @@ flowchart LR
 - **Server:** [FastAPI](../backend/guest.py), [HTTP security headers](../backend/headers.py), [Cloud gateway](../backend/cloud.py).
 - **Database:** [RLS / RPC migration](../supabase/migrations/202610160001_private_cloud_workspaces.sql), [Cloud security design](CLOUD_SECURITY.md).
 
-The connected Render service deploys from the **render-guest-security** branch rather than main; see [Deployment](DEPLOYMENT.md).
+Live service configuration is managed outside this source tree; see [Deployment](DEPLOYMENT.md).
