@@ -51,12 +51,13 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install official Graphify
-        run: python -m pip install "graphifyy==0.9.108"
+        run: python -m pip install "graphifyy[sql]==0.9.108"
       - name: Extract locally without any LLM backend
         env:
           GRAPHIFY_NO_CTA: "1"
         run: |
           graphify extract . --code-only --force
+          graphify cluster-only .
           test -s graphify-out/graph.json
           test -s graphify-out/GRAPH_REPORT.md
       - uses: actions/upload-artifact@v4
