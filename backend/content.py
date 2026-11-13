@@ -237,13 +237,11 @@ def preview_document(name: str, content: str, subject: str | None = None) -> dic
         warnings.append(
             "Raw HTML is shown as text. Embedded HTML and scripts are never executed."
         )
+    image_count = 0
     for token in tokens:
         for child in token.children or []:
             if child.type == "image":
-                target = unquote(child.attrGet("src") or "")
-                warnings.append(
-                    f"Image reference preserved, but not loaded automatically: {target[:160]}. Attachments are not imported."
-                )
+                image_count += 1
             if child.type == "link_open":
                 target = unquote(child.attrGet("href") or "")
                 scheme = urlsplit(target).scheme.lower()
@@ -253,6 +251,10 @@ def preview_document(name: str, content: str, subject: str | None = None) -> dic
                     warnings.append(
                         f"Relative or unsupported link preserved as text: {target[:160]}."
                     )
+    if image_count:
+        warnings.append(
+            f"{image_count} image reference(s) preserved. HTTPS images load only after you select Load image; bundled app assets display normally. Unsupported image links show a placeholder. Image attachments are not imported."
+        )
     if re.search(r"!\[|\]\((?:javascript|data|file):", source, re.I) and not warnings:
         warnings.append(
             "Unsafe or unsupported resource references are displayed without loading them."
