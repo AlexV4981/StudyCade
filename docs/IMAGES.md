@@ -4,6 +4,10 @@ StudyCade renders images referenced with standard Markdown in imported notes, in
 
 StudyCade also bundles a searchable [chemistry visual library](CHEMISTRY_VISUAL_LIBRARY.md) containing all 118 element reference tiles and 40 common-topic diagrams. These exact same-origin SVG paths display immediately and do not require any internet connection.
 
+## Interactive chemistry links
+
+Bundled chemistry images include an **Explore interactively** link to a local tool. Existing Markdown documents need no edits to receive that button. You may also write ordinary internal links such as `[Explore the periodic table](/interactive/periodic-table)`; see [Interactive chemistry](INTERACTIVE_CHEMISTRY.md) for validated link formats and safety constraints.
+
 ## Supported sources
 
 - **App-bundled assets:** same-origin paths under `/assets/`, `/subjects/`, and `/mathlive/` may display immediately. For example: `![Biology subject illustration](/subjects/biology.svg)`.
