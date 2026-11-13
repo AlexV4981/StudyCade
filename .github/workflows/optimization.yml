@@ -41,6 +41,10 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         run: pnpm build
+      - name: Install locked backend dependencies
+        run: python3 -m pip install -r requirements-guest.lock
+      - name: Run disposable FastAPI smoke checks
+        run: python3 -m unittest discover -s backend/tests -p 'test_*.py'
 
   graphify:
     name: Build code-only Graphify knowledge graph
