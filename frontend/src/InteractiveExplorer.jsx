@@ -96,7 +96,10 @@ function PeriodicExplorer({ route }) {
             </select>
           </label>
         </div>
-        <p className="interactive-trend" role="status">{TREND_DESCRIPTIONS[trend]}</p>
+        <p className="interactive-trend" role="status">
+          {trend !== "none" && <strong className="interactive-trend-arrow" aria-label={trend === "radius" ? "Trend toward the lower left" : "Trend toward the upper right"}>{trend === "radius" ? "↙" : "↗"}</strong>}
+          {TREND_DESCRIPTIONS[trend]}
+        </p>
         <div className="periodic-scroller" tabIndex={0} aria-label="Scrollable periodic table">
           <div className="periodic-grid" role="group" aria-label="118 element periodic table">
             {Array.from({ length: 18 }, (_, i) => <span className="periodic-group-label" key={i + 1} style={{ gridColumn: i + 1, gridRow: 1 }}>{i + 1}</span>)}
@@ -120,6 +123,9 @@ function PeriodicExplorer({ route }) {
             <span className="periodic-fblock" style={{ gridColumn: "1 / 3", gridRow: 9 }}>Lanthanides</span>
             <span className="periodic-fblock" style={{ gridColumn: "1 / 3", gridRow: 10 }}>Actinides</span>
           </div>
+        </div>
+        <div className="periodic-legend" aria-label="Element family color legend">
+          {FAMILIES.map((item) => <span key={item}><i aria-hidden="true" style={{ backgroundColor: FAMILY_COLORS[item] }}/>{item}</span>)}
         </div>
         <p className="interactive-hint">Scroll horizontally on a small screen. Select an element to inspect it; filter controls only highlight candidates and do not alter the scientific data.</p>
         <div className="interactive-detail">
