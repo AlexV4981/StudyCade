@@ -33,10 +33,22 @@ The Vite dev server is not a substitute for FastAPI endpoints. Build and check t
 - Confirm admin and local account-storage HTTP routes remain unavailable to public guest requests.
 - With a separately approved HTTPS **test** setup, verify cloud login/logout, ownership isolation, reload, and save-version conflicts.
 
-These are **manual release checks**, not claims of tests performed by this documentation update. The frontend manifest defines a test command, but the reviewed snapshot does not include matching **src/*.test.js** files; do not mistake that command for a passing suite.
+These are **manual release checks**, not claims of tests performed by this documentation update. The optimization branch includes Node tests under `frontend/src/*.test.js` and a public-file scanner under `scripts/`. Run all local gates before requesting review:
+
+~~~bash
+cd frontend
+corepack pnpm install --frozen-lockfile
+corepack pnpm test
+corepack pnpm build
+cd ..
+python3 scripts/check_public_tree.py
+python3 -m unittest discover -s scripts -p 'test_*.py'
+~~~
+
+These gates do not replace browser acceptance tests, backend deployment verification, or a review of earlier Git history.
 
 ## Implementation map
 
-[FastAPI routes](../backend/guest.py) · [Import parser](../backend/content.py) · [Cloud gateway](../backend/cloud.py) · [Cloud validator](../backend/cloud_state.py) · [Practice modes](../frontend/src/Games.jsx) · [Notes](../frontend/src/Notes.jsx) · [Exams](../frontend/src/Exams.jsx) · [Guest storage](../frontend/src/guest.js) · [Cloud storage](../frontend/src/cloud.js).
+[FastAPI routes](../backend/guest.py) · [Import parser](../backend/content.py) · [Cloud gateway](../backend/cloud.py) · [Cloud validator](../backend/cloud_state.py) · [Practice modes](../frontend/src/Games.jsx) · [Notes](../frontend/src/Notes.jsx) · [Exams](../frontend/src/Exams.jsx) · [Guest storage](../frontend/src/guest.js) · [Cloud storage](../frontend/src/cloud.js) · [Importer](../frontend/src/Importer.jsx) · [Editor](../frontend/src/Editor.jsx) · [Settings](../frontend/src/Settings.jsx) · [New features](FEATURE_DEVELOPMENT.md).
 
 Avoid committing passwords, API keys, private user data, study exports, sessions and database files. See [Security](../SECURITY.md).
