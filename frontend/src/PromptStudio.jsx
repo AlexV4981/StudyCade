@@ -141,7 +141,7 @@ export default function PromptStudio({
                 setCopied(false);
               }}
             />
-            <span>Include verified online images when useful</span>
+            <span>Use built-in chemistry images or verified online images</span>
           </label>
           <p className="muted small">
             Requires web access in your chosen model. StudyCade does not search
