@@ -11,3 +11,11 @@ secrets
 frontend/dist
 recovery
 artifacts
+
+# Development-only workflows and generated graphs are not runtime assets
+.agents
+.github
+graphify-out
+docs
+scripts
+*.test.js
