@@ -30,6 +30,7 @@ No verified exact multi-line duplicated block justifies deleting authentication,
 - `frontend/src/browser.test.js`: tab session helpers and device cleanup scoping.
 - `frontend/src/guest.test.js`: guest storage isolation, Welcome protection, attempt idempotency, and preview-before-commit.
 - `scripts/test_public_tree.py`: privacy scanner detection without exposing matched values.
+- `backend/tests/test_guest_smoke.py`: disposable FastAPI smoke coverage for guest routing, origin denial, and absent cloud/admin routes.
 
 Verification is enforced by `.github/workflows/optimization.yml` on the working branch: public-tree scanner/unit tests, Node regression tests, frontend build, and Graphify extraction. Check the latest workflow run for the result; historical successful runs do not prove a later commit passes.
 
