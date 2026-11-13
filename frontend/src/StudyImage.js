@@ -1,4 +1,16 @@
 import React, { useState } from "react";
+import { CHEMISTRY_TOPICS, CHEMISTRY_ELEMENT_ASSETS } from "./chemistry-library.js";
+import { periodicHref, diagramHref } from "./interactive-chemistry.js";
+
+const LINK_BY_ASSET = new Map([
+  ...CHEMISTRY_TOPICS.map((asset) => [
+    asset.path,
+    asset.id === "periodic-table" ? periodicHref() : diagramHref(asset.id),
+  ]),
+  ...CHEMISTRY_ELEMENT_ASSETS.map((asset) => [
+    asset.path, periodicHref({ element: asset.symbol }),
+  ]),
+]);
 
 // A Markdown image is untrusted study material, not a fetch instruction.
 // Only public HTTPS image URLs and known same-origin asset paths are eligible.
@@ -43,6 +55,7 @@ export default function StudyImage({ src, alt = "", title = "" }) {
   const [failed, setFailed] = useState(false);
   const source = resolveStudyImageUrl(src);
   const description = String(alt || title || "Study illustration").slice(0, 300);
+  const interactive = source && !source.external ? LINK_BY_ASSET.get(source.src) : null;
 
   if (!source)
     return React.createElement(
@@ -89,6 +102,18 @@ export default function StudyImage({ src, alt = "", title = "" }) {
             },
             `Load image from ${source.host}`,
           ),
+    interactive &&
+      React.createElement(
+        "a",
+        {
+          href: interactive,
+          className: "study-image-interactive",
+          target: "_blank",
+          rel: "noopener noreferrer",
+          referrerPolicy: "no-referrer",
+        },
+        "Explore interactively ↗",
+      ),
     source.external &&
       React.createElement(
         "span",
