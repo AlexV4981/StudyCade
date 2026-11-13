@@ -29,6 +29,7 @@ No verified exact multi-line duplicated block justifies deleting authentication,
 - `frontend/src/recall.test.js`: timing clamping, deck isolation, answer resolution and ambiguity.
 - `frontend/src/browser.test.js`: tab session helpers and device cleanup scoping.
 - `frontend/src/guest.test.js`: guest storage isolation, Welcome protection, attempt idempotency, and preview-before-commit.
+- `frontend/src/cloud.test.js`: owner-scoped same-origin cloud calls, monotonic save versions, conflict no-replay, and session invalidation.
 - `scripts/test_public_tree.py`: privacy scanner detection without exposing matched values.
 - `backend/tests/test_guest_smoke.py`: disposable FastAPI smoke coverage for guest routing, origin denial, and absent cloud/admin routes.
 
