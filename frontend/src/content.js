@@ -6,6 +6,7 @@ import katex from "rehype-katex";
 import "katex/contrib/mhchem";
 import { StudyContext, StudyProblem } from "./StudyProblem.js";
 import { countRecall, humanTopic } from "./study.js";
+import StudyImage from "./StudyImage.js";
 // Protect fenced and inline code before normalizing the legacy math delimiters.
 export function normalize(source = "") {
   // A short answer such as "1789." is a date, not an empty Markdown list.
@@ -207,12 +208,8 @@ function RenderContent({
         urlTransform: safeUrl,
         components: {
           "study-problem": StudyProblem,
-          img: ({ alt }) =>
-            React.createElement(
-              "span",
-              { className: "muted" },
-              alt ? `[Image: ${alt}]` : "[Image]",
-            ),
+          img: ({ src, alt, title }) =>
+            React.createElement(StudyImage, { src, alt, title }),
           a: ({ children, ...props }) =>
             React.createElement(
               "a",
