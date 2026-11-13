@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: studycade-optimization
@@ -48,6 +48,8 @@ jobs:
 
   graphify:
     name: Build code-only Graphify knowledge graph
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     needs: frontend
     steps:
