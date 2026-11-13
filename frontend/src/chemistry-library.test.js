@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   ELEMENTS, CHEMISTRY_TOPICS, CHEMISTRY_ELEMENT_ASSETS, CHEMISTRY_LIBRARY,
-  findChemistryAssets, CHEMISTRY_CATEGORIES,
+  findChemistryAssets, CHEMISTRY_CATEGORIES, CHEMISTRY_STOCK_REFERENCES,
 } from "./chemistry-library.js";
 import { resolveStudyImageUrl } from "./StudyImage.js";
 import { buildStudyPrompt } from "./prompts.js";
@@ -40,6 +40,16 @@ test("every catalogued image exists, is locally reachable, and is self-contained
   const periodic = fs.readFileSync(path.join(process.cwd(),"public/assets/chemistry/periodic-table.svg"),"utf8");
   assert.match(periodic, /all 118 chemical elements/i);
   assert.match(periodic, /Oganesson/); // Chart's accessible description can name an example element.
+});
+
+test("curated stock pages are verified CC0 references, never silently fetched", () => {
+  assert.equal(CHEMISTRY_STOCK_REFERENCES.length, 10);
+  for (const item of CHEMISTRY_STOCK_REFERENCES) {
+    assert.match(item.sourcePage, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+    assert.equal(item.license, "CC0-1.0");
+    assert.equal(item.downloaded, false);
+    assert.ok(item.creator.length >= 3);
+  }
 });
 
 test("concepts and elements can be located by relevant keywords", () => {
