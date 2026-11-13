@@ -99,3 +99,20 @@ test("unsafe text in alt is escaped by React", () => {
   assert.doesNotMatch(html, /<img src=x onerror/);
   assert.match(html, /&lt;img/);
 });
+
+test("bundled chemistry images provide a separate safe interactive-view link", () => {
+  const periodic = renderToStaticMarkup(React.createElement(Content, null,
+    "![Periodic table](/assets/chemistry/periodic-table.svg)"));
+  assert.match(periodic, /<img\\b/);
+  assert.match(periodic, /href="\\/interactive\\/periodic-table"/);
+  assert.match(periodic, /Explore interactively/);
+  const titration = renderToStaticMarkup(React.createElement(Content, null,
+    "![Titration](/assets/chemistry/titration-setup.svg)"));
+  assert.match(titration, /href="\\/interactive\\/diagram\\?id=titration-setup"/);
+  const element = renderToStaticMarkup(React.createElement(Content, null,
+    "![Oxygen](/assets/chemistry/elements/008-o.svg)"));
+  assert.match(element, /href="\\/interactive\\/periodic-table\\?element=O"/);
+  const unrelated = renderToStaticMarkup(React.createElement(Content, null,
+    "![Biology](/subjects/biology.svg)"));
+  assert.doesNotMatch(unrelated, /Explore interactively/);
+});
