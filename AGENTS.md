@@ -5,7 +5,7 @@ This file applies to the `optimization-and-updates` working branch. It does not 
 ## Source of truth
 - Application: React 19 / Vite frontend, FastAPI backend, browser IndexedDB for guest work, Supabase through the server-side cloud gateway for approved accounts.
 - Architecture and release boundaries: `docs/ARCHITECTURE.md`, `docs/DEVELOPMENT.md`, `docs/DEPLOYMENT.md`, `SECURITY.md`.
-- `main` is source, not the live Render deployment branch. Do not modify `render-guest-security` or promote a release without explicit instruction.
+- `main` is source, not authorization to deploy. Do not modify the externally configured live deployment branch or promote a release without explicit instruction.
 
 ## Skills and ordering
 - Before structural questions or refactoring, use `.agents/skills/graphify/SKILL.md` and the generated `graphify-out/graph.json` when present.
