@@ -86,5 +86,5 @@ test("signed-in cloud API bootstraps against remote state without guest database
   assert.equal(data.user.role, "cloud");
   assert.equal(data.sets.length, 1);
   assert.equal(reads, 1);
-  assert.rejects(() => api("/api/admin/users"), /unavailable/i);
+  await assert.rejects(() => api("/api/admin/users"), /unavailable/i);
 });
